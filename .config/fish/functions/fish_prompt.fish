@@ -1,31 +1,56 @@
 function fish_prompt --description 'Write out the prompt'
-    set -l last_pipestatus $pipestatus
-    set -lx __fish_last_status $status # Export for __fish_print_pipestatus.
-    set -l normal (set_color normal)
-    set -q fish_color_status
-    or set -g fish_color_status --background=red white
+    set -l last_status $status
 
-    # Color the prompt differently when we're root
-    set -l color_cwd $fish_color_cwd
-    set -l suffix '>'
-    if functions -q fish_is_root_user; and fish_is_root_user
-        if set -q fish_color_cwd_root
-            set color_cwd $fish_color_cwd_root
-        end
-        set suffix '#'
+    prompt_login
+
+    echo -n ':'
+
+    # PWD
+    set_color $fish_color_cwd
+    echo -n (prompt_pwd)
+    set_color normal
+
+    set -q __fish_git_prompt_showdirtystate
+    or set -g __fish_git_prompt_showdirtystate 1
+    set -q __fish_git_prompt_showuntrackedfiles
+    or set -g __fish_git_prompt_showuntrackedfiles 1
+    set -q __fish_git_prompt_showcolorhints
+    or set -g __fish_git_prompt_showcolorhints 1
+    set -q __fish_git_prompt_color_untrackedfiles
+    or set -g __fish_git_prompt_color_untrackedfiles yellow
+    set -q __fish_git_prompt_char_untrackedfiles
+    or set -g __fish_git_prompt_char_untrackedfiles '?'
+    set -q __fish_git_prompt_color_invalidstate
+    or set -g __fish_git_prompt_color_invalidstate red
+    set -q __fish_git_prompt_char_invalidstate
+    or set -g __fish_git_prompt_char_invalidstate '!'
+    set -q __fish_git_prompt_color_dirtystate
+    or set -g __fish_git_prompt_color_dirtystate blue
+    set -q __fish_git_prompt_char_dirtystate
+    or set -g __fish_git_prompt_char_dirtystate '*'
+    set -q __fish_git_prompt_char_stagedstate
+    or set -g __fish_git_prompt_char_stagedstate '✚'
+    set -q __fish_git_prompt_color_cleanstate
+    or set -g __fish_git_prompt_color_cleanstate green
+    set -q __fish_git_prompt_char_cleanstate
+    or set -g __fish_git_prompt_char_cleanstate '✓'
+    set -q __fish_git_prompt_color_stagedstate
+    or set -g __fish_git_prompt_color_stagedstate yellow
+    set -q __fish_git_prompt_color_branch_dirty
+    or set -g __fish_git_prompt_color_branch_dirty red
+    set -q __fish_git_prompt_color_branch_staged
+    or set -g __fish_git_prompt_color_branch_staged yellow
+    set -q __fish_git_prompt_color_branch
+    or set -g __fish_git_prompt_color_branch green
+    set -q __fish_git_prompt_char_stateseparator
+    or set -g __fish_git_prompt_char_stateseparator '⚡'
+    fish_vcs_prompt '|%s'
+    echo
+
+    if not test $last_status -eq 0
+        set_color $fish_color_error
     end
 
-    # Write pipestatus
-    # If the status was carried over (e.g. after `set`), don't bold it.
-    set -l bold_flag --bold
-    set -q __fish_prompt_status_generation; or set -g __fish_prompt_status_generation $status_generation
-    if test $__fish_prompt_status_generation = $status_generation
-        set bold_flag
-    end
-    set __fish_prompt_status_generation $status_generation
-    set -l status_color (set_color $fish_color_status)
-    set -l statusb_color (set_color $bold_flag $fish_color_status)
-    set -l prompt_status (__fish_print_pipestatus "[" "]" "|" "$status_color" "$statusb_color" $last_pipestatus)
-
-    echo -n -s (prompt_login)' ' (set_color $color_cwd) (prompt_pwd) $normal (fish_vcs_prompt) $normal " "$prompt_status $suffix " "
+    echo -n '➤ '
+    set_color normal
 end
