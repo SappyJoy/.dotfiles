@@ -37,8 +37,8 @@ wireless _first_ {
 }
 
 ethernet _first_ {
-        format_up = " %speed"
-        format_down = " down"
+        format_up = "󰈀 %speed"
+        format_down = "󰈀 down"
 }
 
 battery all {
@@ -67,14 +67,14 @@ load {
 }
 
 memory {
-        format = " %used"
+        format = "󰍛 %used"
         threshold_degraded = "1G"
 	threshold_critical = "200M"
         format_degraded = "MEMORY < %available"
 }
 
 cpu_temperature 0 {
-    format = " %degrees"
+    format = "%degrees"
 
     max_threshold = "80"
     format_above_threshold = " %degrees"
