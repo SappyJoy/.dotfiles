@@ -12,7 +12,7 @@ M.general = {
 	v = {
 		[">"] = { ">gv", "indent" },
 		["J"] = { ":m '>+1<CR>gv=gv", "move up" },
-		["K"] = { ":m '>+1<CR>gv=gv", "move down" },
+		["K"] = { ":m '<-2<CR>gv=gv", "move down" },
 		["<C-c>"] = { "<Esc>", "go to normal mode" },
 	},
 }
@@ -45,8 +45,10 @@ M.tabufline = {
 
 M.telescope = {
     n = {
-        ["<leader>gr"] = { "<cmd> Telescope lsp_references <CR>", "Open references"},
-        ["<leader>fd"] = { "<cmd> Telescope lsp_document_symbols <CR>", "Search through symbols"},
+        ["<leader>fr"] = { "<cmd> Telescope lsp_references <CR>", "Find references"},
+        ["<leader>fs"] = { "<cmd> Telescope lsp_dynamic_workspace_symbols <CR>", "Find dynamic workspace symbols"},
+        ["<leader>fd"] = { "<cmd> Telescope lsp_document_symbols <CR>", "Find document symbols"},
+        ["<leader>fi"] = { "<cmd> Telescope lsp_incoming_calls <CR>", "Find incoming calls"},
     },
 }
 
