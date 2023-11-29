@@ -200,7 +200,7 @@ font:
 
 # Theme
 import:
-  - ~/.config/alacritty/themes/everforest_light.yaml
+  - ~/.config/alacritty/themes/One-Light.yml
 
 # Colors (Tomorrow Night)
 #colors:
