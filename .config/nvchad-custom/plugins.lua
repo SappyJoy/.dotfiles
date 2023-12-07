@@ -80,6 +80,10 @@ local plugins = {
         lazy = false,
     },
 
+    {
+        "ThePrimeagen/vim-be-good",
+        lazy = false,
+    },
 
 	-- To make a plugin not be loaded
 	-- {
