@@ -1,15 +1,15 @@
 ---@type MappingsTable
 local M = {}
-
+vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 M.general = {
 	n = {
-		[";"] = { ":", "enter command mode", opts = { nowait = true } },
         ["<C-h>"] = { "<cmd> TmuxNavigateLeft<CR>", "window left" },
         ["<C-l>"] = { "<cmd> TmuxNavigateRight<CR>", "window right" },
         ["<C-j>"] = { "<cmd> TmuxNavigateDown<CR>", "window down" },
         ["<C-k>"] = { "<cmd> TmuxNavigateUp<CR>", "window up" },
         ["<C-d>"] = { "<C-d>zz", "scroll down half page", opts = { noremap = true }},
         ["<C-u>"] = { "<C-u>zz", "scroll up half page", opts = { noremap = true }},
+        ["<leader>s"] = { [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "change all occurances" },
 	},
 	v = {
 		[">"] = { ">gv", "indent" },
