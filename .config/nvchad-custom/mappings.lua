@@ -10,6 +10,12 @@ M.general = {
         ["<C-d>"] = { "<C-d>zz", "scroll down half page", opts = { noremap = true }},
         ["<C-u>"] = { "<C-u>zz", "scroll up half page", opts = { noremap = true }},
         ["<leader>s"] = { [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "change all occurances" },
+        ["<leader>fm"] = {
+            function()
+                require("conform").format()
+            end,
+            "formatting",
+        }
 	},
 	v = {
 		[">"] = { ">gv", "indent" },

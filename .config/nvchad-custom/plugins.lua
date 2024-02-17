@@ -28,6 +28,15 @@ local plugins = {
 		opts = overrides.mason,
 	},
 
+    {
+    "stevearc/conform.nvim",
+    --  for users those who want auto-save conform + lazyloading!
+    -- event = "BufWritePre"
+    config = function()
+      require "custom.configs.conform"
+    end,
+  },
+
 	{
 		"nvim-treesitter/nvim-treesitter",
 		opts = overrides.treesitter,
