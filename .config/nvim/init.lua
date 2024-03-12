@@ -1,25 +1,6 @@
--- Set <space> as the leader key
--- See `:help mapleader`
---  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
-
--- Set to true if you have a Nerd Font installed
-vim.g.have_nerd_font = true
-
-vim.g.python3_host_prog = os.getenv 'HOME' .. '/.pyenv/versions/py3nvim/bin/python'
-
-package.path = package.path .. ';' .. vim.fn.expand '$HOME' .. '/.luarocks/share/lua/5.1/?/init.lua;'
-package.path = package.path .. ';' .. vim.fn.expand '$HOME' .. '/.luarocks/share/lua/5.1/?.lua;'
-
--- [[ Setting options ]]
-require 'options'
-
--- [[ Basic Keymaps and Autocommands]]
-require 'keymaps'
-
--- [[ Install `lazy.nvim` plugin manager ]]
-require 'lazy-bootstrap'
+require 'sap.globals'
+require 'sap.keymaps'
+require 'sap.lazy-bootstrap'
 
 -- [[ Configure and install plugins ]]
 local plugins = {
@@ -30,6 +11,11 @@ local plugins = {
   { import = 'plugins.visuals' },
   { import = 'plugins.git' },
   { import = 'plugins.treesitter' },
+  { import = 'plugins.hydra' },
+  { import = 'plugins.images' },
+  { import = 'plugins.line' },
+  { import = 'plugins.neorg' },
+  { import = 'plugins.jupyter' },
   { import = 'plugins.oil' },
   { import = 'plugins.misc' },
 }
@@ -64,5 +50,7 @@ require('lazy').setup(plugins, {
     },
   },
 })
+
+require 'sap'
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
