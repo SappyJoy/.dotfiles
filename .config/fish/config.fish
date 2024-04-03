@@ -8,6 +8,7 @@ alias vi="nvim"
 alias vim="nvim"
 alias view="nvim -R"
 alias vimdiff="nvim -d"
+alias ranger='ranger --choosedir=$HOME/.rangerdir; set -x LASTDIR (cat $HOME/.rangerdir); cd "$LASTDIR"'
 alias r="ranger"
 alias gitdf='git --git-dir=$DOTFILES --work-tree=$HOME'
 alias lgitdf='lazygit --git-dir=$DOTFILES --work-tree=$HOME'
