@@ -45,7 +45,7 @@ return {
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   { import = 'kickstart.plugins.debug' },
-  { import = 'kickstart.plugins.indent_line' },
+  -- { import = 'kickstart.plugins.indent_line' },
   -- require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
 

@@ -1,1 +1,1 @@
-vim.bo.tw = 80
+-- vim.bo.tw = 80

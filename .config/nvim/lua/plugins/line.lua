@@ -9,9 +9,9 @@ end
 return {
   {
     'MunifTanjim/nougat.nvim',
-    dependencies = {
-      'benlubas/molten-nvim',
-    },
+    -- dependencies = {
+    --   'benlubas/molten-nvim',
+    -- },
     config = function()
       local nougat = require 'nougat'
       local core = require 'nougat.core'
