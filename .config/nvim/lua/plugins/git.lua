@@ -18,6 +18,9 @@ return {
     },
   },
   {
+    'nvim-lua/plenary.nvim',
+  },
+  {
     'kdheepak/lazygit.nvim',
     cmd = {
       'LazyGit',

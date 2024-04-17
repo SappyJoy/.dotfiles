@@ -39,6 +39,8 @@ vim.keymap.set('n', '<leader>co', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left>
 
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move up' })
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move down' })
+vim.keymap.set('v', '>', '>gv', { desc = 'Indent' })
+vim.keymap.set('v', '<', '<gv', { desc = 'Indent' })
 --  See `:help lua-guide-autocommands`
 
 -- Highlight when yanking (copying) text
@@ -51,3 +53,55 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+
+-- Iron
+vim.keymap.set('n', '<leader>is', '<cmd>IronRepl<cr>')
+vim.keymap.set('n', '<leader>ir', '<cmd>IronRestart<cr>')
+vim.keymap.set('n', '<leader>if', '<cmd>IronFocus<cr>')
+vim.keymap.set('n', '<leader>ih', '<cmd>IronHide<cr>')
+
+-- Gitsign
+vim.keymap.set('n', ']c', function()
+  if vim.wo.diff then
+    return ']c'
+  end
+  vim.schedule(function()
+    require('gitsigns').next_hunk()
+  end)
+  return '<Ignore>'
+end, { desc = 'Jump to next hunk' })
+
+vim.keymap.set('n', '[c', function()
+  if vim.wo.diff then
+    return '[c'
+  end
+  vim.schedule(function()
+    require('gitsigns').prev_hunk()
+  end)
+  return '<Ignore>'
+end, { desc = 'Jump to prev hunk' })
+
+vim.keymap.set('n', ']d', function()
+  vim.diagnostic.goto_prev { float = { border = 'single' } }
+end, { desc = 'Jump to next diagnostic' })
+
+vim.keymap.set('n', '[d', function()
+  vim.diagnostic.goto_next { float = { border = 'single' } }
+end, { desc = 'Jump to prev diagnostic' })
+
+vim.keymap.set('n', '<leader>rh', function()
+  require('gitsigns').reset_hunk()
+end, { desc = 'Reset hunk' })
+
+vim.keymap.set('n', '<leader>ph', function()
+  require('gitsigns').preview_hunk()
+end, { desc = 'Preview hunk' })
+
+vim.keymap.set('n', '<leader>td', function()
+  require('gitsigns').toggle_deleted()
+end, { desc = 'Toggle deleted' })
+
+-- Telescope
+vim.keymap.set('n', '<leader>sr', '<cmd> Telescope lsp_references <CR>', { desc = 'Search LSP references' })
+vim.keymap.set('n', '<leader>ss', '<cmd> Telescope lsp_dynamic_workspace_symbols <CR>', { desc = 'Search dynamic workspace symbols' })
+vim.keymap.set('n', '<leader>ss', '<cmd> Telescope lsp_dynamic_workspace_symbols <CR>', { desc = 'Search dynamic workspace symbols' })

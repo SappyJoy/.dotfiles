@@ -8,6 +8,7 @@ local plugins = {
   { import = 'plugins.base' },
   { import = 'plugins.telescope' },
   { import = 'plugins.lsp' },
+  { import = 'plugins.interactive' },
   { import = 'plugins.visuals' },
   { import = 'plugins.git' },
   { import = 'plugins.treesitter' },
