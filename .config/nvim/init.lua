@@ -18,6 +18,7 @@ local plugins = {
   -- { import = 'plugins.neorg' },
   -- { import = 'plugins.jupyter' },
   { import = 'plugins.oil' },
+  { import = 'plugins.notes' },
   { import = 'plugins.misc' },
 }
 
