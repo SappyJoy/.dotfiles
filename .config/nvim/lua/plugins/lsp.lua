@@ -227,4 +227,5 @@ return {
       end, { desc = '[F]or[m]at' }),
     },
   },
+  { 'mfussenegger/nvim-jdtls' },
 }
