@@ -47,13 +47,16 @@ local config = {
       references = {
         includeDecompiledSources = true,
       },
-      inlayHints = {
-        parameterNames = {
-          enabled = 'all', -- literals, all, none
-        },
-      },
+      -- inlayHints = {
+      --   parameterNames = {
+      --     enabled = 'all', -- literals, all, none
+      --   },
+      -- },
       format = {
-        enabled = false,
+        settings = {
+          url = '/.config/format/eclipse-java-google-style.xml',
+          profile = 'GoogleStyle',
+        },
       },
     },
   },

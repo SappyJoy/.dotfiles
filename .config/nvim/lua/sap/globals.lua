@@ -7,7 +7,7 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed
 vim.g.have_nerd_font = true
 
-vim.g.python3_host_prog = '/opt/miniconda3/envs/nvim/bin/python'
+vim.g.python3_host_prog = vim.fn.expand '$HOME' .. '/.conda/envs/nvim/bin/python'
 
 package.path = package.path .. ';' .. vim.fn.expand '$HOME' .. '/.luarocks/share/lua/5.1/?/init.lua;'
 package.path = package.path .. ';' .. vim.fn.expand '$HOME' .. '/.luarocks/share/lua/5.1/?.lua;'
