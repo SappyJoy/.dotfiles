@@ -82,11 +82,11 @@ vim.keymap.set('n', '[c', function()
 end, { desc = 'Jump to prev hunk' })
 
 vim.keymap.set('n', ']d', function()
-  vim.diagnostic.goto_prev { float = { border = 'single' } }
+  vim.diagnostic.goto_next { float = { border = 'single' } }
 end, { desc = 'Jump to next diagnostic' })
 
 vim.keymap.set('n', '[d', function()
-  vim.diagnostic.goto_next { float = { border = 'single' } }
+  vim.diagnostic.goto_prev { float = { border = 'single' } }
 end, { desc = 'Jump to prev diagnostic' })
 
 vim.keymap.set('n', '<leader>rh', function()
