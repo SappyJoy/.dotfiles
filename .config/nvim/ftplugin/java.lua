@@ -36,6 +36,7 @@ local config = {
 
   settings = {
     java = {
+      home = home .. "/.sdkman/candidates/java/current",
       signatureHelp = { enabled = true },
       extendedClientCapabilities = extendedClientCapabilities,
       maven = {
@@ -47,17 +48,18 @@ local config = {
       references = {
         includeDecompiledSources = true,
       },
-      -- inlayHints = {
-      --   parameterNames = {
-      --     enabled = 'all', -- literals, all, none
-      --   },
-      -- },
-      format = {
-        settings = {
-          url = '/.config/format/eclipse-java-google-style.xml',
-          profile = 'GoogleStyle',
+      inlayHints = {
+        parameterNames = {
+          enabled = 'all', -- literals, all, none
         },
       },
+      -- format = {
+      --   enabled = true,
+      --   settings = {
+      --     url = home .. '/.config/format/eclipse-java-google-style.xml',
+      --     profile = 'GoogleStyle',
+      --   },
+      -- },
     },
   },
 

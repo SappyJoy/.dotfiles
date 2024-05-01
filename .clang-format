@@ -1,0 +1,29 @@
+BasedOnStyle:   Google
+---
+Language:        Cpp
+BasedOnStyle:  LLVM
+IndentWidth: 4
+ColumnLimit: 120
+---
+Language:       Java
+IndentWidth: 4
+ColumnLimit: 120
+BreakStringLiterals: true
+BreakAfterJavaFieldAnnotations: false
+BraceWrapping:
+  AfterCaseLabel:  true
+  AfterClass:      true
+  AfterControlStatement: true
+  AfterEnum:       true
+  AfterFunction:   true
+  AfterNamespace:  true
+  AfterObjCDeclaration: true
+  AfterStruct:     true
+  AfterUnion:      true
+  AfterExternBlock: true
+  BeforeCatch:     true
+  BeforeElse:      true
+  IndentBraces:    true
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
