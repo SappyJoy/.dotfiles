@@ -280,7 +280,7 @@ return {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
         python = { 'isort', 'black' },
-        java = { 'clang_format' },
+        java = { 'google-java-format' },
         json = { 'prettier' },
         xml = { 'xmlformatter' },
 
