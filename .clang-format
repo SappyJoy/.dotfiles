@@ -1,29 +1,63 @@
-BasedOnStyle:   Google
----
 Language:        Cpp
 BasedOnStyle:  LLVM
 IndentWidth: 4
 ColumnLimit: 120
 ---
-Language:       Java
+Language: Java
 IndentWidth: 4
 ColumnLimit: 120
 BreakStringLiterals: true
-BreakAfterJavaFieldAnnotations: false
+BreakAfterJavaFieldAnnotations: true
 BraceWrapping:
-  AfterCaseLabel:  true
-  AfterClass:      true
+  AfterCaseLabel: true
+  AfterClass: true
   AfterControlStatement: true
-  AfterEnum:       true
-  AfterFunction:   true
-  AfterNamespace:  true
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
   AfterObjCDeclaration: true
-  AfterStruct:     true
-  AfterUnion:      true
+  AfterStruct: true
+  AfterUnion: true
   AfterExternBlock: true
-  BeforeCatch:     true
-  BeforeElse:      true
-  IndentBraces:    true
+  BeforeCatch: true
+  BeforeElse: true
+  IndentBraces: true
   SplitEmptyFunction: false
   SplitEmptyRecord: false
   SplitEmptyNamespace: false
+AlignAfterOpenBracket: Align
+AlignConsecutiveMacros: {}
+AlignOperands: Align
+AllowAllArgumentsOnNextLine: false
+BinPackArguments: false
+BinPackParameters: false
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortBlocksOnASingleLine: Always
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortEnumsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: Inline
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakAfterReturnType: None
+BreakBeforeBinaryOperators: NonAssignment
+BreakBeforeBraces: Attach
+BreakConstructorInitializers: AfterColon
+BreakInheritanceList: AfterComma
+KeepEmptyLinesAtEOF: false
+LineEnding: LF
+MaxEmptyLinesToKeep: 1
+ReflowComments: true
+SortJavaStaticImport: After
+SpaceAfterLogicalNot: false
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCaseColon: false
+SpaceBeforeCtorInitializerColon: true
+SpaceBeforeInheritanceColon: true
+SpaceInEmptyBlock: false
+SpacesBeforeTrailingComments: 2
+SpacesInLineCommentPrefix:
+  Minimum: 1
+  Maximum: 1
+TabWidth: 4
+UseTab: ForContinuationAndIndentation
