@@ -15,6 +15,20 @@ return {
         changedelete = { text = '▒' },
         untracked = { text = '┆' },
       },
+      current_line_blame = true,
+      current_line_blame_opts = {
+        virt_text = true,
+        virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+        delay = 10,
+        ignore_whitespace = false,
+        virt_text_priority = 100,
+      },
+      current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
+      current_line_blame_formatter_opts = {
+        relative_time = false,
+      },
+      sign_priority = 6,
+      update_debounce = 100,
     },
   },
   {
@@ -44,12 +58,6 @@ return {
     end,
   },
   {
-    'f-person/git-blame.nvim',
-    config = function()
-      require('gitblame').setup {
-        --Note how the `gitblame_` prefix is omitted in `setup`
-        enabled = true,
-      }
-    end,
+    'sindrets/diffview.nvim',
   },
 }

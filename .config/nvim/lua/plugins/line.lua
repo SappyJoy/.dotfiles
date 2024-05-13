@@ -1,10 +1,10 @@
-local hydra = function()
-  local hint = require('hydra.statusline').get_hint()
-  if hint == nil then
-    return ''
-  end
-  return hint
-end
+-- local hydra = function()
+--   local hint = require('hydra.statusline').get_hint()
+--   if hint == nil then
+--     return ''
+--   end
+--   return hint
+-- end
 
 return {
   {
@@ -13,189 +13,199 @@ return {
     --   'benlubas/molten-nvim',
     -- },
     config = function()
+      -- TODO: Choose best fit colors. Check `:lua print(vim.inspect(require('ayu.colors')))`
+      local color = require 'ayu.colors'
+      color.generate() -- Pass `true` to enable mirage
+
       local nougat = require 'nougat'
       local core = require 'nougat.core'
       local Bar = require 'nougat.bar'
       local Item = require 'nougat.item'
       local sep = require 'nougat.separator'
 
-      -- TODO: Choose best fit colors. Check `:lua print(vim.inspect(require('ayu.colors')))`
-      local color = require 'ayu.colors'
+      local nut = {
+        buf = {
+          diagnostic_count = require('nougat.nut.buf.diagnostic_count').create,
+          filename = require('nougat.nut.buf.filename').create,
+          filestatus = require('nougat.nut.buf.filestatus').create,
+          filetype = require('nougat.nut.buf.filetype').create,
+        },
+        git = {
+          branch = require('nougat.nut.git.branch').create,
+          status = require 'nougat.nut.git.status',
+        },
+        tab = {
+          tablist = {
+            tabs = require('nougat.nut.tab.tablist').create,
+            close = require('nougat.nut.tab.tablist.close').create,
+            icon = require('nougat.nut.tab.tablist.icon').create,
+            label = require('nougat.nut.tab.tablist.label').create,
+            modified = require('nougat.nut.tab.tablist.modified').create,
+          },
+        },
+        mode = require('nougat.nut.mode').create,
+        spacer = require('nougat.nut.spacer').create,
+        truncation_point = require('nougat.nut.truncation_point').create,
+      }
 
-      --   local default_highlight = {
-      --     normal = { bg = color.blue, fg = 'bg' },
-      --     visual = { bg = color.purple, fg = 'bg' },
-      --     insert = { bg = color.normal, fg = 'bg' },
-      --     replace = { bg = color.crimson, fg = 'bg' },
-      --     commandline = { bg = color.khaki, fg = 'bg' },
-      --     terminal = { bg = color.orchid, fg = 'bg' },
-      --     inactive = { bg = color.grey, fg = 'bg' },
-      --   }
-      --
-      --   local nut = {
-      --     buf = {
-      --       diagnostic_count = require('nougat.nut.buf.diagnostic_count').create,
-      --       filename = require('nougat.nut.buf.filename').create,
-      --       filestatus = require('nougat.nut.buf.filestatus').create,
-      --       filetype = require('nougat.nut.buf.filetype').create,
-      --     },
-      --     git = {
-      --       branch = require('nougat.nut.git.branch').create,
-      --       status = require 'nougat.nut.git.status',
-      --     },
-      --     mode = require('nougat.nut.mode').create,
-      --     spacer = require('nougat.nut.spacer').create,
-      --     truncation_point = require('nougat.nut.truncation_point').create,
-      --   }
-      --
-      --   local stl = Bar 'statusline'
-      --   stl:add_item(nut.mode {
-      --     config = { highlight = default_highlight },
-      --     prefix = ' ',
-      --     suffix = ' ',
-      --     sep_right = sep.right_lower_triangle_solid(true),
-      --   })
-      --   stl:add_item(nut.git.branch {
-      --     hl = { fg = color.blue, bg = color.grey236 },
-      --     prefix = '  ',
-      --     suffix = ' ',
-      --     sep_right = sep.left_upper_triangle_solid(true),
-      --   })
-      --   local common_left = {
-      --     nut.git.status.create {
-      --       hl = { bg = color.grey233 },
-      --       suffix = ' ',
-      --       sep_right = sep.right_upper_triangle_solid(true),
-      --       content = {
-      --         nut.git.status.count('added', { hl = { fg = color.emerald }, prefix = ' +' }),
-      --         nut.git.status.count('changed', { hl = { fg = color.blue }, prefix = ' ~' }),
-      --         nut.git.status.count('removed', { hl = { fg = color.red }, prefix = ' -' }),
-      --       },
-      --     },
-      --   }
-      --
-      --   for _, item in ipairs(common_left) do
-      --     stl:add_item(item)
-      --   end
-      --
-      --   stl:add_item(nut.buf.filename {
-      --     prefix = ' ',
-      --     suffix = ' ',
-      --     config = {
-      --       modifier = ':p',
-      --       format = function(filename, _)
-      --         return filename:gsub('^' .. vim.env.HOME, '~')
-      --       end,
-      --     },
-      --   })
-      --
-      --   stl:add_item(nut.buf.filestatus { prefix = '[', suffix = '] ' })
-      --
-      --   -- stl:add_item(Item {
-      --   --   hl = { bg = color.grey233, fg = color.orchid },
-      --   --   content = function(_)
-      --   --     return require('configs.search_count').get_search_count()
-      --   --   end,
-      --   --   prefix = ' ',
-      --   --   suffix = ' ',
-      --   --   sep_left = sep.left_lower_triangle_solid(true),
-      --   --   sep_right = sep.right_upper_triangle_solid(true),
-      --   -- })
-      --
-      --   stl:add_item(nut.spacer())
-      --   stl:add_item(nut.truncation_point())
-      --
-      --   stl:add_item(nut.buf.diagnostic_count {
-      --     sep_left = sep.left_lower_triangle_solid(true),
-      --     prefix = ' ',
-      --     suffix = ' ',
-      --     config = {
-      --       error = { prefix = ' ' },
-      --       warn = { prefix = ' ' },
-      --       info = { prefix = ' ' },
-      --       hint = { prefix = '󰌶 ' },
-      --     },
-      --   })
-      --
-      --   local common_right = {
-      --     Item {
-      --       hl = { bg = color.grey233, fg = color.red },
-      --       sep_left = sep.left_lower_triangle_solid(true),
-      --       prefix = ' ',
-      --       content = function(_)
-      --         local s = require('molten.status').kernels()
-      --         if s == vim.NIL then -- nougat can't handle this. I think that's probably a bug.
-      --           return ''
-      --         end
-      --         return s
-      --       end,
-      --       suffix = ' ',
-      --     },
-      --     nut.buf.filetype {
-      --       hl = { bg = '#4e4e4e' },
-      --       sep_left = sep.left_lower_triangle_solid(true),
-      --       prefix = ' ',
-      --       suffix = ' ',
-      --     },
-      --     Item {
-      --       hl = { link = color.blue },
-      --       sep_left = sep.left_lower_triangle_solid(true),
-      --       prefix = ' ',
-      --       content = core.group {
-      --         core.code 'l',
-      --         ':',
-      --         core.code 'c',
-      --       },
-      --       suffix = ' ',
-      --     },
-      --     Item {
-      --       hl = { bg = color.blue, fg = color.grey235 },
-      --       sep_left = sep.left_lower_triangle_solid(true),
-      --       prefix = ' ',
-      --       content = core.code 'P',
-      --       suffix = ' ',
-      --     },
-      --   }
-      --
-      --   for _, item in ipairs(common_right) do
-      --     stl:add_item(item)
-      --   end
-      --
-      --   -- hydra status line
-      --   local hsl = Bar 'statusline'
-      --   hsl:add_item(Item {
-      --     hl = { bg = color.red, fg = color.black },
-      --     prefix = ' ',
-      --     content = 'HYDRA',
-      --     suffix = ' ',
-      --     sep_right = sep.right_lower_triangle_solid(true),
-      --   })
-      --   hsl:add_item(Item {
-      --     hl = { fg = color.red, bg = color.grey236 },
-      --     prefix = ' ',
-      --     content = require('hydra.statusline').get_name,
-      --     suffix = ' ',
-      --     sep_right = sep.right_lower_triangle_solid(true),
-      --   })
-      --
-      --   for _, item in ipairs(common_left) do
-      --     hsl:add_item(item)
-      --   end
-      --
-      --   hsl:add_item(nut.spacer())
-      --   hsl:add_item(Item { prefix = ' ', content = hydra, suffix = ' ' })
-      --   hsl:add_item(nut.spacer())
-      --
-      --   for _, item in ipairs(common_right) do
-      --     hsl:add_item(item)
-      --   end
-      --
-      --   nougat.set_statusline(function(_) -- context
-      --     if require('hydra.statusline').is_active() then
-      --       return hsl
-      --     end
-      --     return stl
-      --   end)
+      ---@type nougat.color
+      -- local color = require('nougat.color').get()
+
+      local mode = nut.mode {
+        prefix = ' ',
+        suffix = ' ',
+        sep_right = sep.right_chevron_solid(true),
+      }
+
+      local stl = Bar 'statusline'
+      stl:add_item(mode)
+      stl:add_item(nut.git.branch {
+        hl = { bg = color.accent, fg = color.fg },
+        prefix = '  ',
+        suffix = ' ',
+        sep_right = sep.right_chevron_solid(true),
+      })
+      stl:add_item(nut.git.status.create {
+        hl = { bg = color.selection_bg },
+        content = {
+          nut.git.status.count('added', {
+            hl = { fg = color.vcs_added },
+            prefix = ' +',
+          }),
+          nut.git.status.count('changed', {
+            hl = { fg = color.vcs_modified },
+            prefix = ' ~',
+          }),
+          nut.git.status.count('removed', {
+            hl = { fg = color.vcs_removed },
+            prefix = ' -',
+          }),
+        },
+        suffix = ' ',
+        sep_right = sep.right_chevron_solid(true),
+      })
+      local filename = stl:add_item(nut.buf.filename {
+        hl = { bg = color.line },
+        prefix = ' ',
+        suffix = ' ',
+      })
+      local filestatus = stl:add_item(nut.buf.filestatus {
+        hl = { bg = color.panel_bg },
+        suffix = ' ',
+        sep_right = sep.right_chevron_solid(true),
+        config = {
+          modified = '󰏫',
+          nomodifiable = '󰏯',
+          readonly = '',
+          sep = ' ',
+        },
+      })
+      stl:add_item(nut.spacer())
+      stl:add_item(nut.truncation_point())
+      stl:add_item(nut.buf.diagnostic_count {
+        hidden = false,
+        hl = { bg = color.error, fg = color.bg },
+        sep_left = sep.left_chevron_solid(true),
+        prefix = ' ',
+        suffix = ' ',
+        config = {
+          severity = vim.diagnostic.severity.ERROR,
+        },
+      })
+      stl:add_item(nut.buf.diagnostic_count {
+        hidden = false,
+        hl = { bg = color.warning, fg = color.bg },
+        sep_left = sep.left_chevron_solid(true),
+        prefix = ' ',
+        suffix = ' ',
+        config = {
+          severity = vim.diagnostic.severity.WARN,
+        },
+      })
+      stl:add_item(nut.buf.diagnostic_count {
+        hidden = false,
+        hl = { bg = color.regexp, fg = color.bg },
+        sep_left = sep.left_chevron_solid(true),
+        prefix = ' ',
+        suffix = ' ',
+        config = {
+          severity = vim.diagnostic.severity.INFO,
+        },
+      })
+      stl:add_item(nut.buf.diagnostic_count {
+        hl = { bg = color.special, fg = color.bg },
+        sep_left = sep.left_chevron_solid(true),
+        prefix = ' ',
+        suffix = ' ',
+        config = {
+          severity = vim.diagnostic.severity.HINT,
+        },
+      })
+      stl:add_item(nut.buf.filetype {
+        hl = { bg = color.operator },
+        sep_left = sep.left_chevron_solid(true),
+        prefix = ' ',
+        suffix = ' ',
+      })
+      stl:add_item(Item {
+        hl = { bg = color.constant, fg = color.blue },
+        sep_left = sep.left_chevron_solid(true),
+        prefix = '  ',
+        content = core.group {
+          core.code 'l',
+          ':',
+          core.code 'c',
+        },
+        suffix = ' ',
+      })
+      stl:add_item(Item {
+        hl = { bg = color.string, fg = color.bg },
+        sep_left = sep.left_chevron_solid(true),
+        prefix = ' ',
+        content = core.code 'P',
+        suffix = ' ',
+      })
+
+      local stl_inactive = Bar 'statusline'
+      stl_inactive:add_item(mode)
+      stl_inactive:add_item(filename)
+      stl_inactive:add_item(filestatus)
+      stl_inactive:add_item(nut.spacer())
+
+      nougat.set_statusline(function(ctx)
+        return ctx.is_focused and stl or stl_inactive
+      end)
+
+      local tal = Bar 'tabline'
+
+      tal:add_item(nut.tab.tablist.tabs {
+        active_tab = {
+          hl = { bg = color.bg, fg = color.regexp },
+          prefix = ' ',
+          suffix = ' ',
+          content = {
+            nut.tab.tablist.icon { suffix = ' ' },
+            nut.tab.tablist.label {},
+            nut.tab.tablist.modified { prefix = ' ', config = { text = '●' } },
+            nut.tab.tablist.close { prefix = ' ', config = { text = '󰅖' } },
+          },
+          sep_right = sep.right_chevron_solid(true),
+        },
+        inactive_tab = {
+          hl = { bg = color.panel_bg, fg = color.fg_idle },
+          prefix = ' ',
+          suffix = ' ',
+          content = {
+            nut.tab.tablist.icon { suffix = ' ' },
+            nut.tab.tablist.label {},
+            nut.tab.tablist.modified { prefix = ' ', config = { text = '●' } },
+            nut.tab.tablist.close { prefix = ' ', config = { text = '󰅖' } },
+          },
+          sep_right = sep.right_chevron_solid(true),
+        },
+      })
+
+      nougat.set_tabline(tal)
     end,
   },
 }
