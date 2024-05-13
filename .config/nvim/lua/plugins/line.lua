@@ -15,7 +15,7 @@ return {
     config = function()
       -- TODO: Choose best fit colors. Check `:lua print(vim.inspect(require('ayu.colors')))`
       local color = require 'ayu.colors'
-      color.generate() -- Pass `true` to enable mirage
+      color.generate(false) -- Pass `true` to enable mirage
 
       local nougat = require 'nougat'
       local core = require 'nougat.core'
@@ -48,9 +48,6 @@ return {
         truncation_point = require('nougat.nut.truncation_point').create,
       }
 
-      ---@type nougat.color
-      -- local color = require('nougat.color').get()
-
       local mode = nut.mode {
         prefix = ' ',
         suffix = ' ',
@@ -66,7 +63,7 @@ return {
         sep_right = sep.right_chevron_solid(true),
       })
       stl:add_item(nut.git.status.create {
-        hl = { bg = color.selection_bg },
+        hl = { bg = color.ui },
         content = {
           nut.git.status.count('added', {
             hl = { fg = color.vcs_added },
@@ -148,7 +145,7 @@ return {
         suffix = ' ',
       })
       stl:add_item(Item {
-        hl = { bg = color.constant, fg = color.blue },
+        hl = { bg = color.constant, fg = color.fg },
         sep_left = sep.left_chevron_solid(true),
         prefix = '  ',
         content = core.group {
