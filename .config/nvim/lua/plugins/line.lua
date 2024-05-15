@@ -82,7 +82,7 @@ return {
         sep_right = sep.right_chevron_solid(true),
       })
       local filename = stl:add_item(nut.buf.filename {
-        hl = { bg = color.line },
+        hl = { bg = color.panel_bg },
         prefix = ' ',
         suffix = ' ',
       })
