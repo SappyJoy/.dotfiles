@@ -4,7 +4,8 @@
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
-vim.keymap.set('n', '<C-S>', '<cmd>w<CR>', { desc = 'Save' })
+vim.keymap.set('n', '<C-s>', '<cmd>w<CR>', { desc = 'Save' })
+vim.keymap.set('n', '<C-q>', '<cmd>q<CR>', { desc = 'Quit' })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
