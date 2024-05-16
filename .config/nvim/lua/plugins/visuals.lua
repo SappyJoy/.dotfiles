@@ -17,7 +17,18 @@ return {
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+    dependencies = { 'Wansmer/langmapper.nvim' },
     config = function() -- This is the function that runs, AFTER loading
+      local lmu = require 'langmapper.utils'
+      local view = require 'which-key.view'
+      local execute = view.execute
+
+      -- wrap `execute()` and translate sequence back
+      view.execute = function(prefix_i, mode, buf)
+        -- Translate back to English characters
+        prefix_i = lmu.translate_keycode(prefix_i, 'default', 'ru')
+        execute(prefix_i, mode, buf)
+      end
       require('which-key').setup()
 
       -- Document existing key chains
@@ -206,7 +217,7 @@ return {
   {
     'norcalli/nvim-colorizer.lua',
     opts = {
-      '*';
-    }
+      '*',
+    },
   },
 }
