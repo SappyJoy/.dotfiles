@@ -12,8 +12,8 @@ alias ranger='ranger --choosedir=$HOME/.rangerdir; set -x LASTDIR (cat $HOME/.ra
 alias r="ranger"
 alias g="git"
 alias lg="lazygit"
-alias gitdf='git --git-dir=$DOTFILES --work-tree=$HOME'
-alias lgitdf='lazygit --git-dir=$DOTFILES --work-tree=$HOME'
+alias gd='git --git-dir=$DOTFILES --work-tree=$HOME'
+alias lgd='lazygit --git-dir=$DOTFILES --work-tree=$HOME'
 
 # Monitor
 function bright
