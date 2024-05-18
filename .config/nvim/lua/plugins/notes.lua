@@ -23,16 +23,7 @@ return {
       'nvim-lua/plenary.nvim',
     },
     -- keys = {
-    --   { '<leader>nd', ':ObsidianToday<cr>', desc = 'obsidian [d]aily' },
-    --   { '<leader>nt', ':ObsidianToday 1<cr>', desc = 'obsidian [t]omorrow' },
-    --   { '<leader>ny', ':ObsidianToday -1<cr>', desc = 'obsidian [y]esterday' },
-    --   { '<leader>nb', ':ObsidianBacklinks<cr>', desc = 'obsidian [b]acklinks' },
     --   { '<leader>nl', ':ObsidianLink<cr>', desc = 'obsidian [l]ink selection' },
-    --   { '<leader>nf', ':ObsidianFollowLink<cr>', desc = 'obsidian [f]ollow link' },
-    --   { '<leader>nn', ':ObsidianNew<cr>', desc = 'obsidian [n]ew' },
-    --   { '<leader>ns', ':ObsidianSearch<cr>', desc = 'obsidian [s]earch' },
-    --   { '<leader>no', ':ObsidianQuickSwitch<cr>', desc = 'obsidian [o]pen quickswitch' },
-    --   { '<leader>nO', ':ObsidianOpen<cr>', desc = 'obsidian [O]pen in app' },Хоттабыч (фильм в HD)
     -- },
     config = function(_, opts)
       require('obsidian').setup(opts)
@@ -40,16 +31,17 @@ return {
       wk.register {
         ['<leader>n'] = {
           name = 'Notes',
-          o = { '<cmd>ObsidianOpen<cr>', 'Open note' },
-          d = { '<cmd>ObsidianDailies -10 0<cr>', 'Daily notes' },
+          O = { '<cmd>ObsidianOpen<cr>', 'Open note' },
+          d = { '<cmd>ObsidianDailies -30 0<cr>', 'Daily notes' },
           p = { '<cmd>ObsidianPasteImg<cr>', 'Paste image' },
-          q = { '<cmd>ObsidianQuickSwitch<cr>', 'Quick switch' },
+          o = { '<cmd>ObsidianQuickSwitch<cr>', 'Quick switch' },
           s = { '<cmd>ObsidianSearch<cr>', 'Search' },
           t = { '<cmd>ObsidianTags<cr>', 'Tags' },
           l = { '<cmd>ObsidianLinks<cr>', 'Links' },
           b = { '<cmd>ObsidianBacklinks<cr>', 'Backlinks' },
           m = { '<cmd>ObsidianTemplate<cr>', 'Template' },
-          n = { '<cmd>ObsidianQuickSwitch nav<cr>', 'Nav' },
+          -- n = { '<cmd>ObsidianQuickSwitch nav<cr>', 'Nav' },
+          n = { '<cmd>ObsidianNew<cr>', 'New' },
           r = { '<cmd>ObsidianRename<cr>', 'Rename' },
           w = { '<cmd>ObsidianWorkspace<cr>', 'Workspace' },
           c = {
