@@ -120,6 +120,7 @@ return {
       sort_by = 'modified',
       -- sort_by = 'accessed',
       sort_reversed = true,
+      exclude = { 'templates', 'Excalidraw' },
       -- open_notes_in = 'vsplit',
       mappings = {
         -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
