@@ -143,6 +143,7 @@ return {
           opts = { buffer = true },
         },
       },
+
       -- Optional, customize how names/IDs for new notes are created.
       note_id_func = function(title)
         -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
@@ -166,6 +167,7 @@ return {
         end
         return suffix
       end,
+
       image_name_func = function()
         ---@type obsidian.Client
         local client = require('obsidian').get_client()
@@ -176,6 +178,12 @@ return {
         else
           return string.format('%s-', os.time())
         end
+      end,
+
+      follow_url_func = function(url)
+        -- Open the URL in the default web browser.
+        -- vim.fn.jobstart { 'open', url } -- Mac OS
+        vim.fn.jobstart({"xdg-open", url})  -- linux
       end,
 
       new_notes_location = 'notes_subdir',
