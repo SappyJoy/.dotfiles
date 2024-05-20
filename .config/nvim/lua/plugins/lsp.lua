@@ -189,6 +189,8 @@ return {
             },
           },
         },
+        xmlformatter = {},
+        sqls = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -204,6 +206,8 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format lua code
+        'sql-formatter',
+        'prettier',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -237,7 +241,9 @@ return {
         python = { 'isort', 'black' },
         java = { 'google-java-format' },
         json = { 'prettier' },
-        xml = { 'xmlformatter' },
+        xml = { 'xmlformat' },
+        sql = { 'sql_formatter' },
+        markdown = { 'prettier' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
@@ -249,4 +255,54 @@ return {
     },
   },
   { 'mfussenegger/nvim-jdtls' },
+  -- { 'simrat39/symbols-outline.nvim',
+  --   config = function ()
+  --     require('symbols-outline').setup({})
+  --     local wk = require 'which-key'
+  --     wk.register {
+  --       ['<leader>o'] = {
+  --         name = '[O]pen',
+  --         s = { '<cmd>SymbolsOutline<cr>', 'Toggle [s]ymbols outline' }
+  --     }
+  --     }
+  --   end
+  -- },
+  {
+    'hedyhli/outline.nvim',
+    config = function()
+      -- Example mapping to toggle outline
+      local wk = require 'which-key'
+      wk.register {
+        ['<leader>o'] = {
+          name = '[O]pen',
+          s = { '<cmd>Outline<cr>', 'Toggle [s]ymbols outline' },
+        },
+      }
+
+      require('outline').setup {
+        -- Your setup opts here (leave empty to use defaults)
+      }
+    end,
+  },
+  -- {
+  --   'stevearc/aerial.nvim',
+  --   -- Optional dependencies
+  --   dependencies = {
+  --     'nvim-treesitter/nvim-treesitter',
+  --     'nvim-tree/nvim-web-devicons',
+  --   },
+  --   config = function()
+  --     local wk = require 'which-key'
+  --     wk.register {
+  --       ['<leader>o'] = {
+  --         name = '[O]pen',
+  --         s = { '<cmd>AerialToggle!<cr>', 'Toggle [s]ymbols outline' },
+  --       },
+  --     }
+  --
+  --     require('aerial').setup {
+  --       -- Your setup opts here (leave empty to use defaults)
+  --     }
+  --   end,
+  -- },
 }

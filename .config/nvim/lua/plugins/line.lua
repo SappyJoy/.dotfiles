@@ -63,7 +63,7 @@ return {
         sep_right = sep.right_chevron_solid(true),
       })
       stl:add_item(nut.git.status.create {
-        hl = { bg = color.ui },
+        hl = { bg = color.line },
         content = {
           nut.git.status.count('added', {
             hl = { fg = color.vcs_added },

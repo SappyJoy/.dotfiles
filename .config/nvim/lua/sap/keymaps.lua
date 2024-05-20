@@ -5,6 +5,7 @@ vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 vim.keymap.set('n', '<C-s>', '<cmd>w<CR>', { desc = 'Save' })
+vim.keymap.set('i', '<C-s>', '<Esc><cmd>w<CR>', { desc = 'Save' })
 vim.keymap.set('n', '<C-q>', '<cmd>q<CR>', { desc = 'Quit' })
 
 -- Diagnostic keymaps
