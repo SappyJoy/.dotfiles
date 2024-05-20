@@ -22,3 +22,5 @@
 	br = branch
 	unstage = reset HEAD --
 	last = log -1 HEAD
+[diff]
+	tool = nvimdiff
