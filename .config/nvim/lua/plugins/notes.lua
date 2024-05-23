@@ -21,6 +21,9 @@ return {
     },
     dependencies = {
       'nvim-lua/plenary.nvim',
+      'hrsh7th/nvim-cmp',
+      'nvim-telescope/telescope.nvim',
+      'nvim-treesitter/nvim-treesitter',
     },
     -- keys = {
     --   { '<leader>nl', ':ObsidianLink<cr>', desc = 'obsidian [l]ink selection' },
@@ -154,11 +157,6 @@ return {
         if title ~= nil then
           -- If title is given, transform it into valid file name.
           suffix = title
-            -- :gsub(
-            --   '[^A-Za-z0-9АБВГДЕЁЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя]',
-            --   ''
-            -- )
-            -- :lower()
         else
           -- If title is nil, just add 4 random uppercase letters to the suffix.
           for _ = 1, 4 do
@@ -166,6 +164,13 @@ return {
           end
         end
         return suffix
+      end,
+
+      note_path_func = function(spec)
+        local path
+        -- This is equivalent to the default behavior.
+        path = spec.dir / tostring(spec.id)
+        return tostring(path) .. '.md'
       end,
 
       image_name_func = function()
@@ -183,7 +188,7 @@ return {
       follow_url_func = function(url)
         -- Open the URL in the default web browser.
         -- vim.fn.jobstart { 'open', url } -- Mac OS
-        vim.fn.jobstart({"xdg-open", url})  -- linux
+        vim.fn.jobstart { 'xdg-open', url } -- linux
       end,
 
       new_notes_location = 'notes_subdir',
