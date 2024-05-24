@@ -215,11 +215,11 @@ return {
       ---@param note obsidian.Note
       note_frontmatter_func = function(note)
         -- Add the title of the note as an alias.
-        if note.title then
-          note:add_alias(note.title)
-        end
+        -- if note.title then
+        --   note:add_alias(note.title)
+        -- end
 
-        local out = { id = note.id, aliases = note.aliases, tags = note.tags }
+        local out = { tags = note.tags }
 
         -- `note.metadata` contains any manually added fields in the frontmatter.
         -- So here we just make sure those fields are kept in the frontmatter.

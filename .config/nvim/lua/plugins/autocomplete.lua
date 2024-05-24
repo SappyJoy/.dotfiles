@@ -42,9 +42,11 @@ return {
       --    set up the ones that are useful for you.
       -- 'rafamadriz/friendly-snippets',
     },
-    config = function()
+    config = function(_, opts)
       -- See `:help cmp`
       local cmp = require 'cmp'
+      local copilot_cmp = require 'copilot_cmp'
+      copilot_cmp.setup(opts)
       local luasnip = require 'luasnip'
       luasnip.config.setup {}
 
@@ -61,11 +63,11 @@ return {
         --
         -- No, but seriously. Please read `:help ins-completion`, it is really good!
         mapping = cmp.mapping.preset.insert {
-          -- Select the [n]ext item
-          ['<C-n>'] = cmp.mapping.select_next_item(),
-          -- Select the [p]revious item
-          ['<C-p>'] = cmp.mapping.select_prev_item(),
-
+          -- -- Select the [n]ext item
+          -- ['<C-n>'] = cmp.mapping.select_next_item(),
+          -- -- Select the [p]revious item
+          -- ['<C-p>'] = cmp.mapping.select_prev_item(),
+          --
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
@@ -96,7 +98,8 @@ return {
           end, { 'i', 's' }),
         },
         sources = {
-          { name = 'nvim_lsp' },
+          { name = 'nvim_lsp', group_index = 1, priority = 1000000 },
+          { name = 'copilot', group_index = 1, priority = 1 },
           { name = 'luasnip' },
           { name = 'path' },
         },
@@ -161,6 +164,12 @@ return {
       -- If you want insert `(` after select function or method item
       local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
       require('cmp').event:on('confirm_done', cmp_autopairs.on_confirm_done())
+    end,
+  },
+  {
+    'zbirenbaum/copilot-cmp',
+    config = function()
+      require('copilot_cmp').setup()
     end,
   },
 }

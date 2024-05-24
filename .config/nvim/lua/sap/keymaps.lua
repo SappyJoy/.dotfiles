@@ -59,10 +59,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- Iron
-vim.keymap.set('n', '<leader>is', '<cmd>IronRepl<cr>')
-vim.keymap.set('n', '<leader>ir', '<cmd>IronRestart<cr>')
-vim.keymap.set('n', '<leader>if', '<cmd>IronFocus<cr>')
-vim.keymap.set('n', '<leader>ih', '<cmd>IronHide<cr>')
+-- vim.keymap.set('n', '<leader>is', '<cmd>IronRepl<cr>')
+-- vim.keymap.set('n', '<leader>ir', '<cmd>IronRestart<cr>')
+-- vim.keymap.set('n', '<leader>if', '<cmd>IronFocus<cr>')
+-- vim.keymap.set('n', '<leader>ih', '<cmd>IronHide<cr>')
 
 -- Gitsign
 vim.keymap.set('n', ']c', function()
