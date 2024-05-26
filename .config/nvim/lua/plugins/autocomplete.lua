@@ -71,7 +71,7 @@ return {
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<C-y>'] = cmp.mapping.confirm { select = false, behavior = cmp.ConfirmBehavior.Insert },
+          ['<C-y>'] = cmp.mapping.confirm { select = true, behavior = cmp.ConfirmBehavior.Insert },
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
@@ -96,6 +96,16 @@ return {
               luasnip.jump(-1)
             end
           end, { 'i', 's' }),
+        },
+        window = {
+          completion = {
+            border = "single",
+            -- winhighlight = 'Normal:CmpNormal',
+          },
+          documentation = {
+            border = "single",
+            -- winhighlight = 'Normal:CmpNormal',
+          },
         },
         sources = {
           { name = 'nvim_lsp', group_index = 1, priority = 1000000 },

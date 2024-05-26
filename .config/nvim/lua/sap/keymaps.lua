@@ -9,9 +9,18 @@ vim.keymap.set('i', '<C-s>', '<Esc><cmd>w<CR>', { desc = 'Save' })
 vim.keymap.set('n', '<C-q>', '<cmd>q<CR>', { desc = 'Quit' })
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
+vim.keymap.set('n', ']d', function()
+  vim.diagnostic.goto_next { float = { border = 'single' } }
+end, { desc = 'Jump to next [D]iagnostic' })
+
+vim.keymap.set('n', '[d', function()
+  vim.diagnostic.goto_prev { float = { border = 'single' } }
+end, { desc = 'Jump to prev [D]iagnostic' })
+
+vim.keymap.set('n', '<leader>e', function()
+  vim.diagnostic.open_float { border = 'single' }
+end, { desc = 'Show diagnostic [E]rror messages' })
+
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
@@ -85,13 +94,6 @@ vim.keymap.set('n', '[c', function()
   return '<Ignore>'
 end, { desc = 'Jump to prev hunk' })
 
-vim.keymap.set('n', ']d', function()
-  vim.diagnostic.goto_next { float = { border = 'single' } }
-end, { desc = 'Jump to next diagnostic' })
-
-vim.keymap.set('n', '[d', function()
-  vim.diagnostic.goto_prev { float = { border = 'single' } }
-end, { desc = 'Jump to prev diagnostic' })
 
 vim.keymap.set('n', '<leader>rh', function()
   require('gitsigns').reset_hunk()

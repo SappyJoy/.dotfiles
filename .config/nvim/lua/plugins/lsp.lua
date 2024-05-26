@@ -119,6 +119,8 @@ return {
         end,
       })
 
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "single" })
+
       -- LSP servers and clients are able to communicate to each other what features they support.
       --  By default, Neovim doesn't support everything that is in the LSP Specification.
       --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
@@ -244,6 +246,7 @@ return {
         xml = { 'xmlformat' },
         sql = { 'sql_formatter' },
         markdown = { 'prettier' },
+        yaml = { 'prettier' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
@@ -316,7 +319,8 @@ return {
         filetypes = {
           markdown = true,
           help = true,
-        }
+          yaml = true,
+        },
       }
     end,
   },
