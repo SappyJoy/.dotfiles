@@ -118,6 +118,10 @@ return {
           name = 'notes',
           path = '~/notes/vault-13/',
         },
+        {
+          name = 'study',
+          path = '~/notes/vault-4/',
+        },
       },
       -- notes_subdir = 'notes',
       sort_by = 'modified',
