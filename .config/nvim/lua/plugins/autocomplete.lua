@@ -63,15 +63,10 @@ return {
         --
         -- No, but seriously. Please read `:help ins-completion`, it is really good!
         mapping = cmp.mapping.preset.insert {
-          -- -- Select the [n]ext item
-          -- ['<C-n>'] = cmp.mapping.select_next_item(),
-          -- -- Select the [p]revious item
-          -- ['<C-p>'] = cmp.mapping.select_prev_item(),
-          --
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<C-y>'] = cmp.mapping.confirm { select = true, behavior = cmp.ConfirmBehavior.Insert },
+          ['<C-y>'] = cmp.mapping.confirm { select = false, behavior = cmp.ConfirmBehavior.Insert },
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
@@ -96,15 +91,17 @@ return {
               luasnip.jump(-1)
             end
           end, { 'i', 's' }),
+          ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-d>'] = cmp.mapping.scroll_docs(4),
         },
         window = {
           completion = {
-            border = "single",
-            -- winhighlight = 'Normal:CmpNormal',
+            border = 'single',
           },
           documentation = {
-            border = "single",
-            -- winhighlight = 'Normal:CmpNormal',
+            border = 'single',
+            max_height = 0,
+            -- max_width = 70,
           },
         },
         sources = {
