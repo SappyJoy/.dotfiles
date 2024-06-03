@@ -49,6 +49,7 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'scroll down half page', noremap = true })
 vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'scroll up half page', noremap = true })
 vim.keymap.set('n', '<leader>co', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'Change all occurances' })
+vim.keymap.set("v", "<leader>co", [["hy:%s/<C-r>h/<C-r>h/gI<Left><Left><left>]])
 
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move up' })
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move down' })
