@@ -119,7 +119,7 @@ return {
         end,
       })
 
-      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "single" })
+      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'single' })
 
       -- LSP servers and clients are able to communicate to each other what features they support.
       --  By default, Neovim doesn't support everything that is in the LSP Specification.
@@ -193,6 +193,46 @@ return {
         },
         xmlformatter = {},
         sqls = {},
+        ltex = {
+          use_spellfile = false,
+          filetypes = { 'latex', 'tex', 'bib', 'markdown', 'gitcommit', 'text' },
+          flags = { debounce_text_changes = 300 },
+          settings = {
+            ltex = {
+              enabled = { 'latex', 'tex', 'bib', 'markdown' },
+              language = 'ru',
+              diagnosticSeverity = 'information',
+              sentenceCacheSize = 2000,
+              additionalRules = {
+                enablePickyRules = true,
+                motherTongue = 'ru',
+              },
+              dictionary = (function()
+                -- For dictionary, search for files in the runtime to have
+                -- and include them as externals the format for them is
+                -- dict/{LANG}.txt
+                --
+                -- Also add dict/default.txt to all of them
+                local files = {}
+                for _, file in ipairs(vim.api.nvim_get_runtime_file('dict/*', true)) do
+                  local lang = vim.fn.fnamemodify(file, ':t:r')
+                  local fullpath = vim.fs.normalize(file, ':p')
+                  files[lang] = { ':' .. fullpath }
+                end
+
+                if files.default then
+                  for lang, _ in pairs(files) do
+                    if lang ~= 'default' then
+                      vim.list_extend(files[lang], files.default)
+                    end
+                  end
+                  files.default = nil
+                end
+                return files
+              end)(),
+            },
+          },
+        },
       }
 
       -- Ensure the servers and tools above are installed
