@@ -1,3 +1,7 @@
+if (vim.g.vscode) then
+  return {}
+end
+
 return {
   -- { 'benlubas/image-save.nvim', dev = true, cmd = 'SaveImage' },
   {
