@@ -53,5 +53,7 @@ return {
       }
     end,
   },
+  { 'folke/zen-mode.nvim' },
+  { 'folke/twilight.nvim' },
   -- { 'junegunn/goyo.vim' },
 }
