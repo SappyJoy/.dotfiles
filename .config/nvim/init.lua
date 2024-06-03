@@ -20,6 +20,7 @@ local plugins = {
   { import = 'plugins.oil' },
   { import = 'plugins.notes' },
   { import = 'plugins.misc' },
+  { import = 'plugins.writing' },
 }
 
 require('lazy').setup(plugins, {
