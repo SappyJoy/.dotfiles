@@ -40,7 +40,7 @@ exec --no-startup-id nm-applet
 # Set wallpaper
 exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 # exec --no-startup-id picom -b
-exec --no-startup-id nohup flameshot &
+exec --no-startup-id flameshot &
 
 # clipboard tool (install greenclip)
 exec --no-startup-id greenclip daemon>/dev/null
