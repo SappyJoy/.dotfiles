@@ -2,6 +2,12 @@ require 'sap.globals'
 require 'sap.keymaps'
 require 'sap.lazy-bootstrap'
 
+vim.filetype.add {
+  extension = {
+    ets = 'typescript',
+  },
+}
+
 -- [[ Configure and install plugins ]]
 local plugins = {
   { import = 'plugins.autocomplete' },

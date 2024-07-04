@@ -192,7 +192,7 @@ return {
           },
         },
         xmlformatter = {},
-        sqls = {},
+        -- sqls = {},
         ltex = {
           use_spellfile = false,
           filetypes = { 'latex', 'tex', 'bib', 'markdown', 'gitcommit', 'text' },
@@ -233,6 +233,7 @@ return {
             },
           },
         },
+        tsserver = {}
       }
 
       -- Ensure the servers and tools above are installed
@@ -287,6 +288,7 @@ return {
         sql = { 'sql_formatter' },
         markdown = { 'prettier' },
         yaml = { 'prettier' },
+        typescript = { 'prettierd', 'rustywind' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.

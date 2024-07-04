@@ -100,7 +100,7 @@ return {
           },
           documentation = {
             border = 'single',
-            max_height = 0,
+            -- max_height = 0,
             -- max_width = 70,
           },
         },
