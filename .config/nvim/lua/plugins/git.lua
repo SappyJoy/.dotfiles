@@ -24,9 +24,9 @@ return {
         virt_text_priority = 100,
       },
       current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
-      current_line_blame_formatter_opts = {
-        relative_time = false,
-      },
+      -- current_line_blame_formatter_opts = {
+      --   relative_time = false,
+      -- },
       sign_priority = 6,
       update_debounce = 100,
     },
@@ -59,5 +59,86 @@ return {
   },
   {
     'sindrets/diffview.nvim',
+    config = function()
+      -- Example mapping to toggle outline
+      local wk = require 'which-key'
+      wk.add {
+        {
+          { '<leader>dc', '<cmd>DiffviewClose<cr>', desc = 'Diffview Close' },
+          { '<leader>df', '<cmd>DiffviewFileHistory<cr>', desc = 'Diffview Open File History' },
+          { '<leader>do', '<cmd>DiffviewOpen<cr>', desc = 'Diffview Open' },
+        },
+      }
+    end,
+  },
+  {
+    'NeogitOrg/neogit',
+    dependencies = {
+      'nvim-lua/plenary.nvim', -- required
+      'sindrets/diffview.nvim', -- optional - Diff integration
+
+      -- Only one of these is needed, not both.
+      'nvim-telescope/telescope.nvim', -- optional
+      -- 'ibhagwan/fzf-lua', -- optional
+    },
+    config = true,
+    keys = {
+      { '<leader>gg', ':Neogit<cr>', desc = 'Neogit' },
+      {
+        '<leader>gf',
+        function()
+          require('neogit').action('log', 'log_current', { '--', vim.fn.expand '%' })()
+        end,
+        desc = 'Git log for file',
+      },
+      {
+        '<leader>gf',
+        function()
+          local file = vim.fn.expand '%'
+          vim.cmd [[execute "normal! \<ESC>"]]
+          local line_start = vim.fn.getpos("'<")[2]
+          local line_end = vim.fn.getpos("'>")[2]
+
+          require('neogit').action('log', 'log_current', { '-L' .. line_start .. ',' .. line_end .. ':' .. file })()
+        end,
+        desc = 'Git log for this range',
+        mode = 'v',
+      },
+    },
+  --   opts = {
+  --     mappings = {
+  --       popup = {
+  --         ['F'] = 'PullPopup',
+  --         ['p'] = false,
+  --       },
+  --       rebase_editor = {
+  --         ['<c-d>'] = 'Abort',
+  --         ['<c-c><c-k>'] = false,
+  --       },
+  --       commit_editor = {
+  --         ['<c-d>'] = 'Abort',
+  --         ['<c-c><c-k>'] = false,
+  --       },
+  --     },
+  --     console_timeout = 3000,
+  --     telescope_sorter = function()
+  --       return require('telescope').extensions.fzf.native_fzf_sorter()
+  --     end,
+  --     fetch_after_checkout = true,
+  --     auto_show_console = true,
+  --     disable_hint = true,
+  --     notification_icon = ' ',
+  --     status = {
+  --       show_head_commit_hash = false,
+  --     },
+  --     sections = {
+  --       rebase = {
+  --         folded = false,
+  --       },
+  --       recent = {
+  --         folded = false,
+  --       },
+  --     },
+  --   },
   },
 }

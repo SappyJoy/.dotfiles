@@ -87,7 +87,7 @@ return {
           -- },
           ['<C-s>'] = false,
           ['<C-v>'] = 'actions.select_vsplit',
-          ['<C-h>'] = 'actions.split',
+          -- ['<C-h>'] = 'actions.split',
           ['<C-t>'] = 'actions.select_tab',
           ['<C-p>'] = 'actions.preview',
           ['<C-c>'] = false,

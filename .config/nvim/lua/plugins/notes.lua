@@ -31,23 +31,13 @@ return {
     config = function(_, opts)
       require('obsidian').setup(opts)
       local wk = require 'which-key'
-      wk.register {
-        ['<leader>n'] = {
-          name = 'Notes',
-          O = { '<cmd>ObsidianOpen<cr>', 'Open note' },
-          d = { '<cmd>ObsidianDailies -30 0<cr>', 'Daily notes' },
-          p = { '<cmd>ObsidianPasteImg<cr>', 'Paste image' },
-          o = { '<cmd>ObsidianQuickSwitch<cr>', 'Quick switch' },
-          s = { '<cmd>ObsidianSearch<cr>', 'Search' },
-          t = { '<cmd>ObsidianTags<cr>', 'Tags' },
-          l = { '<cmd>ObsidianLinks<cr>', 'Links' },
-          b = { '<cmd>ObsidianBacklinks<cr>', 'Backlinks' },
-          m = { '<cmd>ObsidianTemplate<cr>', 'Template' },
-          -- n = { '<cmd>ObsidianQuickSwitch nav<cr>', 'Nav' },
-          n = { '<cmd>ObsidianNew<cr>', 'New' },
-          r = { '<cmd>ObsidianRename<cr>', 'Rename' },
-          w = { '<cmd>ObsidianWorkspace<cr>', 'Workspace' },
-          c = {
+      wk.add {
+        {
+          { '<leader>n', group = 'Notes' },
+          { '<leader>nO', '<cmd>ObsidianOpen<cr>', desc = 'Open note' },
+          { '<leader>nb', '<cmd>ObsidianBacklinks<cr>', desc = 'Backlinks' },
+          {
+            '<leader>nc',
             function()
               local day_of_week = os.date '%A'
               assert(type(day_of_week) == 'string')
@@ -73,43 +63,56 @@ return {
 
               vim.cmd(string.format('ObsidianDailies %d %d', offset_start, offset_start + 4))
             end,
-            'Current week',
+            desc = 'Current week',
           },
+          { '<leader>nd', '<cmd>ObsidianDailies -30 0<cr>', desc = 'Daily notes' },
+          { '<leader>nl', '<cmd>ObsidianLinks<cr>', desc = 'Links' },
+          { '<leader>nm', '<cmd>ObsidianTemplate<cr>', desc = 'Template' },
+          { '<leader>nn', '<cmd>ObsidianNew<cr>', desc = 'New' },
+          { '<leader>no', '<cmd>ObsidianQuickSwitch<cr>', desc = 'Quick switch' },
+          { '<leader>np', '<cmd>ObsidianPasteImg<cr>', desc = 'Paste image' },
+          { '<leader>nr', '<cmd>ObsidianRename<cr>', desc = 'Rename' },
+          { '<leader>ns', '<cmd>ObsidianSearch<cr>', desc = 'Search' },
+          { '<leader>nt', '<cmd>ObsidianTags<cr>', desc = 'Tags' },
+          { '<leader>nw', '<cmd>ObsidianWorkspace<cr>', desc = 'Workspace' },
         },
       }
 
-      wk.register({
-        ['<leader>n'] = {
-          name = 'Notes',
-          e = {
+      wk.add {
+        {
+          mode = { 'v' },
+          { '<leader>n', group = 'Notes' },
+          {
+            '<leader>ne',
             function()
               local title = vim.fn.input { prompt = 'Enter title (optional): ' }
               vim.cmd('ObsidianExtractNote ' .. title)
             end,
-            'Extract text into new note',
+            desc = 'Extract text into new note',
           },
-          l = {
+          {
+            '<leader>nl',
             function()
               vim.cmd 'ObsidianLink'
             end,
-            'Link text to an existing note',
+            desc = 'Link text to an existing note',
           },
-          n = {
+          {
+            '<leader>nn',
             function()
               vim.cmd 'ObsidianLinkNew'
             end,
-            'Link text to a new note',
+            desc = 'Link text to a new note',
           },
-          t = {
+          {
+            '<leader>nt',
             function()
-              vim.cmd 'ObsidianTags'
+              vim.cmd 'ObsidianLinkTags'
             end,
-            'Tags',
+            desc = 'Tags',
           },
         },
-      }, {
-        mode = 'v',
-      })
+      }
       -- vim.wo.conceallevel = 1
     end,
     opts = {

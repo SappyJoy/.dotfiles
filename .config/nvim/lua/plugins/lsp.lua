@@ -233,7 +233,7 @@ return {
             },
           },
         },
-        tsserver = {}
+        tsserver = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -286,9 +286,10 @@ return {
         json = { 'prettier' },
         xml = { 'xmlformat' },
         sql = { 'sql_formatter' },
-        markdown = { 'prettier' },
+        markdown = { 'prettier', 'cbfmt' },
         yaml = { 'prettier' },
-        typescript = { 'prettierd', 'rustywind' },
+        -- typescript = { 'prettierd', 'rustywind' },
+        typescript = { 'eslint' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
@@ -314,20 +315,21 @@ return {
   -- },
   {
     'hedyhli/outline.nvim',
-    config = function()
-      -- Example mapping to toggle outline
+    config = function(_, opts)
+      require('outline').setup(opts)
       local wk = require 'which-key'
-      wk.register {
-        ['<leader>o'] = {
-          name = '[O]pen',
-          s = { '<cmd>Outline<cr>', 'Toggle [s]ymbols outline' },
+      wk.add {
+        {
+          { '<leader>o', group = '[O]pen' },
+          { '<leader>os', '<cmd>Outline<cr>', desc = 'Toggle [s]ymbols outline' },
         },
       }
-
-      require('outline').setup {
-        -- Your setup opts here (leave empty to use defaults)
-      }
     end,
+    opts = {
+      outline_window = {
+        focus_on_open = false,
+      },
+    },
   },
   -- {
   --   'stevearc/aerial.nvim',
