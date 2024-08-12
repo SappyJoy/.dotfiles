@@ -43,74 +43,56 @@ return {
       -- 'rafamadriz/friendly-snippets',
     },
     config = function(_, opts)
-      -- See `:help cmp`
       local cmp = require 'cmp'
-      local copilot_cmp = require 'copilot_cmp'
-      copilot_cmp.setup(opts)
       local luasnip = require 'luasnip'
-      luasnip.config.setup {}
+      local copilot_cmp = require 'copilot_cmp'
 
-      cmp.setup {
-        snippet = {
-          expand = function(args)
-            luasnip.lsp_expand(args.body)
-          end,
-        },
-        completion = { completeopt = 'menu,menuone,noinsert' },
+      -- Delay setup to ensure all dependencies are loaded
+      vim.defer_fn(function()
+        copilot_cmp.setup(opts)
+        luasnip.config.setup {}
 
-        -- For an understanding of why these mappings were
-        -- chosen, you will need to read `:help ins-completion`
-        --
-        -- No, but seriously. Please read `:help ins-completion`, it is really good!
-        mapping = cmp.mapping.preset.insert {
-          -- Accept ([y]es) the completion.
-          --  This will auto-import if your LSP supports it.
-          --  This will expand snippets if the LSP sent a snippet.
-          ['<C-y>'] = cmp.mapping.confirm { select = false, behavior = cmp.ConfirmBehavior.Insert },
-
-          -- Manually trigger a completion from nvim-cmp.
-          --  Generally you don't need this, because nvim-cmp will display
-          --  completions whenever it has completion options available.
-          ['<C-Space>'] = cmp.mapping.complete {},
-
-          -- Think of <c-l> as moving to the right of your snippet expansion.
-          --  So if you have a snippet that's like:
-          --  function $name($args)
-          --    $body
-          --  end
-          --
-          -- <c-l> will move you to the right of each of the expansion locations.
-          -- <c-h> is similar, except moving you backwards.
-          ['<C-l>'] = cmp.mapping(function()
-            if luasnip.expand_or_locally_jumpable() then
-              luasnip.expand_or_jump()
-            end
-          end, { 'i', 's' }),
-          ['<C-h>'] = cmp.mapping(function()
-            if luasnip.locally_jumpable(-1) then
-              luasnip.jump(-1)
-            end
-          end, { 'i', 's' }),
-          ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-d>'] = cmp.mapping.scroll_docs(4),
-        },
-        window = {
-          completion = {
-            border = 'single',
+        cmp.setup {
+          snippet = {
+            expand = function(args)
+              luasnip.lsp_expand(args.body)
+            end,
           },
-          documentation = {
-            border = 'single',
-            -- max_height = 0,
-            -- max_width = 70,
+          completion = { completeopt = 'menu,menuone,noinsert' },
+          mapping = cmp.mapping.preset.insert {
+            ['<C-y>'] = cmp.mapping.confirm { select = false, behavior = cmp.ConfirmBehavior.Insert },
+            ['<C-Space>'] = cmp.mapping.complete {},
+            ['<C-n>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
+            ['<C-p>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
+            ['<C-l>'] = cmp.mapping(function()
+              if luasnip.expand_or_locally_jumpable() then
+                luasnip.expand_or_jump()
+              end
+            end, { 'i', 's' }),
+            ['<C-h>'] = cmp.mapping(function()
+              if luasnip.locally_jumpable(-1) then
+                luasnip.jump(-1)
+              end
+            end, { 'i', 's' }),
+            ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+            ['<C-d>'] = cmp.mapping.scroll_docs(4),
           },
-        },
-        sources = {
-          { name = 'nvim_lsp', group_index = 1, priority = 1000000 },
-          { name = 'copilot', group_index = 1, priority = 1 },
-          { name = 'luasnip' },
-          { name = 'path' },
-        },
-      }
+          window = {
+            completion = {
+              border = 'single',
+            },
+            documentation = {
+              border = 'single',
+            },
+          },
+          sources = {
+            { name = 'nvim_lsp', group_index = 1, priority = 1000000 },
+            { name = 'copilot', group_index = 1, priority = 1 },
+            { name = 'luasnip' },
+            { name = 'path' },
+          },
+        }
+      end, 100) -- Delay setup by 100ms to ensure all dependencies are loaded
     end,
   },
   {
