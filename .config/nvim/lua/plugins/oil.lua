@@ -90,6 +90,7 @@ return {
           -- ['<C-h>'] = 'actions.split',
           ['<C-t>'] = 'actions.select_tab',
           ['<C-p>'] = 'actions.preview',
+          ['<C-h>'] = false,
           ['<C-c>'] = false,
           ['<C-l>'] = false,
           ['<C-r>'] = 'actions.refresh',
