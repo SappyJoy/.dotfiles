@@ -60,7 +60,7 @@ return {
             end,
           },
           completion = { completeopt = 'menu,menuone,noinsert' },
-          mapping = cmp.mapping.preset.insert {
+          mapping = cmp.mapping {
             ['<C-y>'] = cmp.mapping.confirm { select = false, behavior = cmp.ConfirmBehavior.Insert },
             ['<C-Space>'] = cmp.mapping.complete {},
             ['<C-n>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
