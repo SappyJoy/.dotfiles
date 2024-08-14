@@ -269,6 +269,10 @@ return {
       }
     end,
   },
+  {
+    'onsails/lspkind.nvim',
+    opts = {},
+  },
 
   { -- Autoformat
     'stevearc/conform.nvim',
@@ -352,20 +356,4 @@ return {
   --     }
   --   end,
   -- },
-  {
-    'zbirenbaum/copilot.lua',
-    cmd = 'Copilot',
-    event = 'InsertEnter',
-    config = function()
-      require('copilot').setup {
-        suggestion = { enabled = false },
-        panel = { enabled = false },
-        filetypes = {
-          markdown = true,
-          help = true,
-          yaml = true,
-        },
-      }
-    end,
-  },
 }
