@@ -65,7 +65,7 @@ return {
             end,
             desc = 'Current week',
           },
-          { '<leader>nd', '<cmd>ObsidianDailies -30 0<cr>', desc = 'Daily notes' },
+          { '<leader>nd', '<cmd>ObsidianDailies -30 1<cr>', desc = 'Daily notes' },
           { '<leader>nl', '<cmd>ObsidianLinks<cr>', desc = 'Links' },
           { '<leader>nm', '<cmd>ObsidianTemplate<cr>', desc = 'Template' },
           { '<leader>nn', '<cmd>ObsidianNew<cr>', desc = 'New' },
