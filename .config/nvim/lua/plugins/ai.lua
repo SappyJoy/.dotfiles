@@ -45,7 +45,7 @@ return {
       wk.add {
         {
           { '<leader>cg', '<cmd>ChatGPT<cr>', desc = 'Open ChatGPT' },
-          { '<leader>ca', '<cmd>ChatGPTActAs<cr>', desc = 'ChatGPT Act As' },
+          { '<leader>cs', '<cmd>ChatGPTActAs<cr>', desc = 'ChatGPT Act As' },
         },
       }
       wk.add {
