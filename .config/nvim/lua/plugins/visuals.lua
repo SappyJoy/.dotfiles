@@ -215,7 +215,7 @@ return {
       -- })
 
       require('headlines').setup {
-        markdown = custom,
+        -- markdown = custim,
         quarto = vim.tbl_deep_extend('force', require('headlines').config.markdown, qmd),
         -- norg = norg,
       }
