@@ -236,6 +236,7 @@ return {
           },
         },
         tsserver = {},
+        eslint_d = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -300,7 +301,7 @@ return {
         protobuf = { 'buf' },
         proto = { 'buf' },
         -- typescript = { 'prettierd', 'rustywind' },
-        typescript = { 'eslint' },
+        typescript = { 'eslint_d' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
