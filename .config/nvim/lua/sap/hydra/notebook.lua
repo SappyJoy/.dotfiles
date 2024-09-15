@@ -12,7 +12,7 @@ Hydra {
     color = 'pink',
     invoke_on_body = true,
     hint = {
-      type = 'statuslinemanual',
+      type = 'statusline',
     },
   },
   mode = { 'n' },

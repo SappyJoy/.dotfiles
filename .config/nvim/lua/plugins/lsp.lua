@@ -290,7 +290,8 @@ return {
         json = { 'prettier' },
         xml = { 'xmlformat' },
         sql = { 'sql_formatter' },
-        markdown = { 'prettier', 'cbfmt' },
+        markdown = { 'cbfmt', 'prettier' },
+        ipynb = { 'cbfmt' },
         yaml = { 'prettier' },
         -- typescript = { 'prettierd', 'rustywind' },
         typescript = { 'eslint' },
@@ -325,13 +326,15 @@ return {
       wk.add {
         {
           { '<leader>o', group = '[O]pen' },
-          { '<leader>os', '<cmd>Outline<cr>', desc = 'Toggle [s]ymbols outline' },
+          { '<leader>os', '<cmd>topleft Outline<cr>', desc = 'Toggle [s]ymbols outline' },
         },
       }
     end,
     opts = {
       outline_window = {
         focus_on_open = false,
+        width = 15,
+        relative_width = true,
       },
     },
   },

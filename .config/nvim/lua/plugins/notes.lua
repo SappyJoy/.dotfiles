@@ -44,9 +44,7 @@ return {
 
               ---@type integer
               local offset_start
-              if day_of_week == 'Sunday' then
-                offset_start = 1
-              elseif day_of_week == 'Monday' then
+              if day_of_week == 'Monday' then
                 offset_start = 0
               elseif day_of_week == 'Tuesday' then
                 offset_start = -1
@@ -57,18 +55,49 @@ return {
               elseif day_of_week == 'Friday' then
                 offset_start = -4
               elseif day_of_week == 'Saturday' then
-                offset_start = 2
+                offset_start = -5
+              elseif day_of_week == 'Sunday' then
+                offset_start = -6
               end
               assert(offset_start)
 
-              vim.cmd(string.format('ObsidianDailies %d %d', offset_start, offset_start + 4))
+              vim.cmd(string.format('ObsidianDailies %d %d', offset_start, offset_start + 6))
             end,
             desc = 'Current week',
           },
-          { '<leader>nd', '<cmd>ObsidianDailies -30 1<cr>', desc = 'Daily notes' },
+          {
+            '<leader>nn',
+            function()
+              local day_of_week = os.date '%A'
+              assert(type(day_of_week) == 'string')
+
+              ---@type integer
+              local offset_start
+              if day_of_week == 'Monday' then
+                offset_start = 0
+              elseif day_of_week == 'Tuesday' then
+                offset_start = -1
+              elseif day_of_week == 'Wednesday' then
+                offset_start = -2
+              elseif day_of_week == 'Thursday' then
+                offset_start = -3
+              elseif day_of_week == 'Friday' then
+                offset_start = -4
+              elseif day_of_week == 'Saturday' then
+                offset_start = -5
+              elseif day_of_week == 'Sunday' then
+                offset_start = -6
+              end
+              assert(offset_start)
+
+              vim.cmd(string.format('ObsidianDailies %d %d', offset_start + 7, offset_start + 13))
+            end,
+            desc = 'Current week',
+          },
+          { '<leader>nd', '<cmd>ObsidianDailies -30 0<cr>', desc = 'Daily notes' },
           { '<leader>nl', '<cmd>ObsidianLinks<cr>', desc = 'Links' },
           { '<leader>nm', '<cmd>ObsidianTemplate<cr>', desc = 'Template' },
-          { '<leader>nn', '<cmd>ObsidianNew<cr>', desc = 'New' },
+          -- { '<leader>nn', '<cmd>ObsidianNew<cr>', desc = 'New' },
           { '<leader>no', '<cmd>ObsidianQuickSwitch<cr>', desc = 'Quick switch' },
           { '<leader>np', '<cmd>ObsidianPasteImg<cr>', desc = 'Paste image' },
           { '<leader>nr', '<cmd>ObsidianRename<cr>', desc = 'Rename' },
@@ -185,11 +214,11 @@ return {
         local client = require('obsidian').get_client()
 
         local note = client:current_note()
-        if note then
-          return string.format('%s-', note.id)
-        else
-          return string.format('%s-', os.time())
-        end
+        -- if note then
+        --   return string.format('%s-', note.id)
+        -- else
+        return string.format('%s', os.time())
+        -- end
       end,
 
       follow_url_func = function(url)
