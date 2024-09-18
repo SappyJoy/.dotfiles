@@ -8,7 +8,7 @@ local window_hint = [[
  ^ ^ _j_ ^ ^  ^ ^ ^ _J_ ^ ^    ^   _-_   ^      _q_: close
  focus^^^^^^  ^window^^^^  ^^^_=_: equalize ^   _z_: max height
  ^ ^ ^ ^ ^ ^  ^ ^ ^ ^ ^ ^ ^  ^^ ^           ^   _x_: max width
- ^ _b_: choose buffer ^ ^^^ ^ ^ ^ ^ ^ ^ ^^ ^^   _o_: remain only
+ ^ ^ ^ ^ ^ ^  ^ ^ ^ ^ ^ ^ ^  ^^ ^           ^   _o_: remain only
 ]]
 
 local h = nil
@@ -64,6 +64,7 @@ h = Hydra {
     { 'o', '<C-w>o', { exit = true, desc = 'remain only' } },
 
     { 'i', show, { desc = false } },
+    { 'b', show, { desc = false } },
 
     -- {
     --   'b',
