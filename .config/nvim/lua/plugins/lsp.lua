@@ -183,7 +183,9 @@ return {
         },
         jdtls = {},
         pyright = {},
-        clangd = {},
+        clangd = {
+          filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
+        },
         rust_analyzer = {
           settings = {
             diagnostics = {
@@ -284,6 +286,8 @@ return {
       -- },
       formatters_by_ft = {
         lua = { 'stylua' },
+        cpp = { 'clang-format' },
+        cmake = { 'cmake_format' },
         -- Conform can also run multiple formatters sequentially
         python = { 'isort', 'black' },
         java = { 'google-java-format' },
@@ -293,6 +297,8 @@ return {
         markdown = { 'cbfmt', 'prettier' },
         ipynb = { 'cbfmt' },
         yaml = { 'prettier' },
+        protobuf = { 'buf' },
+        proto = { 'buf' },
         -- typescript = { 'prettierd', 'rustywind' },
         typescript = { 'eslint' },
         --
@@ -333,7 +339,7 @@ return {
     opts = {
       outline_window = {
         focus_on_open = false,
-        width = 15,
+        width = 20,
         relative_width = true,
       },
     },
