@@ -235,8 +235,10 @@ return {
             },
           },
         },
-        tsserver = {},
+        -- tsserver = {},
         eslint_d = {},
+        ts_ls = {},
+        kotlin_language_server = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -302,6 +304,7 @@ return {
         proto = { 'buf' },
         -- typescript = { 'prettierd', 'rustywind' },
         typescript = { 'eslint_d' },
+        kotlin = { 'ktfmt' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
@@ -325,6 +328,14 @@ return {
   --     }
   --   end
   -- },
+  {
+    'ariedov/android-nvim',
+    config = function()
+      -- OPTIONAL: specify android sdk directory
+      vim.g.android_sdk = "~/Android/sdk"
+      require('android-nvim').setup()
+    end,
+  },
   {
     'hedyhli/outline.nvim',
     config = function(_, opts)
