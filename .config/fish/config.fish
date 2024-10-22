@@ -15,6 +15,11 @@ alias g="git"
 alias lg="lazygit"
 alias gd='git --git-dir=$DOTFILES --work-tree=$HOME'
 alias lgd='lazygit --git-dir=$DOTFILES --work-tree=$HOME'
+function gfwd
+    g checkout (g rev-list --topo-order HEAD.."$argv" | tail -1)
+end
+alias gback='g checkout HEAD~'
+alias gfirst='g checkout (g rev-list --max-parents=0 HEAD | tail -n 1)'
 
 # Monitor
 function bright
