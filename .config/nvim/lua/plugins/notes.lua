@@ -24,6 +24,7 @@ return {
       'hrsh7th/nvim-cmp',
       'nvim-telescope/telescope.nvim',
       'nvim-treesitter/nvim-treesitter',
+      'ibhagwan/fzf-lua',
     },
     -- keys = {
     --   { '<leader>nl', ':ObsidianLink<cr>', desc = 'obsidian [l]ink selection' },
@@ -92,7 +93,7 @@ return {
 
               vim.cmd(string.format('ObsidianDailies %d %d', offset_start + 7, offset_start + 13))
             end,
-            desc = 'Current week',
+            desc = 'Next week',
           },
           { '<leader>nd', '<cmd>ObsidianDailies -30 0<cr>', desc = 'Daily notes' },
           { '<leader>nl', '<cmd>ObsidianLinks<cr>', desc = 'Links' },
@@ -155,6 +156,11 @@ return {
           path = '~/notes/vault-4/',
         },
       },
+      picker = {
+        -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', or 'mini.pick'.
+        name = 'fzf-lua',
+      },
+
       -- notes_subdir = 'notes',
       sort_by = 'modified',
       -- sort_by = 'accessed',
