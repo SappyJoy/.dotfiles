@@ -21,6 +21,14 @@ end
 alias gback='g checkout HEAD~'
 alias gfirst='g checkout (g rev-list --max-parents=0 HEAD | tail -n 1)'
 
+function day
+    nvim -c 'ObsidianToday' -c 'ZenMode'
+end
+
+function note
+    nvim -c 'ObsidianQuickSwitch'
+end
+
 # Monitor
 function bright
 	sudo ddccontrol dev:/dev/i2c-5 -r 0x10 -w $argv[1]
