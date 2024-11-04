@@ -67,7 +67,7 @@ return {
             desc = 'Current week',
           },
           {
-            '<leader>nn',
+            '<leader>nf',
             function()
               local day_of_week = os.date '%A'
               assert(type(day_of_week) == 'string')
@@ -95,10 +95,11 @@ return {
             end,
             desc = 'Next week',
           },
+          { '<leader>na', '<cmd>ObsidianToday<cr>', desc = 'Today note' },
           { '<leader>nd', '<cmd>ObsidianDailies -30 0<cr>', desc = 'Daily notes' },
           { '<leader>nl', '<cmd>ObsidianLinks<cr>', desc = 'Links' },
           { '<leader>nm', '<cmd>ObsidianTemplate<cr>', desc = 'Template' },
-          -- { '<leader>nn', '<cmd>ObsidianNew<cr>', desc = 'New' },
+          { '<leader>nn', '<cmd>ObsidianNew<cr>', desc = 'New' },
           { '<leader>no', '<cmd>ObsidianQuickSwitch<cr>', desc = 'Quick switch' },
           { '<leader>np', '<cmd>ObsidianPasteImg<cr>', desc = 'Paste image' },
           { '<leader>nr', '<cmd>ObsidianRename<cr>', desc = 'Rename' },
@@ -158,14 +159,26 @@ return {
       },
       picker = {
         -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', or 'mini.pick'.
-        name = 'fzf-lua',
+        name = 'telescope.nvim', -- Перейти на telescope.nvim, когда решат https://github.com/nvim-telescope/telescope.nvim/issues/3337
+        note_mappings = {
+          -- Create a new note from your query.
+          new = '<C-x>',
+          -- Insert a link to the selected note.
+          insert_link = '<C-l>',
+        },
+        tag_mappings = {
+          -- Add tag(s) to current note.
+          tag_note = '<C-x>',
+          -- Insert a tag at the current location.
+          insert_tag = '<C-l>',
+        },
       },
 
       -- notes_subdir = 'notes',
       sort_by = 'modified',
       -- sort_by = 'accessed',
       sort_reversed = true,
-      exclude = { 'templates', 'Excalidraw' },
+      exclude = { 'templates', 'Excalidraw', 'assets/draw' },
       -- open_notes_in = 'vsplit',
       mappings = {
         -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
@@ -263,6 +276,7 @@ return {
 
         local out = { tags = note.tags }
 
+        out['publish'] = false
         -- `note.metadata` contains any manually added fields in the frontmatter.
         -- So here we just make sure those fields are kept in the frontmatter.
         if note.metadata ~= nil and vim.tbl_count(note.metadata) > 0 then
