@@ -22,7 +22,7 @@ alias gback='g checkout HEAD~'
 alias gfirst='g checkout (g rev-list --max-parents=0 HEAD | tail -n 1)'
 
 function day
-    nvim -c 'ObsidianToday' -c 'ZenMode'
+    nvim -c 'ObsidianToday'
 end
 
 function note
@@ -35,6 +35,30 @@ function bright
 	sudo ddccontrol dev:/dev/i2c-7 -r 0x10 -w $argv[1]
 	sudo ddccontrol dev:/dev/i2c-9 -r 0x10 -w $argv[1]
 end
+
+function vid_comp720
+    # Check if at least one argument is provided
+    if not set -q argv[1]
+        echo "Usage: vid_comp720 input.mp4 [output_720z.mp4]"
+        return 1
+    end
+
+    # Assign input file
+    set input "$argv[1]"
+
+    # Determine output file
+    if set -q argv[2]
+        set output "$argv[2]"
+    else
+        # Insert _720z before the file extension
+        # Handles filenames with multiple dots
+        set output (string replace -r '(.*)\.([^.]+)$' '$1_720z.$2' "$input")
+    end
+
+    # Run ffmpeg with the specified parameters
+    ffmpeg -i "$input" -s hd720 -vcodec libx264 -crf 28 -preset medium -threads 16 "$output"
+end
+
 
 ## LS
 alias ls='lsd'
