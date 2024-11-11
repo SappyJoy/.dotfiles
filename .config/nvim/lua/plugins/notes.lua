@@ -152,10 +152,6 @@ return {
           name = 'notes',
           path = '~/notes/vault-13/',
         },
-        {
-          name = 'study',
-          path = '~/notes/vault-4/',
-        },
       },
       picker = {
         -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', or 'mini.pick'.
@@ -254,7 +250,7 @@ return {
       },
 
       templates = {
-        folder = 'templates',
+        folder = 'assets/templates',
         date_format = '%Y-%m-%d-%a',
         time_format = '%H:%M',
         substitutions = {},
