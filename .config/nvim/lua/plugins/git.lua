@@ -59,17 +59,35 @@ return {
   },
   {
     'sindrets/diffview.nvim',
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "lewis6991/gitsigns.nvim",
+    },
     config = function()
       -- Example mapping to toggle outline
       local wk = require 'which-key'
       wk.add {
         {
           { '<leader>dc', '<cmd>DiffviewClose<cr>', desc = 'Diffview Close' },
-          { '<leader>df', '<cmd>DiffviewFileHistory<cr>', desc = 'Diffview Open File History' },
+          { '<leader>dr', '<cmd>DiffviewFileHistory<cr>', desc = 'Diffview Repo History' },
+          { '<leader>df', '<cmd>DiffviewFileHistory --follow %<cr>', desc = 'Diffview File History' },
+          { '<leader>dm', '<cmd>DiffviewOpen master<cr>', desc = 'Diffview with master' },
+          { '<leader>dl', function()
+            local current_line = vim.fn.line(".")
+            local file = vim.fn.expand("%")
+            -- DiffviewFileHistory --follow -L{current_line},{current_line}:{file}
+            local cmd =
+            string.format("DiffviewFileHistory --follow -L%s,%s:%s", current_line, current_line, file)
+            vim.cmd(cmd)
+          end, desc = 'Diffview line History' },
         },
         {
           mode = { 'n', 'v' },
           { '<leader>do', '<cmd>DiffviewOpen<cr>', desc = 'Diffview Open' },
+        },
+        {
+          mode = { 'v' },
+          { '<leader>dl', "<Esc><Cmd>'<,'>DiffviewFileHistory --follow<CR>", desc = 'File History for visual selection' },
         }
       }
     end,
