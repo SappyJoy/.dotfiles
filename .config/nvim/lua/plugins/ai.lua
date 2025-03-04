@@ -89,8 +89,38 @@ return {
         openrouter = {
           __inherited_from = 'openai',
           endpoint = 'https://openrouter.ai/api/v1',
+          timeout = 800000000,
           api_key_name = 'OPENROUTER_API_KEY',
+          -- model = 'deepseek/deepseek-r1-distill-llama-70b:free',
           model = 'deepseek/deepseek-r1:free',
+          -- model = 'google/gemini-2.0-flash-thinking-exp:free',
+          disable_tools = true,
+        },
+      },
+      windows = {
+        ---@type "right" | "left" | "top" | "bottom"
+        position = 'right', -- the position of the sidebar
+        wrap = true, -- similar to vim.o.wrap
+        width = 30, -- default % based on available width
+        sidebar_header = {
+          enabled = true, -- true, false to enable/disable the header
+          align = 'center', -- left, center, right for title
+          rounded = true,
+        },
+        input = {
+          prefix = '> ',
+          height = 8, -- Height of the input window in vertical layout
+        },
+        edit = {
+          border = 'rounded',
+          start_insert = true, -- Start insert mode when opening the edit window
+        },
+        ask = {
+          floating = false, -- Open the 'AvanteAsk' prompt in a floating window
+          start_insert = false, -- Start insert mode when opening the ask window
+          border = 'rounded',
+          ---@type "ours" | "theirs"
+          focus_on_apply = 'ours', -- which diff to focus after applying
         },
       },
     },

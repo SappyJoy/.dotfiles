@@ -100,3 +100,5 @@ vim.opt.langmap = vim.fn.join({
     escape(ru_shift) .. ';' .. escape(en_shift),
     escape(ru) .. ';' .. escape(en),
 }, ',')
+
+vim.opt.laststatus = 3
