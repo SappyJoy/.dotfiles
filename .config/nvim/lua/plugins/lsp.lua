@@ -237,6 +237,7 @@ return {
         },
         -- tsserver = {},
         eslint_d = {},
+        eslint = {},
         ts_ls = {},
         kotlin_language_server = {},
       }
@@ -304,11 +305,12 @@ return {
         proto = { 'buf' },
         -- typescript = { 'prettierd', 'rustywind' },
         typescript = { 'eslint_d' },
+        -- javascript = { 'ts_ls' },
         kotlin = { 'ktfmt' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
-        -- javascript = { { "prettierd", "prettier" } },
+        javascript = { 'prettierd', 'prettier' },
       },
       vim.keymap.set('n', '<leader>fm', function()
         require('conform').format()
@@ -332,7 +334,7 @@ return {
     'ariedov/android-nvim',
     config = function()
       -- OPTIONAL: specify android sdk directory
-      vim.g.android_sdk = "~/Android/sdk"
+      vim.g.android_sdk = '~/Android/sdk'
       require('android-nvim').setup()
     end,
   },
@@ -377,4 +379,19 @@ return {
   --     }
   --   end,
   -- },
+  { -- this is really useful when there are a ton of diagnostics for different parts of a single line
+    'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
+    config = function()
+      local lspl = require 'lsp_lines'
+      lspl.setup()
+      lspl.toggle()
+
+      local on = false
+      vim.keymap.set('n', '<Leader>E', function()
+        vim.diagnostic.config { virtual_text = on }
+        on = not on
+        lspl.toggle()
+      end, { desc = 'Toggle lsp_lines' })
+    end,
+  },
 }
