@@ -14,7 +14,8 @@ return {
       -- vim.g.molten_virt_lines_off_by_1 = true
 
       -- don't change the mappings (unless it's related to your bug)
-      vim.keymap.set('n', '<localleader>mi', ':MoltenInit<CR>', { desc = 'Initialize Molten', silent = true })
+      vim.keymap.set('n', '<localleader>min', ':MoltenInit<CR>', { desc = 'Initialize Molten', silent = true })
+      vim.keymap.set('n', '<localleader>mim', ':MoltenImportOutput<CR>', { desc = 'Import Notebook', silent = true })
       vim.keymap.set('n', '<localleader>me', ':MoltenEvaluateOperator<CR>', { desc = 'Evaluate operator', silent = true })
       vim.keymap.set('n', '<localleader>mr', ':MoltenReevaluateCell<CR>', { desc = 'Re-evaluate cell', silent = true })
       vim.keymap.set('n', '<localleader>mu', ':MoltenReevaluateAll<CR>', { desc = 'Re-evaluate all', silent = true })
@@ -23,8 +24,8 @@ return {
       vim.keymap.set('n', '<localleader>mx', ':MoltenOpenInBrowser<CR>', { desc = 'Open in browser', silent = true })
       vim.keymap.set('n', '<localleader>mh', ':MoltenHideOutput<CR>', { desc = 'Hide output window', silent = true })
       vim.keymap.set('n', '<localleader>mr', ':MoltenDelete<CR>', { desc = 'Delete Molten cell', silent = true })
-      vim.keymap.set('n', '<localleader>k', ':MoltenPrev<CR>', { desc = 'Previous cell', silent = true })
-      vim.keymap.set('n', '<localleader>j', ':MoltenNext<CR>', { desc = 'Next cell', silent = true })
+      -- vim.keymap.set('n', '<localleader>k', ':MoltenPrev<CR>', { desc = 'Previous cell', silent = true })
+      -- vim.keymap.set('n', '<localleader>j', ':MoltenNext<CR>', { desc = 'Next cell', silent = true })
 
       vim.api.nvim_create_autocmd('BufEnter', {
         pattern = { '*.qmd', '*.md', '*.ipynb' },
