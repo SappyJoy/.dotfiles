@@ -15,6 +15,7 @@ local plugins = {
   { import = 'plugins.telescope' },
   { import = 'plugins.lsp' },
   { import = 'plugins.ai' },
+  { import = 'plugins.dap' },
   -- { import = 'plugins.interactive' },
   { import = 'plugins.visuals' },
   { import = 'plugins.git' },
