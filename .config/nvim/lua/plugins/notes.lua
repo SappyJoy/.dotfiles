@@ -155,7 +155,7 @@ return {
       },
       picker = {
         -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', or 'mini.pick'.
-        name = 'telescope.nvim', -- Перейти на telescope.nvim, когда решат https://github.com/nvim-telescope/telescope.nvim/issues/3337
+        name = 'fzf-lua', -- Перейти на telescope.nvim, когда решат https://github.com/nvim-telescope/telescope.nvim/issues/3337
         note_mappings = {
           -- Create a new note from your query.
           new = '<C-x>',
