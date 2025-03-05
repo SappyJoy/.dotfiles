@@ -9,7 +9,7 @@ vim.api.nvim_create_autocmd('BufRead', {
 return {
   {
     'benlubas/molten-nvim',
-    ft = { 'markdown', 'python', 'quarto', 'ipynb', 'jupyter' },
+    ft = { 'python', 'quarto', 'ipynb', 'jupyter' },
     dependencies = { '3rd/image.nvim', ft = { 'markdown', 'python', 'quarto', 'ipynb', 'jupyter' } },
     build = ':UpdateRemotePlugins',
     init = function()

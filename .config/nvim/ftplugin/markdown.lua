@@ -1,4 +1,5 @@
-require("quarto").activate()
+-- require("quarto").activate()
+
 --
 -- -- markdown link text objects for i and a
 -- vim.keymap.set({ "o", "x" }, "il", "<cmd>lua require('various-textobjs').mdlink('inner')<CR>", { buffer = true })
