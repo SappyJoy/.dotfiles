@@ -96,6 +96,15 @@ return {
   { 'theHamsta/nvim-dap-virtual-text', config = true },
   {
     'jay-babu/mason-nvim-dap.nvim',
+    cmd = {
+      'DapContinue',
+      'DapToggleBreakpoint',
+      'DapStepInto',
+      'DapStepOver',
+      'DapStepOut',
+      'DapTerminate',
+    },
+    ft = { 'python', 'javascript' }, -- Your debugged filetypes
     opts = {
       -- This line is essential to making automatic installation work
       -- :exploding-brain
@@ -111,7 +120,6 @@ return {
       ensure_installed = {
         'bash',
         'codelldb',
-        'php',
         'python',
       },
     },
@@ -228,4 +236,3 @@ return {
     },
   },
 }
-

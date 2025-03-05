@@ -1,13 +1,21 @@
+vim.api.nvim_create_autocmd('BufRead', {
+  pattern = '*.ipynb',
+  callback = function()
+    vim.bo.filetype = 'jupyter' -- Or 'python' if preferred
+    require('jupytext').setup() -- Ensure jupytext activates
+  end,
+})
+
 return {
   {
     'benlubas/molten-nvim',
-    dependencies = { '3rd/image.nvim' },
+    ft = { 'markdown', 'python', 'quarto', 'ipynb', 'jupyter' },
+    dependencies = { '3rd/image.nvim', ft = { 'markdown', 'python', 'quarto', 'ipynb', 'jupyter' } },
     build = ':UpdateRemotePlugins',
     init = function()
       vim.g.molten_image_provider = 'image.nvim'
       -- vim.g.molten_output_win_max_height = 20
       vim.g.molten_use_border_highlights = true
-      -- add a few new things
       vim.g.molten_auto_open_output = false
       vim.g.molten_virt_text_output = true
       -- this will make it so the output shows up below the \`\`\` cell delimiter
@@ -27,6 +35,62 @@ return {
       -- vim.keymap.set('n', '<localleader>k', ':MoltenPrev<CR>', { desc = 'Previous cell', silent = true })
       -- vim.keymap.set('n', '<localleader>j', ':MoltenNext<CR>', { desc = 'Next cell', silent = true })
 
+      -- Provide a command to create a blank new Python notebook
+      -- note: the metadata is needed for Jupytext to understand how to parse the notebook.
+      -- if you use another language than Python, you should change it in the template.
+      local default_notebook = [[
+  {
+    "cells": [
+     {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        ""
+      ]
+     }
+    ],
+    "metadata": {
+     "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+     },
+     "language_info": {
+      "codemirror_mode": {
+        "name": "ipython"
+      },
+      "file_extension": ".py",
+      "mimetype": "text/x-python",
+      "name": "python",
+      "nbconvert_exporter": "python",
+      "pygments_lexer": "ipython3"
+     }
+    },
+    "nbformat": 4,
+    "nbformat_minor": 5
+  }
+]]
+
+      local function new_notebook(filename)
+        local path = filename .. '.ipynb'
+        local file = io.open(path, 'w')
+        if file then
+          file:write(default_notebook)
+          file:close()
+          vim.cmd('edit ' .. path)
+        else
+          print 'Error: Could not open new notebook file for writing.'
+        end
+      end
+
+      vim.api.nvim_create_user_command('NewNotebook', function(opts)
+        new_notebook(opts.args)
+      end, {
+        nargs = 1,
+        complete = 'file',
+      })
+    end,
+    config = function()
       vim.api.nvim_create_autocmd('BufEnter', {
         pattern = { '*.qmd', '*.md', '*.ipynb' },
         callback = function()
@@ -90,70 +154,16 @@ return {
           end
         end,
       })
-
-      -- Provide a command to create a blank new Python notebook
-      -- note: the metadata is needed for Jupytext to understand how to parse the notebook.
-      -- if you use another language than Python, you should change it in the template.
-      local default_notebook = [[
-  {
-    "cells": [
-     {
-      "cell_type": "markdown",
-      "metadata": {},
-      "source": [
-        ""
-      ]
-     }
-    ],
-    "metadata": {
-     "kernelspec": {
-      "display_name": "Python 3",
-      "language": "python",
-      "name": "python3"
-     },
-     "language_info": {
-      "codemirror_mode": {
-        "name": "ipython"
-      },
-      "file_extension": ".py",
-      "mimetype": "text/x-python",
-      "name": "python",
-      "nbconvert_exporter": "python",
-      "pygments_lexer": "ipython3"
-     }
-    },
-    "nbformat": 4,
-    "nbformat_minor": 5
-  }
-]]
-
-      local function new_notebook(filename)
-        local path = filename .. '.ipynb'
-        local file = io.open(path, 'w')
-        if file then
-          file:write(default_notebook)
-          file:close()
-          vim.cmd('edit ' .. path)
-        else
-          print 'Error: Could not open new notebook file for writing.'
-        end
-      end
-
-      vim.api.nvim_create_user_command('NewNotebook', function(opts)
-        new_notebook(opts.args)
-      end, {
-        nargs = 1,
-        complete = 'file',
-      })
     end,
   },
   {
     'quarto-dev/quarto-nvim',
+    ft = { 'quarto', 'ipynb', 'jupyter' },
     dependencies = {
       'jmbuhr/otter.nvim',
-      'nvim-treesitter/nvim-treesitter',
+      { 'nvim-treesitter/nvim-treesitter', lazy = true },
       'nvim-cmp',
-      'nvimtools/hydra.nvim',
+      { 'nvimtools/hydra.nvim', lazy = true },
     },
     config = function()
       local quarto = require 'quarto'
@@ -204,11 +214,18 @@ return {
   },
   {
     'GCBallesteros/jupytext.nvim',
+    lazy = false,
     config = function()
       require('jupytext').setup {
         style = 'markdown',
         output_extension = 'md',
         force_ft = 'markdown',
+        custom_language_formatting = {
+          jupyter = { -- Add explicit format mapping
+            fmt = 'markdown',
+            extension = 'md',
+          },
+        },
       }
     end,
     -- Depending on your nvim distro or config you may need to make the loading not lazy

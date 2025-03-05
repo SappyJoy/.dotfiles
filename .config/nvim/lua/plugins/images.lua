@@ -6,10 +6,6 @@ return {
   -- { 'benlubas/image-save.nvim', dev = true, cmd = 'SaveImage' },
   {
     '3rd/image.nvim',
-    -- "benlubas/image.nvim",
-    -- dev = true,
-    -- cond = not MarkdownMode(),
-    -- enabled = false,
     opts = {
       backend = 'kitty',
       integrations = {
