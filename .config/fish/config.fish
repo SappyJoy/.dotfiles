@@ -29,12 +29,8 @@ function note
     nvim -c 'ObsidianQuickSwitch'
 end
 
-# Monitor
-function bright
-	sudo ddccontrol dev:/dev/i2c-5 -r 0x10 -w $argv[1]
-	sudo ddccontrol dev:/dev/i2c-7 -r 0x10 -w $argv[1]
-	sudo ddccontrol dev:/dev/i2c-9 -r 0x10 -w $argv[1]
-end
+alias vpn-on="sudo wg-quick up /etc/wireguard/vpnconfig.conf"
+alias vpn-off="sudo wg-quick down /etc/wireguard/vpnconfig.conf"
 
 function vid_comp720
     # Check if at least one argument is provided

@@ -45,6 +45,12 @@ exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 # exec --no-startup-id picom -b
 exec --no-startup-id flameshot &
 
+# Toggle VPN with Win+Shift+V
+# bindsym $mod+Shift+v exec --no-startup-id "sudo wg-quick up /etc/wireguard/vpnconfig.conf && notify-send 'VPN On'"
+# bindsym $mod+Shift+Ctrl+v exec --no-startup-id "sudo wg-quick down /etc/wireguard/vpnconfig.conf && notify-send 'VPN Off'"
+# Toggle VPN with Win+Shift+V
+bindsym $mod+Shift+v exec --no-startup-id toggle-vpn
+
 # clipboard tool (install greenclip)
 exec --no-startup-id greenclip daemon>/dev/null
 bindsym $mod+c exec --no-startup-id rofi -modi "clipboard:greenclip print" -show clipboard
