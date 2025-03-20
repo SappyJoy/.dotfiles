@@ -68,7 +68,11 @@ Hydra {
   config = {
     color = 'pink',
     invoke_on_body = true,
-    hint = { type = 'statusline' },
+    hint = {
+      type = 'window',
+      position = 'bottom',
+      float_opts = { border = 'rounded' },
+    }
   },
   mode = { 'n' },
   body = '<localleader>j',
