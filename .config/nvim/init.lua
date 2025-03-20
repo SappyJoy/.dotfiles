@@ -26,6 +26,7 @@ local plugins = {
   { import = 'plugins.hydra' },
   { import = 'plugins.oil' },
   { import = 'plugins.notes' },
+  { import = 'plugins.todoist' },
   { import = 'plugins.misc' },
   { import = 'plugins.writing' },
 }
