@@ -79,8 +79,8 @@ Hydra {
   heads = {
     { 'j', keys ']b', { desc = '↓' } },
     { 'k', keys '[b', { desc = '↑' } },
-    { 'o', function() create_cell('below') end, { desc = 'new cell ↓', exit = true } },
-    { 'O', function() create_cell('above') end, { desc = 'new cell ↑', exit = true } },
+    { 'o', function() create_cell('below') end, { desc = 'new cell ↓' } },
+    { 'O', function() create_cell('above') end, { desc = 'new cell ↑' } },
     { 'l', ':QuartoSend<CR>', { desc = 'run' } },
     { 's', ':noautocmd MoltenEnterOutput<CR>', { desc = 'show' } },
     { 'h', ':MoltenHideOutput<CR>', { desc = 'hide' } },
