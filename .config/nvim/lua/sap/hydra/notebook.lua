@@ -43,7 +43,7 @@ local function create_cell(direction)
   -- Insert new cell
   local lang = vim.fn.getline(block_start):match('^```(%S+)') or 'python'
   local lines = direction == 'below' and 
-    { '', '```'..lang, '', '```', '' } or 
+    { '', '```'..lang, '', '```' } or 
     { '```'..lang, '', '```', '' }
 
   vim.api.nvim_buf_set_lines(0, target_line, target_line, false, lines)
