@@ -78,7 +78,7 @@ bindsym $mod+Shift+q kill
 # start dmenu (a program launcher)
 # bindsym $mod+d exec --no-startup-id rofi -show run -theme Paper -font "Hack Nerd Font 10"
 bindsym $mod+d exec --no-startup-id rofi -show drun -theme Paper -font "Hack Nerd Font 10"
-bindsym $mod+Shift+b exec --no-startup-id /home/$USER/.config/i3/bookmark
+bindsym $mod+Shift+b exec --no-startup-id /home/$USER/.config/i3/bookmark/bin/bookmark.sh
 
 
 # A more modern dmenu replacement is rofi:
