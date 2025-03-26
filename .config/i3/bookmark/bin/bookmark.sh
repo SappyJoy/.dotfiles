@@ -1,10 +1,29 @@
 #!/bin/bash
 
-# Add at the top of bookmark.sh
-exec 2> /tmp/bookmark-debug.log
-set -x
+# Get tags via Rofi (comma-separated)
+# TAGS=$(echo "" | rofi -dmenu -p "Tags (comma-separated):" -theme-str 'listview { lines: 0; }')
 
-# Add after getting RAW_TAGS
+SCRIPT_DIR="$HOME/.config/i3/bookmark"
+# Get ML suggestions
+VENV_PYTHON="${SCRIPT_DIR}/.venv/bin/python"
+SUGGEST_TAGS="${SCRIPT_DIR}/bin/suggest_tags.py"
+
+# Create virtual environment if missing
+# Create virtual environment if missing
+if [ ! -d "${SCRIPT_DIR}/.venv" ]; then
+    notify-send "Bookmark Setup" "Creating Python virtual environment..."
+    uv venv "${SCRIPT_DIR}/.venv" || {
+        notify-send "Bookmark Error" "Failed to create virtual environment"
+        exit 1
+    }
+    source "${SCRIPT_DIR}/.venv/bin/activate"
+    uv pip install -r "${SCRIPT_DIR}/requirements.txt" || {
+        notify-send "Bookmark Error" "Failed to install dependencies"
+        rm -rf "${SCRIPT_DIR}/.venv"
+        exit 1
+    }
+    deactivate
+fi
 
 # Get URL from clipboard
 URL=$(xclip -o -selection clipboard)
@@ -23,27 +42,8 @@ if [ -z "$TITLE" ]; then
     TITLE="Untitled-$(date +%s)"
 fi
 
-# Get tags via Rofi (comma-separated)
-# TAGS=$(echo "" | rofi -dmenu -p "Tags (comma-separated):" -theme-str 'listview { lines: 0; }')
-
-SCRIPT_DIR="$HOME/.config/i3/bookmark"
-# Get ML suggestions
-VENV_PYTHON="${SCRIPT_DIR}/venv/bin/python"
-SUGGEST_TAGS="${SCRIPT_DIR}/bin/suggest_tags.py"
-
-# Create virtual environment if missing
-if [ ! -d "${SCRIPT_DIR}/venv" ]; then
-    notify-send "Bookmark Setup" "Creating Python virtual environment..."
-    python -m venv "${SCRIPT_DIR}/venv"
-    source "${SCRIPT_DIR}/venv/bin/activate"
-    pip install -r "${SCRIPT_DIR}/requirements.txt"
-    deactivate
-fi
-
 # Get suggested tags
 RAW_TAGS=$("$VENV_PYTHON" "$SUGGEST_TAGS" "$URL")
-echo "RAW_TAGS: $RAW_TAGS" >&2
-
 CLEAN_TAGS=$(echo "$RAW_TAGS" | sed 's/,/, /g')
 
 # Show Rofi with suggestions
@@ -65,6 +65,7 @@ title: "$TITLE"
 url: "$URL"
 date: "$(date +"%Y-%m-%d")"
 tags: [${TAGS}]
+publish: true
 ---
 
 # Description
