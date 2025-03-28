@@ -141,28 +141,9 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
-# Define names for default workspaces for which we configure key bindings later on.
-# We use variables to avoid repeating the names in multiple places.
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
-
-workspace $ws1 output DP-0
-workspace $ws2 output DP-4
-workspace $ws3 output DP-2
-workspace $ws4 output DP-0
-workspace $ws5 output DP-4
-workspace $ws6 output DP-2
-workspace $ws7 output DP-0
-workspace $ws8 output DP-4
-workspace $ws9 output DP-2
+# Source dynamic workspace assignments
+exec_always ~/.config/i3/dynamic_workspaces.sh
+include ~/.config/i3/dynamic_workspaces.conf
 
 # Allocate applications to workspaces
 # for_window [class="firefox"] move to workspace $ws2
