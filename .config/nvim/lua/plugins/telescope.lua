@@ -72,6 +72,20 @@ return {
               ['<C-y>'] = actions.select_default,
             },
           },
+          layout_strategy = 'horizontal', -- or "vertical" for stacked view
+          layout_config = {
+            horizontal = {
+              width = 0.95, -- Use 95% of available width
+              preview_width = 0.6, -- Give more space to preview
+              height = 0.9,
+              preview_cutoff = 120, -- Show preview for wider screens
+            },
+            vertical = {
+              width = 0.95,
+              height = 0.95,
+              preview_height = 0.5,
+            },
+          },
         },
         pickers = {
           colorscheme = {
