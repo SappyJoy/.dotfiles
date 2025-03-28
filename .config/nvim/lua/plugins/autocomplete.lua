@@ -56,9 +56,15 @@ return {
         cmp.setup {
           enabled = function()
             local path = vim.api.nvim_buf_get_name(0)
-            if string.find(path, "oil://", 1, true) == 1 then
+            if string.find(path, 'oil://', 1, true) == 1 then
               return false
             end
+
+            -- NOTE: this fuction is getting triggered every time you enter insert mode
+            local langmapper = require 'langmapper'
+            -- disable langmapper while cmp is working
+            langmapper.put_back_keymap()
+
             return true
           end,
           snippet = {
@@ -163,6 +169,13 @@ return {
             },
           },
         }
+
+        cmp.event:on('menu_closed', function()
+          local langmapper = require 'langmapper'
+          langmapper._hack_keymap()
+          langmapper.hack_get_keymap()
+        end)
+
       end, 100) -- Delay setup by 100ms to ensure all dependencies are loaded
     end,
   },

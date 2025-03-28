@@ -4,7 +4,8 @@ return {
     lazy = false,
     priority = 1,
     config = function()
-      require('langmapper').setup {
+      local langmapper = require('langmapper')
+      langmapper.setup {
         -- Add this to prevent continuous layout checks
         check_layout_interval = 0, -- Disable periodic checks
         os = {
@@ -22,6 +23,7 @@ return {
           },
         },
       }
+      langmapper.hack_get_keymap()
     end,
   },
   { 'folke/zen-mode.nvim' },

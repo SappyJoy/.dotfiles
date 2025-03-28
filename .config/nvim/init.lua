@@ -62,7 +62,6 @@ require('lazy').setup(plugins, {
 
 require 'sap'
 -- Mappings for russian language
-require('langmapper').hack_get_keymap()
 require('langmapper').automapping { global = true, buffer = true }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
