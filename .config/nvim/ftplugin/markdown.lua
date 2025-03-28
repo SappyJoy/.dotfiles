@@ -1,4 +1,4 @@
--- require("quarto").activate()
+require("quarto").activate()
 
 --
 -- -- markdown link text objects for i and a
