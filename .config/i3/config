@@ -199,6 +199,6 @@ bar {
 }
 
 # keymap
-exec --no-startup-id setxkbmap us,ru -option 'grp:alt_shift_toggle'
+exec --no-startup-id setxkbmap us,ru -option 'grp:alt_shift_toggle,caps:super'
 
 exec_always --no-startup-id xset r rate 200 30
