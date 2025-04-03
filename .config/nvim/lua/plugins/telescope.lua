@@ -72,18 +72,18 @@ return {
               ['<C-y>'] = actions.select_default,
             },
           },
-          layout_strategy = 'horizontal', -- or "vertical" for stacked view
+          layout_strategy = 'vertical', -- Changed to vertical layout
           layout_config = {
             horizontal = {
-              width = 0.95, -- Use 95% of available width
-              preview_width = 0.6, -- Give more space to preview
+              width = 0.95,
+              preview_width = 0.6,
               height = 0.9,
-              preview_cutoff = 120, -- Show preview for wider screens
+              preview_cutoff = 120,
             },
             vertical = {
-              width = 0.95,
+              width = 0.8, -- Narrower width for vertical monitors
               height = 0.95,
-              preview_height = 0.5,
+              preview_height = 0.7, -- Larger preview area
             },
           },
         },
