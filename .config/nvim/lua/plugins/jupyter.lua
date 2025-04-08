@@ -16,21 +16,20 @@ return {
       vim.g.molten_image_provider = 'image.nvim'
       -- vim.g.molten_output_win_max_height = 20
       vim.g.molten_use_border_highlights = true
-      vim.g.molten_auto_open_output = false
+      vim.g.molten_auto_open_output = true
       vim.g.molten_virt_text_output = true
+      -- vim.g.molten_enter_output_behavior = "open_and_enter"
       -- this will make it so the output shows up below the \`\`\` cell delimiter
       -- vim.g.molten_virt_lines_off_by_1 = true
 
       -- don't change the mappings (unless it's related to your bug)
-      vim.keymap.set('n', '<localleader>min', ':MoltenInit<CR>', { desc = 'Initialize Molten', silent = true })
-      vim.keymap.set('n', '<localleader>mim', ':MoltenImportOutput<CR>', { desc = 'Import Notebook', silent = true })
+      vim.keymap.set('n', '<localleader>mi', ':MoltenInit<CR>', { desc = 'Initialize Molten', silent = true })
+      vim.keymap.set('n', '<localleader>mm', ':MoltenImportOutput<CR>', { desc = 'Import Notebook', silent = true })
       vim.keymap.set('n', '<localleader>me', ':MoltenEvaluateOperator<CR>', { desc = 'Evaluate operator', silent = true })
       vim.keymap.set('n', '<localleader>mr', ':MoltenReevaluateCell<CR>', { desc = 'Re-evaluate cell', silent = true })
       vim.keymap.set('n', '<localleader>mu', ':MoltenReevaluateAll<CR>', { desc = 'Re-evaluate all', silent = true })
       vim.keymap.set('v', '<localleader>me', ':<C-u>MoltenEvaluateVisual<CR>', { desc = 'Evaluate visual selection', silent = true })
-      vim.keymap.set('n', '<localleader>mo', ':noautocmd MoltenEnterOutput<CR>', { desc = 'Open output window', silent = true })
       vim.keymap.set('n', '<localleader>mx', ':MoltenOpenInBrowser<CR>', { desc = 'Open in browser', silent = true })
-      vim.keymap.set('n', '<localleader>mh', ':MoltenHideOutput<CR>', { desc = 'Hide output window', silent = true })
       vim.keymap.set('n', '<localleader>mr', ':MoltenDelete<CR>', { desc = 'Delete Molten cell', silent = true })
       -- vim.keymap.set('n', '<localleader>k', ':MoltenPrev<CR>', { desc = 'Previous cell', silent = true })
       -- vim.keymap.set('n', '<localleader>j', ':MoltenNext<CR>', { desc = 'Next cell', silent = true })
@@ -95,6 +94,8 @@ return {
         pattern = { '*.qmd', '*.md', '*.ipynb' },
         callback = function()
           if require('molten.status').initialized() == 'Molten' then
+            vim.keymap.set('n', '<localleader>o', ':noautocmd MoltenEnterOutput<CR>', { desc = 'Open output window', silent = true })
+            vim.keymap.set('n', '<localleader>h', ':MoltenHideOutput<CR>', { desc = 'Hide output window', silent = true })
             vim.fn.MoltenUpdateOption('virt_lines_off_by_1', true)
             vim.fn.MoltenUpdateOption('virt_text_output', true)
           else
