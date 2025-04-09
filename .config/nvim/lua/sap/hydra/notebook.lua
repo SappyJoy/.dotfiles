@@ -29,7 +29,7 @@ local function create_cell(direction)
   -- Calculate insertion position
   local target_line
   if direction == 'below' then
-    target_line = between_blocks and block_end - 1 or (block_end)
+    target_line = between_blocks and (block_end - 1) or block_end
   else
     target_line = between_blocks and (block_start + 2) or (block_start + 1)
   end
