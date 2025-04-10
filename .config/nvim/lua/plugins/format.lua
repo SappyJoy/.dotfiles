@@ -1,14 +1,38 @@
 return {
   { -- Autoformat
     'stevearc/conform.nvim',
-    opts = {
-      notify_on_error = true, -- Keep true during debugging
-      -- format_on_save = {
-      --   timeout_ms = 500,
-      --   lsp_fallback = true,
-      -- },
 
-      -- Define specific formatter configurations
+    opts = {
+      -- Map filetypes to specific formatters
+      formatters_by_ft = {
+        lua = { 'stylua' },
+        cpp = { 'clang-format' },
+        c = { 'clang-format' },
+        cmake = { 'cmake_format' },
+        python = { 'cbfmt', 'isort', 'black' },
+        java = { 'google-java-format' },
+        xml = { 'xmlformat' },
+        sql = { 'sql_formatter' },
+        -- Use the specific prettier config for markdown buffers (including jupytext ones)
+        markdown = { 'cbfmt', 'prettier_markdown_stdin' },
+        protobuf = { 'buf' },
+        proto = { 'buf' },
+        typescript = { 'eslint_d' },
+        typescriptreact = { 'prettierd', 'prettier' }, -- Added TSX
+        javascript = { 'prettierd', 'prettier' },
+        javascriptreact = { 'prettierd', 'prettier' }, -- Added JSX
+        json = { 'prettierd', 'prettier' }, -- Added JSON
+        yaml = { 'prettierd', 'prettier' }, -- Added YAML
+        html = { 'prettierd', 'prettier' }, -- Added HTML
+        css = { 'prettierd', 'prettier' }, -- Added CSS
+        scss = { 'prettierd', 'prettier' }, -- Added SCSS
+        kotlin = { 'ktfmt' },
+        rust = { 'rustfmt' }, -- Added Rust
+        go = { 'gofmt', 'goimports' }, -- Added Go
+        -- Remove ipynb and jupyter, rely on markdown ft set by jupytext
+        -- quarto = { 'cbfmt', 'isort', 'black' }, -- Keep if you format quarto files differently
+        quarto = { 'cbfmt', 'prettier_markdown_stdin' }, -- Or treat quarto like markdown
+      },
       formatters = {
         -- Configure prettier to accept stdin and treat it as markdown
         -- We create a dedicated formatter definition for this case.
@@ -34,28 +58,7 @@ return {
         --   args = {}, -- Add args if needed to hint language, though usually auto-detects from ``` blocks
         -- }
       },
-
-      formatters_by_ft = {
-        lua = { 'stylua' },
-        cpp = { 'clang-format' },
-        cmake = { 'cmake_format' },
-        python = { 'cbfmt', 'isort', 'black' },
-        java = { 'google-java-format' },
-        json = { 'prettier' }, -- Use standard prettier for json
-        xml = { 'xmlformat' },
-        sql = { 'sql_formatter' },
-        -- Use the specific prettier config for markdown buffers (including jupytext ones)
-        markdown = { 'cbfmt', 'prettier_markdown_stdin' },
-        yaml = { 'prettier' }, -- Use standard prettier for yaml
-        protobuf = { 'buf' },
-        proto = { 'buf' },
-        typescript = { 'eslint_d' },
-        kotlin = { 'ktfmt' },
-        javascript = { 'prettierd', 'prettier' },
-        -- Remove ipynb and jupyter, rely on markdown ft set by jupytext
-        -- quarto = { 'cbfmt', 'isort', 'black' }, -- Keep if you format quarto files differently
-        quarto = { 'cbfmt', 'prettier_markdown_stdin' }, -- Or treat quarto like markdown
-      },
+      notify_on_error = true, -- Keep true during debugging
     },
     -- Ensure the keymap is outside the opts table if it wasn't already
     config = function(_, opts)
