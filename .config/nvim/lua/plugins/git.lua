@@ -4,9 +4,11 @@ return {
   --    require('gitsigns').setup({ ... })
   --
   -- See `:help gitsigns` to understand what the configuration keys do
-  { -- Adds git related signs to the gutter, as well as utilities for managing changes
+  {
     'lewis6991/gitsigns.nvim',
+    event = { 'BufReadPre', 'BufNewFile' }, -- Load when opening a buffer
     opts = {
+      -- Signs configuration (using block characters)
       signs = {
         add = { text = '█' },
         change = { text = '█' },
@@ -15,24 +17,140 @@ return {
         changedelete = { text = '▒' },
         untracked = { text = '┆' },
       },
-      current_line_blame = true,
+      signcolumn = true, -- Always show the signcolumn
+      numhl = false, -- Do not highlight the number column based on sign
+      linehl = false, -- Do not highlight the whole line based on sign
+      word_diff = false, -- Disable word diff highlighting within changed lines
+      watch_gitdir = { -- Improve performance by watching the .git directory
+        interval = 1000,
+        follow_files = true,
+      },
+      attach_to_untracked = true, -- Show signs for untracked files
+      -- Current line blame configuration
+      current_line_blame = true, -- Enable virtual text blame for the current line
       current_line_blame_opts = {
         virt_text = true,
-        virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
-        delay = 10,
+        virt_text_pos = 'eol', -- Show blame at the end of the line
+        delay = 100, -- Delay before showing blame (ms) - increased slightly
         ignore_whitespace = false,
-        virt_text_priority = 100,
+        virt_text_priority = 100, -- Rendering priority
       },
-      current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
-      -- current_line_blame_formatter_opts = {
-      --   relative_time = false,
-      -- },
+      current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>', -- Blame format string
       sign_priority = 6,
-      update_debounce = 100,
+      update_debounce = 100, -- Debounce time for updates (ms)
+      status_formatter = nil, -- Use default status formatter for git status component integration (e.g., with statuslines)
+      max_file_length = 40000, -- Disable for very large files (lines)
+      preview_config = { -- Configuration for hunk preview window
+        border = 'rounded',
+        style = 'minimal',
+        relative = 'cursor',
+        row = 0,
+        col = 1,
+      },
     },
-  },
-  {
-    'nvim-lua/plenary.nvim',
+    -- Define keymaps using the standard `keys` table for lazy-loading
+    keys = {
+      -- Hunk Navigation
+      {
+        ']c',
+        function()
+          require('gitsigns').next_hunk()
+        end,
+        mode = 'n',
+        desc = 'Next Hunk',
+      },
+      {
+        '[c',
+        function()
+          require('gitsigns').prev_hunk()
+        end,
+        mode = 'n',
+        desc = 'Previous Hunk',
+      },
+      -- Hunk Actions
+      {
+        '<leader>hs',
+        function()
+          require('gitsigns').stage_hunk()
+        end,
+        mode = { 'n', 'v' },
+        desc = 'Stage Hunk',
+      },
+      {
+        '<leader>hr',
+        function()
+          require('gitsigns').reset_hunk()
+        end,
+        mode = { 'n', 'v' },
+        desc = 'Reset Hunk',
+      },
+      {
+        '<leader>hp',
+        function()
+          require('gitsigns').preview_hunk()
+        end,
+        mode = 'n',
+        desc = 'Preview Hunk',
+      },
+      {
+        '<leader>hb',
+        function()
+          require('gitsigns').blame_line { full = true }
+        end,
+        mode = 'n',
+        desc = 'Blame Line',
+      },
+      {
+        '<leader>hS',
+        function()
+          require('gitsigns').stage_buffer()
+        end,
+        mode = 'n',
+        desc = 'Stage Buffer',
+      },
+      {
+        '<leader>hR',
+        function()
+          require('gitsigns').reset_buffer()
+        end,
+        mode = 'n',
+        desc = 'Reset Buffer',
+      },
+      -- Diffing
+      {
+        '<leader>hd',
+        function()
+          require('gitsigns').diffthis()
+        end,
+        mode = 'n',
+        desc = 'Diff This',
+      },
+      {
+        '<leader>hD',
+        function()
+          require('gitsigns').diffthis '~'
+        end,
+        mode = 'n',
+        desc = 'Diff This ~',
+      },
+      -- Toggles
+      {
+        '<leader>td',
+        function()
+          require('gitsigns').toggle_deleted()
+        end,
+        mode = 'n',
+        desc = '[T]oggle [D]eleted Signs',
+      },
+      {
+        '<leader>tb',
+        function()
+          require('gitsigns').toggle_current_line_blame()
+        end,
+        mode = 'n',
+        desc = '[T]oggle Line [B]lame',
+      },
+    },
   },
   {
     'kdheepak/lazygit.nvim',
@@ -53,169 +171,100 @@ return {
     keys = {
       { '<leader>gl', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
     },
-    config = function()
-      require('telescope').load_extension 'lazygit'
-    end,
   },
+
+  -- Diffview: Enhanced Git Diff Viewer
   {
     'sindrets/diffview.nvim',
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "lewis6991/gitsigns.nvim",
+    cmd = { 'DiffviewOpen', 'DiffviewFileHistory', 'DiffviewClose' }, -- Lazy load on commands
+    dependencies = { 'nvim-lua/plenary.nvim', 'lewis6991/gitsigns.nvim' }, -- Gitsigns is optional but recommended
+    keys = {
+      { '<leader>do', '<cmd>DiffviewOpen<cr>', desc = '[D]iff [O]pen (Changes)' },
+      { '<leader>dc', '<cmd>DiffviewClose<cr>', desc = '[D]iff [C]lose' },
+      { '<leader>dh', '<cmd>DiffviewFileHistory %<cr>', desc = '[D]iff File [H]istory' }, -- Changed from dr
+      { '<leader>dH', '<cmd>DiffviewFileHistory<cr>', desc = '[D]iff Repo [H]istory' }, -- Added Repo History
+      { '<leader>dm', '<cmd>DiffviewOpen master...<cr>', desc = '[D]iff Against [M]aster' }, -- Use '...' for range diff vs master
+      -- Diff line history (uses Gitsigns backend if available)
+      {
+        '<leader>dl',
+        function()
+          -- Check if gitsigns provides the action
+          if package.loaded.gitsigns and require('gitsigns').diffthis then
+            require('gitsigns').diffthis('~' .. vim.fn.line '.')
+          else
+            -- Fallback or alternative: Use Diffview's file history focused on the line
+            require('diffview.actions').file_history_entry_focus(true)
+            vim.cmd('DiffviewFileHistory % --line=' .. vim.fn.line '.')
+          end
+        end,
+        desc = '[D]iff [L]ine History',
+      },
     },
     config = function()
-      -- Example mapping to toggle outline
-      local wk = require 'which-key'
-      wk.add {
-        {
-          { '<leader>dc', '<cmd>DiffviewClose<cr>', desc = 'Diffview Close' },
-          { '<leader>dr', '<cmd>DiffviewFileHistory<cr>', desc = 'Diffview Repo History' },
-          { '<leader>df', '<cmd>DiffviewFileHistory --follow %<cr>', desc = 'Diffview File History' },
-          { '<leader>dm', '<cmd>DiffviewOpen master<cr>', desc = 'Diffview with master' },
-          { '<leader>dl', function()
-            local current_line = vim.fn.line(".")
-            local file = vim.fn.expand("%")
-            -- DiffviewFileHistory --follow -L{current_line},{current_line}:{file}
-            local cmd =
-            string.format("DiffviewFileHistory --follow -L%s,%s:%s", current_line, current_line, file)
-            vim.cmd(cmd)
-          end, desc = 'Diffview line History' },
+      require('diffview').setup {
+        -- Configure Diffview options here, e.g., layout, keymaps within diffview
+        -- keymaps = { ... }
+        -- file_panel = { width = 35 },
+        -- enhanced_diff_hl = true,
+        -- Use gitsigns for hunk navigation if available
+        use_icons = vim.g.have_nerd_font, -- Use icons if nerd fonts are available
+        signs = { -- Use gitsigns setting by default
+          fold_closed = '',
+          fold_open = '',
+          line_prefix = '│',
         },
-        {
-          mode = { 'n', 'v' },
-          { '<leader>do', '<cmd>DiffviewOpen<cr>', desc = 'Diffview Open' },
-        },
-        {
-          mode = { 'v' },
-          { '<leader>dl', "<Esc><Cmd>'<,'>DiffviewFileHistory --follow<CR>", desc = 'File History for visual selection' },
-        }
       }
     end,
   },
+
+  -- Neogit: Magit-like Git interface for Neovim
   {
     'NeogitOrg/neogit',
     dependencies = {
-      'nvim-lua/plenary.nvim', -- required
-      'sindrets/diffview.nvim', -- optional - Diff integration
-
-      -- Only one of these is needed, not both.
-      'nvim-telescope/telescope.nvim', -- optional
-      -- 'ibhagwan/fzf-lua', -- optional
+      'nvim-lua/plenary.nvim',
+      'sindrets/diffview.nvim', -- Recommended for diff viewing integration
+      'nvim-telescope/telescope.nvim', -- Optional for commit searching etc.
     },
-    config = true,
+    cmd = 'Neogit', -- Lazy load on command
     keys = {
-      { '<leader>gg', ':Neogit<cr>', desc = 'Neogit' },
+      { '<leader>gg', '<cmd>Neogit<cr>', desc = '[G]it [G]it (Neogit)' },
+      -- Git log for current file
       {
-        '<leader>gf',
+        '<leader>gfl',
         function()
-          require('neogit').action('log', 'log_current', { '--', vim.fn.expand '%' })()
+          require('neogit').open { 'log', '--', vim.fn.expand '%' }
         end,
-        desc = 'Git log for file',
+        desc = 'Neogit [F]ile [L]og',
       },
+      -- Git log for selected lines in visual mode
       {
-        '<leader>gf',
+        '<leader>gl',
         function()
           local file = vim.fn.expand '%'
-          vim.cmd [[execute "normal! \<ESC>"]]
+          -- Ensure we are out of visual mode before getting positions
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'nx', false)
           local line_start = vim.fn.getpos("'<")[2]
           local line_end = vim.fn.getpos("'>")[2]
-
-          require('neogit').action('log', 'log_current', { '-L' .. line_start .. ',' .. line_end .. ':' .. file })()
+          -- Use Neogit's action directly if available, otherwise construct command
+          require('neogit').open { 'log', ('-L%d,%d:%s'):format(line_start, line_end, file) }
         end,
-        desc = 'Git log for this range',
+        desc = 'Neogit [L]ine Log (Visual)',
         mode = 'v',
       },
+      -- Add other neogit actions/keymaps if needed
+      { '<leader>gc', function() require('neogit').open { 'commit' } end, desc = 'Neogit [C]ommit' },
+      { '<leader>gs', function() require('neogit').open() end, desc = 'Neogit [S]tatus' }, -- Same as gg
     },
-    -- config = function()
-    --   require('neogit').setup {
-    --     auto_refresh = false,
-    --     console_timeout = 10000,
-    --     disable_context_highlighting = true,
-    --     disable_commit_confirmation = false,
-    --     disable_builtin_notifications = true,
-    --     disable_insert_on_commit = false,
-    --     signs = {
-    --       -- { CLOSED, OPENED }
-    --       section = { '', '' },
-    --       item = { '', '' },
-    --       hunk = { '', '' },
-    --     },
-    --     commit_editor = {
-    --       kind = 'vsplit',
-    --       show_staged_diff = false,
-    --     },
-    --   }
-    --
-    --   -- require('helper').nnoremap('<Leader>gg', '<CMD>Neogit<CR>')
-    --   local Color = require('neogit.lib.color').Color
-    --   local colors = require 'ayu.colors'
-    --   colors.generate(false) -- Pass `true` to enable mirage
-    --
-    --   local base_green = Color.from_hex '#99BF4D'
-    --   local base_red = Color.from_hex '#F27983'
-    --
-    --   local green = base_green:to_css()
-    --   local bg_green = base_green:shade(0):to_css()
-    --   local line_green = base_green:shade(0):set_saturation(0.2):to_css()
-    --
-    --   local red = base_red:to_css()
-    --   local bg_red = base_red:shade(0):to_css()
-    --   local line_red = base_red:shade(0):set_saturation(0.4):to_css()
-    --
-    --   vim.api.nvim_set_hl(0, 'NeogitDiffAdd', {
-    --     bg = line_green,
-    --     fg = bg_green,
-    --   })
-    --
-    --   vim.api.nvim_set_hl(0, 'NeogitDiffDelete', {
-    --     bg = line_red,
-    --     fg = bg_red,
-    --   })
-    --
-    --   vim.api.nvim_set_hl(0, 'NeogitDiffAddHighlight', {
-    --     bg = line_green,
-    --     fg = green,
-    --   })
-    --
-    --   vim.api.nvim_set_hl(0, 'NeogitDiffDeleteHighlight', {
-    --     bg = line_red,
-    --     fg = red,
-    --   })
-    -- end,
-    --   opts = {
-    --     mappings = {
-    --       popup = {
-    --         ['F'] = 'PullPopup',
-    --         ['p'] = false,
-    --       },
-    --       rebase_editor = {
-    --         ['<c-d>'] = 'Abort',
-    --         ['<c-c><c-k>'] = false,
-    --       },
-    --       commit_editor = {
-    --         ['<c-d>'] = 'Abort',
-    --         ['<c-c><c-k>'] = false,
-    --       },
-    --     },
-    --     console_timeout = 3000,
-    --     telescope_sorter = function()
-    --       return require('telescope').extensions.fzf.native_fzf_sorter()
-    --     end,
-    --     fetch_after_checkout = true,
-    --     auto_show_console = true,
-    --     disable_hint = true,
-    --     notification_icon = ' ',
-    --     status = {
-    --       show_head_commit_hash = false,
-    --     },
-    --     sections = {
-    --       rebase = {
-    --         folded = false,
-    --       },
-    --       recent = {
-    --         folded = false,
-    --       },
-    --     },
-    --   },
+    config = function()
+      require('neogit').setup {
+        -- Configure Neogit options here
+        integrations = {
+          -- Diffview integration is enabled by default if diffview is detected
+          diffview = true,
+        },
+        -- kind = "tab", -- Open in a new tab instead of split
+        -- signs = { ... } -- Customize signs
+      }
+    end,
   },
 }
