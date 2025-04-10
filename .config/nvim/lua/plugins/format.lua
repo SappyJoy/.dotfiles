@@ -14,10 +14,14 @@ return {
         -- We create a dedicated formatter definition for this case.
         prettier_markdown_stdin = {
           inherit = true, -- Inherit base command, etc. from prettier if defined elsewhere
-          command = "prettier", -- Ensure command is correct
-           -- Crucial: Provide a fake filename to prettier so it uses the markdown parser
-          args = { "--stdin-filepath", "dummy.md" },
+          command = 'prettier', -- Ensure command is correct
+          -- Crucial: Provide a fake filename to prettier so it uses the markdown parser
+          args = { '--stdin-filepath', 'dummy.md' },
           stdin = true,
+        },
+        ktfmt = {
+          inherit = true,
+          prepend_args = { '--kotlinlang-style' },
         },
 
         -- Configure cbfmt (assuming it's codeblockfmt)
@@ -57,10 +61,10 @@ return {
     config = function(_, opts)
       require('conform').setup(opts)
       vim.keymap.set({ 'n', 'v' }, '<leader>fm', function()
-        require('conform').format({
+        require('conform').format {
           timeout_ms = 1000, -- Increase timeout if needed
           lsp_fallback = true,
-        })
+        }
       end, { desc = '[F]or[m]at buffer' })
     end,
   },
