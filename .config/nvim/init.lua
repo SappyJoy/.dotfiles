@@ -1,48 +1,58 @@
+-- Load user-defined globals, keymaps, and lazy.nvim bootstrap first
 require 'sap.globals'
 require 'sap.keymaps'
 require 'sap.lazy-bootstrap'
 
+-- Associate .ets files with the 'typescript' filetype for syntax highlighting, LSP, etc.
 vim.filetype.add {
   extension = {
     ets = 'typescript',
   },
 }
 
+-- Define plugin specifications by importing modular files.
+-- Consider alphabetical order for easier navigation as the list grows.
 local plugins = {
+  { import = 'plugins.ai' },
   { import = 'plugins.autocomplete' },
   { import = 'plugins.base' },
-  { import = 'plugins.telescope' },
-  { import = 'plugins.lsp' },
-  { import = 'plugins.format' },
-  { import = 'plugins.ai' },
   { import = 'plugins.dap' },
-  -- { import = 'plugins.interactive' },
-  { import = 'plugins.visuals' },
+  { import = 'plugins.format' },
   { import = 'plugins.git' },
-  { import = 'plugins.treesitter' },
-  { import = 'plugins.images' },
-  { import = 'plugins.line' },
-  -- { import = 'plugins.neorg' },
-  { import = 'plugins.jupyter' },
   { import = 'plugins.hydra' },
-  { import = 'plugins.oil' },
-  { import = 'plugins.notes' },
-  { import = 'plugins.todoist' },
+  { import = 'plugins.images' },
+  { import = 'plugins.jupyter' },
+  { import = 'plugins.line' },
+  { import = 'plugins.lsp' },
   { import = 'plugins.misc' },
+  { import = 'plugins.notes' },
+  { import = 'plugins.oil' },
+  { import = 'plugins.telescope' },
+  { import = 'plugins.todoist' },
+  { import = 'plugins.treesitter' },
+  { import = 'plugins.visuals' },
   { import = 'plugins.writing' },
 }
 
 require('lazy').setup(plugins, {
+  -- Configure lazy.nvim installation options
   install = {
+    -- Automatically install missing plugins on startup
     missing = true,
+    -- Use 'ayu-light' colorscheme after installation (should be a string)
     colorscheme = { 'ayu-light' },
   },
+  -- Configure change detection (automatically check for plugin updates)
   change_detection = {
+    -- Disabling this can speed up startup time slightly,
+    -- but you'll need to manually run :Lazy sync/update.
     enabled = false,
   },
+  -- Configure the user interface of lazy.nvim (:Lazy)
   ui = {
-    -- If you have a Nerd Font, set icons to an empty table which will use the
-    -- default lazy.nvim defined Nerd Font icons otherwise define a unicode icons table
+    -- Use Nerd Font icons if available, otherwise fall back to basic symbols.
+    -- `vim.g.have_nerd_font` should be set in your `sap.globals` or similar
+    -- based on whether you have a Nerd Font installed and configured in your terminal.
     icons = vim.g.have_nerd_font and {} or {
       cmd = '⌘',
       config = '🛠',
@@ -59,11 +69,25 @@ require('lazy').setup(plugins, {
       lazy = '💤 ',
     },
   },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        'gzip',
+        'matchit',
+        'matchparen',
+        'netrwPlugin',
+        'tarPlugin',
+        'tohtml',
+        'tutor',
+        'zipPlugin',
+      },
+    },
+  },
 })
 
+-- Load main user configuration
 require 'sap'
--- Mappings for russian language
-require('langmapper').automapping { global = true, buffer = true }
 
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
+-- Configure langmapper for automatic keyboard layout switching
+-- Assuming this plugin helps manage different keyboard layouts (e.g., EN/RU)
+require('langmapper').automapping { global = true, buffer = true }
