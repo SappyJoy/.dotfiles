@@ -16,15 +16,10 @@ return {
     end,
   },
   {
-    'Exafunction/codeium.nvim',
-    enabled = false,
+    'Exafunction/windsurf.nvim',
     dependencies = {
       'nvim-lua/plenary.nvim',
       'hrsh7th/nvim-cmp',
-      'MunifTanjim/nui.nvim',
-      'folke/trouble.nvim',
-      'nvim-telescope/telescope.nvim',
-
     },
     config = function()
       require('codeium').setup {}
