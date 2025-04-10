@@ -13,6 +13,7 @@ local plugins = {
   { import = 'plugins.base' },
   { import = 'plugins.telescope' },
   { import = 'plugins.lsp' },
+  { import = 'plugins.format' },
   { import = 'plugins.ai' },
   { import = 'plugins.dap' },
   -- { import = 'plugins.interactive' },

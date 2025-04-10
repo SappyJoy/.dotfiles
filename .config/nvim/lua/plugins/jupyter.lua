@@ -189,7 +189,7 @@ return {
           definition = 'gd',
           rename = '<leader>rn',
           references = 'gr',
-          format = '<leader>gf',
+          format = '<leader>fj',
         },
         codeRunner = {
           enabled = true,
