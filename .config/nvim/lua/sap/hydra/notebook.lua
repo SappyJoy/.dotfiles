@@ -64,7 +64,7 @@ end
 
 Hydra {
   name = 'Notebook',
-  hint = '_j_/_k_: ↑/↓ | _o_/_O_: new cell ↓/↑ | _l_: run | _s_how/_h_ide | run _a_bove',
+  hint = '_j_/_k_: ↑/↓ | _o_/_O_: new cell ↓/↑ | _l_: run | _s_how/_h_ide | run _a_bove/_A_ll',
   config = {
     color = 'pink',
     invoke_on_body = true,
@@ -85,6 +85,7 @@ Hydra {
     { 's', ':noautocmd MoltenEnterOutput<CR>', { desc = 'show' } },
     { 'h', ':MoltenHideOutput<CR>', { desc = 'hide' } },
     { 'a', ':QuartoSendAbove<CR>', { desc = 'run above' } },
+    { 'A', ':MoltenReevaluateAll<CR>', { desc = 'run all' } },
     { '<esc>', nil, { exit = true, desc = false } },
     { 'q', nil, { exit = true, desc = false } },
   },

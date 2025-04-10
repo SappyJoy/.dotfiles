@@ -32,6 +32,7 @@ return {
       vim.keymap.set('n', '<localleader>mx', ':MoltenOpenInBrowser<CR>', { desc = 'Open in browser', silent = true })
       vim.keymap.set('n', '<localleader>mr', ':MoltenDelete<CR>', { desc = 'Delete Molten cell', silent = true })
       vim.keymap.set('n', '<localleader>ms', ':MoltenInterrupt<CR>', { desc = 'Molten Interrupt', silent = true })
+      vim.keymap.set('n', '<localleader>ma', ':MoltenReevaluateAll<CR>', { desc = 'Molten Run All', silent = true })
       -- vim.keymap.set('n', '<localleader>k', ':MoltenPrev<CR>', { desc = 'Previous cell', silent = true })
       -- vim.keymap.set('n', '<localleader>j', ':MoltenNext<CR>', { desc = 'Next cell', silent = true })
 
