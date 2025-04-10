@@ -21,6 +21,10 @@ return {
     dependencies = {
       'nvim-lua/plenary.nvim',
       'hrsh7th/nvim-cmp',
+      'MunifTanjim/nui.nvim',
+      'folke/trouble.nvim',
+      'nvim-telescope/telescope.nvim',
+
     },
     config = function()
       require('codeium').setup {}
@@ -70,65 +74,10 @@ return {
         },
       }
     end,
-    dependencies = {
-      'MunifTanjim/nui.nvim',
-      'nvim-lua/plenary.nvim',
-      'folke/trouble.nvim',
-      'nvim-telescope/telescope.nvim',
-    },
   },
   {
     'yetone/avante.nvim',
     event = 'VeryLazy',
-    lazy = false,
-    priority = 1000,
-    version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
-    opts = {
-      -- provider = 'openai',
-      -- -- add any opts here
-      provider = 'openrouter',
-      vendors = {
-        openrouter = {
-          __inherited_from = 'openai',
-          endpoint = 'https://openrouter.ai/api/v1',
-          timeout = 800000000,
-          api_key_name = 'OPENROUTER_API_KEY',
-          -- model = 'deepseek/deepseek-r1-distill-llama-70b:free',
-          model = 'deepseek/deepseek-r1:free',
-          -- model = 'google/gemini-2.0-flash-thinking-exp:free',
-          disable_tools = true,
-        },
-      },
-      windows = {
-        ---@type "right" | "left" | "top" | "bottom"
-        position = 'right', -- the position of the sidebar
-        wrap = true, -- similar to vim.o.wrap
-        width = 30, -- default % based on available width
-        sidebar_header = {
-          enabled = true, -- true, false to enable/disable the header
-          align = 'center', -- left, center, right for title
-          rounded = true,
-        },
-        input = {
-          prefix = '> ',
-          height = 8, -- Height of the input window in vertical layout
-        },
-        edit = {
-          border = 'rounded',
-          start_insert = true, -- Start insert mode when opening the edit window
-        },
-        ask = {
-          floating = false, -- Open the 'AvanteAsk' prompt in a floating window
-          start_insert = false, -- Start insert mode when opening the ask window
-          border = 'rounded',
-          ---@type "ours" | "theirs"
-          focus_on_apply = 'ours', -- which diff to focus after applying
-        },
-      },
-    },
-    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-    build = 'make',
-    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
     dependencies = {
       'stevearc/dressing.nvim',
       'nvim-lua/plenary.nvim',
@@ -166,5 +115,50 @@ return {
         ft = { 'markdown', 'Avante' },
       },
     },
+    priority = 1000,
+    version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
+    opts = {
+      -- provider = 'openai',
+      -- -- add any opts here
+      provider = 'openrouter',
+      vendors = {
+        openrouter = {
+          __inherited_from = 'openai',
+          endpoint = 'https://openrouter.ai/api/v1',
+          timeout = 800000000,
+          api_key_name = 'OPENROUTER_API_KEY',
+          -- model = 'deepseek/deepseek-r1-distill-llama-70b:free',
+          model = 'deepseek/deepseek-r1:free',
+          -- model = 'google/gemini-2.0-flash-thinking-exp:free',
+          disable_tools = true,
+        },
+      },
+      windows = {
+        position = 'right', -- the position of the sidebar
+        wrap = true, -- similar to vim.o.wrap
+        width = 30, -- default % based on available width
+        sidebar_header = {
+          enabled = true, -- true, false to enable/disable the header
+          align = 'center', -- left, center, right for title
+          rounded = true,
+        },
+        input = {
+          prefix = '> ',
+          height = 8, -- Height of the input window in vertical layout
+        },
+        edit = {
+          border = 'rounded',
+          start_insert = true, -- Start insert mode when opening the edit window
+        },
+        ask = {
+          floating = false, -- Open the 'AvanteAsk' prompt in a floating window
+          start_insert = false, -- Start insert mode when opening the ask window
+          border = 'rounded',
+          ---@type "ours" | "theirs"
+          focus_on_apply = 'ours', -- which diff to focus after applying
+        },
+      },
+    },
+    build = 'make',
   },
 }
