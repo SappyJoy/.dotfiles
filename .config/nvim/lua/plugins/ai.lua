@@ -123,9 +123,11 @@ return {
           timeout = 800000000,
           api_key_name = 'OPENROUTER_API_KEY',
           -- model = 'deepseek/deepseek-r1-distill-llama-70b:free',
-          model = 'deepseek/deepseek-r1:free',
+          -- model = 'deepseek/deepseek-r1:free',
+          model = 'google/gemini-2.5-pro-exp-03-25:free',
           -- model = 'google/gemini-2.0-flash-thinking-exp:free',
           disable_tools = true,
+          max_completion_tokens = 65536,
         },
       },
       windows = {
