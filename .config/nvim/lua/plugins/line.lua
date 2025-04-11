@@ -45,19 +45,21 @@ return {
 
       -- --- Custom Component Functions ---
 
-      -- Function to get the active Molten kernel name
+      -- Function to get the active Molten kernel name(s) for the buffer
       local function get_molten_kernel_name()
         local ok, molten_status = pcall(require, 'molten.status')
+        -- Check if molten.status module loaded AND if Molten is initialized
         if not ok or molten_status.initialized() ~= 'Molten' then
-          return '' -- Return empty if Molten not running or not initialized
+          return '' -- Return empty if Molten not available or not initialized
         end
-        local kernel_name = molten_status.kernel_name()
-        if kernel_name and kernel_name ~= '' then
-          -- Optional: Shorten long kernel names if needed
-          -- kernel_name = kernel_name:gsub('python3%-?([%w_.-]+)', '%1') -- Example shortening
-          return '🔥 ' .. kernel_name -- Use a fire icon
+        -- Use kernels() which returns a string list of kernels for the buffer
+        local kernel_names_str = molten_status.kernels()
+        if kernel_names_str and kernel_names_str ~= '' then
+          -- kernel_names_str might contain multiple names, space-separated.
+          -- We'll display the whole string as returned.
+          return '🔥 ' .. kernel_names_str -- Use a fire icon
         end
-        return '' -- Return empty if no kernel name found
+        return '' -- Return empty if no kernels associated with the buffer
       end
 
       -- Function to get DAP status
@@ -97,7 +99,7 @@ return {
         hl = { bg = color.tag, fg = color.bg }, -- Use a suitable color
         sep_left = sep.left_chevron_solid(true),
         prefix = ' ',
-        content = get_molten_kernel_name,
+        content = get_molten_kernel_name, -- Use the corrected function
         suffix = ' ',
         -- Only show if content is not empty
         hidden = function(self) return self.content == '' end,
@@ -150,7 +152,7 @@ return {
       })
       stl:add_item(nut.spacer())
       stl:add_item(nut.truncation_point())
-      -- stl:add_item(molten_kernel_item) -- Add Molten kernel name before diagnostics
+      stl:add_item(molten_kernel_item) -- Add Molten kernel name before diagnostics
       stl:add_item(nut.buf.diagnostic_count {
         hidden = false,
         hl = { bg = color.error, fg = color.bg },
