@@ -201,6 +201,36 @@ return {
       },
     },
     config = function()
+      local wk = require 'which-key'
+      wk.add {
+        {
+          {
+            mode = { 'n', 'v' },
+            { '<leader>do', '<cmd>DiffviewOpen<cr>', desc = 'Diffview Open' },
+          },
+          { '<leader>dc', '<cmd>DiffviewClose<cr>', desc = 'Diffview Close' },
+          { '<leader>dr', '<cmd>DiffviewFileHistory<cr>', desc = 'Diffview Repo History' },
+          { '<leader>df', '<cmd>DiffviewFileHistory --follow %<cr>', desc = 'Diffview File History' },
+          { '<leader>dh', '<cmd>DiffviewFileHistory %<cr>', desc = 'Diffview File History' },
+          { '<leader>dH', '<cmd>DiffviewFileHistory<cr>', desc = 'Diffview File History' },
+          { '<leader>dm', '<cmd>DiffviewOpen master<cr>', desc = 'Diffview with master' },
+          {
+            '<leader>dl',
+            function()
+              local current_line = vim.fn.line '.'
+              local file = vim.fn.expand '%'
+              -- DiffviewFileHistory --follow -L{current_line},{current_line}:{file}
+              local cmd = string.format('DiffviewFileHistory --follow -L%s,%s:%s', current_line, current_line, file)
+              vim.cmd(cmd)
+            end,
+            desc = 'Diffview line History',
+          },
+        },
+        {
+          mode = { 'v' },
+          { '<leader>dl', "<Esc><Cmd>'<,'>DiffviewFileHistory --follow<CR>", desc = 'File History for visual selection' },
+        },
+      }
       require('diffview').setup {
         -- Configure Diffview options here, e.g., layout, keymaps within diffview
         -- keymaps = { ... }
