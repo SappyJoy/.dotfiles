@@ -13,6 +13,7 @@ vim.filetype.add {
 -- Consider alphabetical order for easier navigation as the list grows.
 local plugins = {
   { import = 'plugins.ai' },
+  { import = 'plugins.ai-completion' },
   { import = 'plugins.autocomplete' },
   { import = 'plugins.base' },
   { import = 'plugins.colorscheme' },
