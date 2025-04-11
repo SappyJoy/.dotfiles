@@ -26,6 +26,7 @@ local plugins = {
   { import = 'plugins.misc' },
   { import = 'plugins.notes' },
   { import = 'plugins.oil' },
+  { import = 'plugins.session' },
   { import = 'plugins.telescope' },
   { import = 'plugins.todoist' },
   { import = 'plugins.treesitter' },
