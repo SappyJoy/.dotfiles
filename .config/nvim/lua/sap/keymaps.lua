@@ -2,7 +2,7 @@
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear Search Highlight' }) -- Added desc
 
 vim.keymap.set('n', '<C-s>', '<cmd>w<CR>', { desc = 'Save' })
 vim.keymap.set('i', '<C-s>', '<Esc><cmd>w<CR>', { desc = 'Save' })
@@ -23,43 +23,41 @@ end, { desc = 'Show diagnostic [E]rror messages' })
 
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
--- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
--- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
--- is not what someone will guess without a bit more experience.
---
--- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
--- or just use <C-\><C-n> to exit terminal mode
+vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>", { desc = "Toggle Trouble" })
+vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", { desc = "Workspace Diagnostics (Trouble)"})
+vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", { desc = "Document Diagnostics (Trouble)"})
+
+-- Exit terminal mode (keep commented if default <C-\><C-n> works)
 -- vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
--- TIP: Disable arrow keys in normal mode
+-- Disable arrow keys in normal mode
 vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
--- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
---
---  See `:help wincmd` for a list of all window commands
+-- Window navigation
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
-vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'scroll down half page', noremap = true })
-vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'scroll up half page', noremap = true })
-vim.keymap.set('n', '<leader>co', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'Change all occurances' })
-vim.keymap.set("v", "<leader>co", [["hy:%s/<C-r>h/<C-r>h/gI<Left><Left><left>]])
+-- Scroll centering
+vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Scroll down half page', noremap = true })
+vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Scroll up half page', noremap = true })
 
-vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move up' })
-vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move down' })
-vim.keymap.set('v', '>', '>gv', { desc = 'Indent' })
-vim.keymap.set('v', '<', '<gv', { desc = 'Indent' })
---  See `:help lua-guide-autocommands`
+-- Replace word under cursor
+vim.keymap.set('n', '<leader>co', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = 'Change all occurrences (current word)' })
+-- WARNING: This visual mode mapping uses register "h". Might conflict with other plugins or workflows.
+vim.keymap.set('v', '<leader>co', [["hy:%s/<C-r>h/<C-r>h/gI<Left><Left><left>]], { desc = 'Change all occurrences (visual selection)' })
 
--- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.highlight.on_yank()`
+-- Visual mode improvements
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move line down' }) -- Fixed desc
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move line up' }) -- Fixed desc
+vim.keymap.set('v', '>', '>gv', { desc = 'Indent line' }) -- Fixed desc
+vim.keymap.set('v', '<', '<gv', { desc = 'Unindent line' }) -- Fixed desc
+
+-- Yank highlight (autocommand moved to sap.autocmds or keep here)
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
@@ -68,47 +66,39 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- Iron
+-- Iron (keep commented if not used)
 -- vim.keymap.set('n', '<leader>is', '<cmd>IronRepl<cr>')
 -- vim.keymap.set('n', '<leader>ir', '<cmd>IronRestart<cr>')
 -- vim.keymap.set('n', '<leader>if', '<cmd>IronFocus<cr>')
 -- vim.keymap.set('n', '<leader>ih', '<cmd>IronHide<cr>')
 
--- Gitsign
+-- Gitsigns
+-- Use expr = true for conditional mapping based on vim.wo.diff
 vim.keymap.set('n', ']c', function()
-  if vim.wo.diff then
-    return ']c'
-  end
-  vim.schedule(function()
-    require('gitsigns').next_hunk()
-  end)
+  if vim.wo.diff then return ']c' end
+  vim.schedule(function() require('gitsigns').next_hunk() end)
   return '<Ignore>'
-end, { desc = 'Jump to next hunk' })
+end, { expr = true, desc = 'Jump to next hunk' })
 
 vim.keymap.set('n', '[c', function()
-  if vim.wo.diff then
-    return '[c'
-  end
-  vim.schedule(function()
-    require('gitsigns').prev_hunk()
-  end)
+  if vim.wo.diff then return '[c' end
+  vim.schedule(function() require('gitsigns').prev_hunk() end)
   return '<Ignore>'
-end, { desc = 'Jump to prev hunk' })
+end, { expr = true, desc = 'Jump to prev hunk' })
 
-
-vim.keymap.set('n', '<leader>rh', function()
-  require('gitsigns').reset_hunk()
-end, { desc = 'Reset hunk' })
-
-vim.keymap.set('n', '<leader>ph', function()
-  require('gitsigns').preview_hunk()
-end, { desc = 'Preview hunk' })
-
-vim.keymap.set('n', '<leader>td', function()
-  require('gitsigns').toggle_deleted()
-end, { desc = 'Toggle deleted' })
+-- Actions (consider grouping under <leader>g prefix?)
+vim.keymap.set('n', '<leader>hs', function() require('gitsigns').stage_hunk() end, { desc = '[H]unk [S]tage' })
+vim.keymap.set('v', '<leader>hs', function() require('gitsigns').stage_hunk { vim.fn.line '.', vim.fn.line 'v' } end, { desc = '[H]unk [S]tage (visual)' })
+vim.keymap.set('n', '<leader>hr', function() require('gitsigns').reset_hunk() end, { desc = '[H]unk [R]eset' }) -- Changed leader from rh
+vim.keymap.set('v', '<leader>hr', function() require('gitsigns').reset_hunk { vim.fn.line '.', vim.fn.line 'v' } end, { desc = '[H]unk [R]eset (visual)' })
+vim.keymap.set('n', '<leader>hu', function() require('gitsigns').undo_stage_hunk() end, { desc = '[H]unk [U]ndo Stage'})
+vim.keymap.set('n', '<leader>hp', function() require('gitsigns').preview_hunk() end, { desc = '[H]unk [P]review' }) -- Changed leader from ph
+vim.keymap.set('n', '<leader>hb', function() require('gitsigns').blame_line { full = true } end, { desc = '[H]unk [B]lame Line' })
+vim.keymap.set('n', '<leader>hd', function() require('gitsigns').diffthis('~') end, { desc = '[H]unk [D]iff vs Stage' })
+vim.keymap.set('n', '<leader>hD', function() require('gitsigns').diffthis() end, { desc = '[H]unk [D]iff vs Index/HEAD' })
+vim.keymap.set('n', '<leader>ht', function() require('gitsigns').toggle_deleted() end, { desc = '[H]unk [T]oggle Deleted' }) -- Changed leader from td
 
 -- Telescope
-vim.keymap.set('n', '<leader>sr', '<cmd> Telescope lsp_references <CR>', { desc = 'Search LSP references' })
-vim.keymap.set('n', '<leader>ss', '<cmd> Telescope lsp_dynamic_workspace_symbols <CR>', { desc = 'Search dynamic workspace symbols' })
-vim.keymap.set('n', '<leader>ss', '<cmd> Telescope lsp_dynamic_workspace_symbols <CR>', { desc = 'Search dynamic workspace symbols' })
+vim.keymap.set('n', '<leader>sr', '<cmd>Telescope lsp_references<CR>', { desc = '[S]earch LSP [R]eferences' })
+vim.keymap.set('n', '<leader>ss', '<cmd>Telescope lsp_document_symbols<CR>', { desc = '[S]earch Document [S]ymbols' }) -- Changed from duplicate
+vim.keymap.set('n', '<leader>sw', '<cmd>Telescope lsp_dynamic_workspace_symbols<CR>', { desc = '[S]earch [W]orkspace Symbols' }) -- New mapping
