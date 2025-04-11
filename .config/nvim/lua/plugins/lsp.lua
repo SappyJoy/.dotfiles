@@ -135,6 +135,7 @@ return {
         eslint = {},
         ts_ls = {},
         kotlin_language_server = {},
+        debugpy = {},
       }
 
       require('mason').setup()
