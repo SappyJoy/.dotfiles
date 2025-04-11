@@ -1,3 +1,5 @@
+-- Plugins related to Jupyter Notebooks, Quarto, and interactive computing
+
 vim.api.nvim_create_autocmd('BufRead', {
   pattern = '*.ipynb',
   callback = function()
