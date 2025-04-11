@@ -148,6 +148,8 @@ return {
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files' })
 
+      vim.keymap.set('n', '<leader>st', builtin.colorscheme, { desc = '[S]earch Colorscheme' })
+
       require 'sap.hydra.telescope'
     end,
   },

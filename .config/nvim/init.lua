@@ -15,6 +15,7 @@ local plugins = {
   { import = 'plugins.ai' },
   { import = 'plugins.autocomplete' },
   { import = 'plugins.base' },
+  { import = 'plugins.colorscheme' },
   { import = 'plugins.dap' },
   { import = 'plugins.format' },
   { import = 'plugins.git' },
