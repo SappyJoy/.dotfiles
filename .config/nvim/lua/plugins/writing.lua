@@ -1,8 +1,8 @@
 return {
   {
     'Wansmer/langmapper.nvim',
-    lazy = false,
-    priority = 1,
+    lazy = false, -- Load early for keymap wrapping
+    priority = 1, -- Before which-key potentially
     config = function()
       local langmapper = require('langmapper')
       langmapper.setup {
@@ -23,10 +23,25 @@ return {
           },
         },
       }
-      langmapper.hack_get_keymap()
+      langmapper.hack_get_keymap() -- Needed for which-key wrapping etc.
+
+      -- Configure automapping here after setup
+      require('langmapper').automapping { global = true, buffer = true }
     end,
   },
-  { 'folke/zen-mode.nvim' },
-  { 'folke/twilight.nvim' },
+  {
+    'folke/zen-mode.nvim',
+    cmd = 'ZenMode', -- Lazy load on command
+    opts = {
+      -- Configure zen-mode options if needed
+    },
+  },
+  {
+    'folke/twilight.nvim',
+    cmd = 'Twilight', -- Lazy load on command
+    opts = {
+      -- Configure twilight options if needed
+    },
+  },
   -- { 'junegunn/goyo.vim' },
 }

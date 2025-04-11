@@ -87,7 +87,3 @@ require('lazy').setup(plugins, {
 
 -- Load main user configuration
 require 'sap'
-
--- Configure langmapper for automatic keyboard layout switching
--- Assuming this plugin helps manage different keyboard layouts (e.g., EN/RU)
-require('langmapper').automapping { global = true, buffer = true }
