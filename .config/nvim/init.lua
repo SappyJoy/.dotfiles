@@ -1,6 +1,5 @@
 -- Load user-defined globals, keymaps, and lazy.nvim bootstrap first
 require 'sap.globals'
-require 'sap.keymaps'
 require 'sap.lazy-bootstrap'
 
 -- Associate .ets files with the 'typescript' filetype for syntax highlighting, LSP, etc.
