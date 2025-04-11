@@ -86,18 +86,6 @@ vim.keymap.set('n', '[c', function()
   return '<Ignore>'
 end, { expr = true, desc = 'Jump to prev hunk' })
 
--- Actions (consider grouping under <leader>g prefix?)
-vim.keymap.set('n', '<leader>hs', function() require('gitsigns').stage_hunk() end, { desc = '[H]unk [S]tage' })
-vim.keymap.set('v', '<leader>hs', function() require('gitsigns').stage_hunk { vim.fn.line '.', vim.fn.line 'v' } end, { desc = '[H]unk [S]tage (visual)' })
-vim.keymap.set('n', '<leader>hr', function() require('gitsigns').reset_hunk() end, { desc = '[H]unk [R]eset' }) -- Changed leader from rh
-vim.keymap.set('v', '<leader>hr', function() require('gitsigns').reset_hunk { vim.fn.line '.', vim.fn.line 'v' } end, { desc = '[H]unk [R]eset (visual)' })
-vim.keymap.set('n', '<leader>hu', function() require('gitsigns').undo_stage_hunk() end, { desc = '[H]unk [U]ndo Stage'})
-vim.keymap.set('n', '<leader>hp', function() require('gitsigns').preview_hunk() end, { desc = '[H]unk [P]review' }) -- Changed leader from ph
-vim.keymap.set('n', '<leader>hb', function() require('gitsigns').blame_line { full = true } end, { desc = '[H]unk [B]lame Line' })
-vim.keymap.set('n', '<leader>hd', function() require('gitsigns').diffthis('~') end, { desc = '[H]unk [D]iff vs Stage' })
-vim.keymap.set('n', '<leader>hD', function() require('gitsigns').diffthis() end, { desc = '[H]unk [D]iff vs Index/HEAD' })
-vim.keymap.set('n', '<leader>ht', function() require('gitsigns').toggle_deleted() end, { desc = '[H]unk [T]oggle Deleted' }) -- Changed leader from td
-
 -- Telescope
 vim.keymap.set('n', '<leader>sr', '<cmd>Telescope lsp_references<CR>', { desc = '[S]earch LSP [R]eferences' })
 vim.keymap.set('n', '<leader>ss', '<cmd>Telescope lsp_document_symbols<CR>', { desc = '[S]earch Document [S]ymbols' }) -- Changed from duplicate
