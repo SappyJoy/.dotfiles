@@ -25,6 +25,7 @@ return {
       'TmuxNavigateUp',
       'TmuxNavigateRight',
       'TmuxNavigatePrevious',
+      'TmuxNavigatorProcessList',
     },
     -- Define keybindings for navigation
     keys = {
