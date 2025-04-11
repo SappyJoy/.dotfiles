@@ -184,17 +184,17 @@ return {
       -- Define handlers for specific adapters if needed (e.g., custom setup)
       handlers = {
         -- Example: Custom setup for python using the installed debugpy path
-        ['python'] = function(config)
-          local mason_registry = require 'mason-registry'
-          local debugpy_path = mason_registry.get_package('debugpy'):get_install_path()
-          config.adapters.python = {
-            type = 'executable',
-            command = debugpy_path .. '/venv/bin/python', -- Path to venv python within mason package
-            args = { '-m', 'debugpy.adapter' },
-          }
-          -- No need to call dap.configurations.python = { ... } here,
-          -- nvim-dap-python plugin (below) should handle that.
-        end,
+        -- ['python'] = function(config)
+        --   local mason_registry = require 'mason-registry'
+        --   local debugpy_path = mason_registry.get_package('debugpy'):get_install_path()
+        --   config.adapters.python = {
+        --     type = 'executable',
+        --     command = debugpy_path .. '/venv/bin/python', -- Path to venv python within mason package
+        --     args = { '-m', 'debugpy.adapter' },
+        --   }
+        --   -- No need to call dap.configurations.python = { ... } here,
+        --   -- nvim-dap-python plugin (below) should handle that.
+        -- end,
         -- Add handlers for other adapters if complex setup is required
       },
       -- Automatic installation settings (optional)
