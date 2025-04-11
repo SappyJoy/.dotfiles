@@ -107,7 +107,7 @@ return {
       windows = {
         position = 'right', -- the position of the sidebar
         wrap = true, -- similar to vim.o.wrap
-        width = 30, -- default % based on available width
+        width = 50, -- default % based on available width
         sidebar_header = {
           enabled = true, -- true, false to enable/disable the header
           align = 'center', -- left, center, right for title
