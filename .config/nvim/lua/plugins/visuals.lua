@@ -1,51 +1,49 @@
 return {
-  -- NOTE: Plugins can also be configured to run lua code when they are loaded.
-  --
-  -- This is often very useful to both group configuration, as well as handle
-  -- lazy loading plugins that don't need to be loaded immediately at startup.
-  --
-  -- For example, in the following configuration, we use:
-  --  event = 'VimEnter'
-  --
-  -- which loads which-key before all the UI elements are loaded. Events can be
-  -- normal autocommands events (`:help autocmd-events`).
-  --
-  -- Then, because we use the `config` key, the configuration only runs
-  -- after the plugin has been loaded:
-  --  config = function() ... end
-
-  { -- Useful plugin to show you pending keybinds.
+  { -- which-key setup
     'folke/which-key.nvim',
-    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-    dependencies = { 'Wansmer/langmapper.nvim' },
-    config = function() -- This is the function that runs, AFTER loading
-      local lmu = require 'langmapper.utils'
-      local view = require 'which-key.view'
-      local execute = view.execute
+    event = 'VimEnter',
+    dependencies = {
+      'Wansmer/langmapper.nvim', -- Ensure langmapper is loaded first
+    },
+    config = function()
+      -- Wait for langmapper to potentially finish its setup if needed
+      vim.schedule(function()
+        pcall(function() -- Wrap in pcall in case langmapper isn't fully ready
+          local lmu = require 'langmapper.utils'
+          local view = require 'which-key.view'
+          local execute = view.execute
 
-      -- wrap `execute()` and translate sequence back
-      view.execute = function(prefix_i, mode, buf)
-        -- Translate back to English characters
-        prefix_i = lmu.translate_keycode(prefix_i, 'default', 'ru')
-        execute(prefix_i, mode, buf)
-      end
-      require('which-key').setup()
+          -- Wrap `execute()` to translate sequence back for non-EN layouts
+          view.execute = function(prefix_i, mode, buf)
+            -- Translate back to English characters if needed
+            prefix_i = lmu.translate_keycode(prefix_i, 'default', 'ru') -- Adapt 'ru' if needed
+            execute(prefix_i, mode, buf)
+          end
+        end)
 
-      -- Document existing key chains
-      require('which-key').add {
-        {
+        require('which-key').setup {
+          -- Add any which-key specific options here
+          -- e.g., window options, triggers, etc.
+        }
+
+        -- Document existing key chains (add more as you define them)
+        require('which-key').add {
           { '<leader>c', group = '[C]ode' },
-          { '<leader>c_', hidden = true },
           { '<leader>d', group = '[D]ocument' },
-          { '<leader>d_', hidden = true },
-          { '<leader>r', group = '[R]ename' },
-          { '<leader>r_', hidden = true },
-          { '<leader>s', group = '[S]earch' },
-          { '<leader>s_', hidden = true },
+          { '<leader>g', group = '[G]it' },
+          { '<leader>h', group = '[H]unk (GitSigns)' }, -- Map group for gitsigns actions
+          { '<leader>o', group = '[O]ptions' }, -- Map group for hydra/oil actions
+          { '<leader>r', group = '[R]ename/[R]epl' },
+          { '<leader>f', group = '[S]earch' },
           { '<leader>w', group = '[W]orkspace' },
-          { '<leader>w_', hidden = true },
-        },
-      }
+          -- Hide placeholders for missing keys within groups
+          { '<leader>c_', hidden = true },
+          { '<leader>d_', hidden = true },
+          { '<leader>f_', hidden = true },
+          { '<leader>g_', hidden = true },
+          -- ... and so on
+        }
+      end)
     end,
   },
 
@@ -75,49 +73,49 @@ return {
   -- { 'hzchirs/vim-material', priority = 1000 },
   -- { 'soft-aesthetic/soft-era-vim', priority = 1000 },
 
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`
+  {
     'Shatur/neovim-ayu',
     priority = 1000, -- make sure to load this before all the other start plugins
     init = function()
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
       vim.cmd.colorscheme 'ayu-light'
-
-      -- You can configure highlights by doing something like
-      vim.cmd.hi 'Comment gui=none'
     end,
   },
 
   -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
-
+  {
+    'folke/todo-comments.nvim',
+    event = { 'BufReadPost', 'BufNewFile' }, -- Load when a buffer is ready
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    opts = {
+      signs = false, -- Keep your preference
+      -- keywords = { ... } -- Customize keywords if needed
+    },
+  },
   {
     'RRethy/vim-illuminate',
     lazy = false,
   },
   {
     'luukvbaal/statuscol.nvim',
-    -- cond = not MarkdownMode(),
+    event = { 'BufReadPost', 'BufNewFile' }, -- Can be lazy-loaded
     config = function()
       local builtin = require 'statuscol.builtin'
       require('statuscol').setup {
-        -- configuration goes here, for example:
         relculright = true,
         segments = {
+          -- GitSigns
           {
-            sign = { namespace = { 'gitsigns' }, name = { '.*' }, maxwidth = 2, colwidth = 1, auto = true },
-            click = 'v:lua.ScSa',
+            sign = { namespace = { 'gitsigns' }, name = { '.*' }, maxwidth = 1, colwidth = 1, auto = true }, -- Adjusted maxwidth
+            click = 'v:lua.ScSa', -- Or use gitsigns actions directly?
           },
+          -- Diagnostics (use icons?)
           {
-            sign = { name = { 'Diagnostic' }, maxwidth = 2, auto = true },
-            click = 'v:lua.ScSa',
+            sign = { name = { 'Diagnostic' }, maxwidth = 1, colwidth = 1, auto = true }, -- Adjusted maxwidth
+            click = 'v:lua.ScSa', -- Or use diagnostic actions?
           },
-          { text = { builtin.lnumfunc } },
+          -- Line Number
+          { text = { builtin.lnumfunc }, click = 'v:lua.ScLa' }, -- Added click action
+          -- Fold Column
           { text = { builtin.foldfunc }, click = 'v:lua.ScFa' },
         },
       }
@@ -223,8 +221,21 @@ return {
   },
   {
     'norcalli/nvim-colorizer.lua',
-    opts = {
-      '*',
-    },
+    event = { 'BufReadPost', 'BufNewFile' }, -- Can be lazy-loaded
+    config = function()
+      require('colorizer').setup {
+        '*', -- Highlight all filetypes
+        -- Or specify filetypes: { 'css', 'javascript', 'lua' }
+        user_default_options = {
+          RGB = true, -- Enable RGB display
+          RRGGBB = true, -- Enable RRGGBB display
+          names = false, -- Disable color names
+          tailwind = true, -- Enable tailwindcss colors
+          sass = { enable = true, parsers = { 'css' } }, -- Enable sass colors
+          css = true, -- Enable নিঃসcss colors
+          mode = 'background', -- Highlight the background
+        },
+      }
+    end,
   },
 }
