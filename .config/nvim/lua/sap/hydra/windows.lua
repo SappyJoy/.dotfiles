@@ -1,8 +1,3 @@
--- The are bug that writes "<Plug>(Hydra2_wait)" in current buffer if use body twice
--- Consider setting `invoke_on_body = false` and using a separate mapping like
--- vim.keymap.set('n', '<C-w>', h.body, { desc = 'Window/Tab Hydra' })
--- if the <Plug> issue persists or if you prefer <C-w> to only act as a prefix.
-
 local Hydra = require 'hydra'
 
 -- Combine window and tab hints - Added 'T'
@@ -42,12 +37,15 @@ h = Hydra {
       -- Show hint immediately when hydra is entered
       hide_on_load = false,
     },
-    -- color = 'pink', -- Optional: set color explicitly
+    -- Add default noremap for all heads unless overridden
+    -- This is a good general practice for hydra
+    noremap = true,
   },
   mode = 'n',
-  body = '<C-w>',
+  body = '<leader>w',
   heads = {
     -- === Window Focus ===
+    -- noremap = true is inherited from config
     { 'h', '<C-w>h', { desc = 'focus left' } },
     { 'j', '<C-w>j', { desc = 'focus down' } },
     { 'k', '<C-w>k', { desc = 'focus up' } },
@@ -69,34 +67,31 @@ h = Hydra {
     { 'x', '<c-w>|', { desc = 'maximize width' } },
 
     -- === Window Split / Close ===
-    { 's', '<C-w>s', { desc = 'split horizontal' } },
-    { 'v', '<C-w>v', { desc = 'split vertical' } },
-    { 'o', '<C-w>o', { exit = true, desc = 'remain only' } },
-    { 'q', '<C-w>q', { desc = 'close window' } },
+    -- Use Ex commands for split to avoid potential <C-w>s timing issues
+    { 's', ':split<CR>', { desc = 'split horizontal' } },
+    { 'v', ':vsplit<CR>', { desc = 'split vertical' } },
+    -- Using <Cmd> avoids mode changes and is slightly cleaner than :...<CR>
+    -- { 's', '<Cmd>split<CR>', { desc = 'split horizontal' } },
+    -- { 'v', '<Cmd>vsplit<CR>', { desc = 'split vertical' } },
 
-    -- === Window Switch ===
-    { 'w', nil, { exit = true, desc = false } },
-    { '<C-w>', nil, { exit = true, desc = false } },
+    { 'o', '<C-w>o', { exit = true, desc = 'remain only' } },
+    { 'q', '<C-w>q', { desc = 'close window' } }, -- Can also use :close<CR> or <Cmd>close<CR>
 
     -- === Tab Control ===
-    -- Note: Not exiting after 'c' means the hydra stays active, but focus moves
-    -- to the new tab. The hydra state is tied to the original window.
-    { 'c', ':tabnew<CR>', { desc = 'new tab' } }, -- Does NOT exit hydra
-    { 'd', ':tabclose<CR>', { exit = true, desc = 'close tab' } }, -- Exits hydra
-    { 'n', 'gt', { desc = 'next tab' } }, -- Does NOT exit hydra
-    { 'p', 'gT', { desc = 'prev tab' } }, -- Does NOT exit hydra
-    { 'T', '<C-w>T', { desc = 'window to new tab' } }, -- Exits hydra
+    -- Using <Cmd> which implies noremap and avoids mode changes
+    { 'c', '<Cmd>tabnew<CR>', { desc = 'new tab' } },
+    { 'd', '<Cmd>tabclose<CR>', { desc = 'close tab' } },
+    { 'n', 'gt', { desc = 'next tab' } },
+    { 'p', 'gT', { desc = 'prev tab' } },
+    { 'T', '<C-w>T', { desc = 'window to new tab' } }, -- exit=true implies noremap not strictly needed for recursion
 
     -- === Hydra Utilities ===
-    { 'i', show, { desc = 'toggle hint' } }, -- Toggle hint visibility
-    { 'b', show, { desc = false } }, -- Keep duplicate or remove if 'i' is enough
+    -- Function calls don't use noremap
+    { 'i', show, { noremap = false, desc = 'toggle hint' } }, -- Explicitly false for functions
 
     -- === Exit Hydra ===
+    -- exit=true implies noremap=false as there's no RHS mapping
     { '<Esc>', nil, { exit = true, desc = false } },
-    -- Optional: Add an explicit quit key if needed
-    -- { 'Q', nil, { exit = true, desc = 'quit hydra' } },
+    { 'w', nil, { exit = true, desc = false } },
   },
 }
-
--- Optional keymap if you set invoke_on_body = false
--- vim.keymap.set('n', '<C-w>', h.body, { desc = 'Window/Tab Hydra' })

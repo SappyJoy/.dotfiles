@@ -85,8 +85,3 @@ vim.keymap.set('n', '[c', function()
   vim.schedule(function() require('gitsigns').prev_hunk() end)
   return '<Ignore>'
 end, { expr = true, desc = 'Jump to prev hunk' })
-
--- Telescope
-vim.keymap.set('n', '<leader>sr', '<cmd>Telescope lsp_references<CR>', { desc = '[S]earch LSP [R]eferences' })
-vim.keymap.set('n', '<leader>ss', '<cmd>Telescope lsp_document_symbols<CR>', { desc = '[S]earch Document [S]ymbols' }) -- Changed from duplicate
-vim.keymap.set('n', '<leader>sw', '<cmd>Telescope lsp_dynamic_workspace_symbols<CR>', { desc = '[S]earch [W]orkspace Symbols' }) -- New mapping

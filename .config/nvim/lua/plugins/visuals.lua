@@ -35,7 +35,6 @@ return {
           { '<leader>o', group = '[O]ptions' }, -- Map group for hydra/oil actions
           { '<leader>r', group = '[R]ename/[R]epl' },
           { '<leader>f', group = '[S]earch' },
-          { '<leader>w', group = '[W]orkspace' },
           -- Hide placeholders for missing keys within groups
           { '<leader>c_', hidden = true },
           { '<leader>d_', hidden = true },
