@@ -1,22 +1,17 @@
--- local hydra = function()
---   local hint = require('hydra.statusline').get_hint()
---   if hint == nil then
---     return ''
---   end
---   return hint
--- end
-
+-- lua/plugins/line.lua
 return {
   {
     'MunifTanjim/nougat.nvim',
-    -- dependencies = {
-    --   'benlubas/molten-nvim',
-    -- },
+    dependencies = {
+      'mfussenegger/nvim-dap', -- Dependency for DAP status
+      'benlubas/molten-nvim', -- Dependency for Molten status
+    },
     config = function()
-      -- TODO: Choose best fit colors. Check `:lua print(vim.inspect(require('ayu.colors')))`
+      -- Load colorscheme colors
       local color = require 'ayu.colors'
       color.generate(false) -- Pass `true` to enable mirage
 
+      -- Nougat components
       local nougat = require 'nougat'
       local core = require 'nougat.core'
       local Bar = require 'nougat.bar'
@@ -48,17 +43,73 @@ return {
         truncation_point = require('nougat.nut.truncation_point').create,
       }
 
+      -- --- Custom Component Functions ---
+
+      -- Function to get the active Molten kernel name
+      local function get_molten_kernel_name()
+        local ok, molten_status = pcall(require, 'molten.status')
+        if not ok or molten_status.initialized() ~= 'Molten' then
+          return '' -- Return empty if Molten not running or not initialized
+        end
+        local kernel_name = molten_status.kernel_name()
+        if kernel_name and kernel_name ~= '' then
+          -- Optional: Shorten long kernel names if needed
+          -- kernel_name = kernel_name:gsub('python3%-?([%w_.-]+)', '%1') -- Example shortening
+          return '🔥 ' .. kernel_name -- Use a fire icon
+        end
+        return '' -- Return empty if no kernel name found
+      end
+
+      -- Function to get DAP status
+      local function get_dap_status()
+        local ok, dap = pcall(require, 'dap')
+        if not ok then return '' end
+        local session = dap.session()
+        if session then
+          -- You could potentially add more details here, like dap.status()
+          -- or info about the current stack frame if desired.
+          return '🐞 DAP' -- Use a bug icon
+        end
+        return '' -- Return empty if no DAP session active
+      end
+
+      -- --- Statusline Configuration ---
+
       local mode = nut.mode {
         prefix = ' ',
         suffix = ' ',
         sep_right = sep.right_chevron_solid(true),
       }
 
+      -- Define DAP status item
+      local dap_item = Item {
+        hl = { bg = color.vcs_removed, fg = color.bg }, -- Use a distinct color
+        prefix = ' ',
+        content = get_dap_status,
+        suffix = ' ',
+        sep_right = sep.right_chevron_solid(true),
+        -- Only show if content is not empty
+        hidden = function(self) return self.content == '' end,
+      }
+
+      -- Define Molten kernel item
+      local molten_kernel_item = Item {
+        hl = { bg = color.tag, fg = color.bg }, -- Use a suitable color
+        sep_left = sep.left_chevron_solid(true),
+        prefix = ' ',
+        content = get_molten_kernel_name,
+        suffix = ' ',
+        -- Only show if content is not empty
+        hidden = function(self) return self.content == '' end,
+      }
+
+      -- Active Statusline (stl)
       local stl = Bar 'statusline'
       stl:add_item(mode)
+      stl:add_item(dap_item) -- Add DAP status after mode
       stl:add_item(nut.git.branch {
         hl = { bg = color.accent, fg = color.fg },
-        prefix = '  ',
+        prefix = '  ', -- Git icon
         suffix = ' ',
         sep_right = sep.right_chevron_solid(true),
       })
@@ -91,19 +142,20 @@ return {
         suffix = ' ',
         sep_right = sep.right_chevron_solid(true),
         config = {
-          modified = '󰏫',
-          nomodifiable = '󰏯',
-          readonly = '',
+          modified = '󰏫', -- Modified icon
+          nomodifiable = '󰏯', -- Lock icon
+          readonly = '', -- Readonly icon (adjust if needed)
           sep = ' ',
         },
       })
       stl:add_item(nut.spacer())
       stl:add_item(nut.truncation_point())
+      -- stl:add_item(molten_kernel_item) -- Add Molten kernel name before diagnostics
       stl:add_item(nut.buf.diagnostic_count {
         hidden = false,
         hl = { bg = color.error, fg = color.bg },
         sep_left = sep.left_chevron_solid(true),
-        prefix = ' ',
+        prefix = '  ', -- Error icon
         suffix = ' ',
         config = {
           severity = vim.diagnostic.severity.ERROR,
@@ -113,7 +165,7 @@ return {
         hidden = false,
         hl = { bg = color.warning, fg = color.bg },
         sep_left = sep.left_chevron_solid(true),
-        prefix = ' ',
+        prefix = '  ', -- Warning icon
         suffix = ' ',
         config = {
           severity = vim.diagnostic.severity.WARN,
@@ -121,18 +173,18 @@ return {
       })
       stl:add_item(nut.buf.diagnostic_count {
         hidden = false,
-        hl = { bg = color.regexp, fg = color.bg },
+        hl = { bg = color.regexp, fg = color.bg }, -- Using regexp color for INFO
         sep_left = sep.left_chevron_solid(true),
-        prefix = ' ',
+        prefix = '  ', -- Info icon
         suffix = ' ',
         config = {
           severity = vim.diagnostic.severity.INFO,
         },
       })
       stl:add_item(nut.buf.diagnostic_count {
-        hl = { bg = color.special, fg = color.bg },
+        hl = { bg = color.special, fg = color.bg }, -- Using special color for HINT
         sep_left = sep.left_chevron_solid(true),
-        prefix = ' ',
+        prefix = '  ', -- Hint icon (adjust if needed)
         suffix = ' ',
         config = {
           severity = vim.diagnostic.severity.HINT,
@@ -147,7 +199,7 @@ return {
       stl:add_item(Item {
         hl = { bg = color.constant, fg = color.fg },
         sep_left = sep.left_chevron_solid(true),
-        prefix = '  ',
+        prefix = '  ', -- Line icon
         content = core.group {
           core.code 'l',
           ':',
@@ -159,22 +211,24 @@ return {
         hl = { bg = color.string, fg = color.bg },
         sep_left = sep.left_chevron_solid(true),
         prefix = ' ',
-        content = core.code 'P',
-        suffix = ' ',
+        content = core.code 'P', -- Percentage through file
+        suffix = '% ', -- Added percentage sign
       })
 
+      -- Inactive Statusline (stl_inactive) - Keep it simple
       local stl_inactive = Bar 'statusline'
       stl_inactive:add_item(mode)
-      stl_inactive:add_item(filename)
-      stl_inactive:add_item(filestatus)
+      stl_inactive:add_item(filename) -- Use the same filename item instance
+      stl_inactive:add_item(filestatus) -- Use the same filestatus item instance
       stl_inactive:add_item(nut.spacer())
 
+      -- Set the statusline dynamically based on focus
       nougat.set_statusline(function(ctx)
         return ctx.is_focused and stl or stl_inactive
       end)
 
+      -- --- Tabline Configuration (Unchanged) ---
       local tal = Bar 'tabline'
-
       tal:add_item(nut.tab.tablist.tabs {
         active_tab = {
           hl = { bg = color.bg, fg = color.regexp },
