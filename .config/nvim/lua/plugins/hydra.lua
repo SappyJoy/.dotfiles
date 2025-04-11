@@ -1,41 +1,57 @@
+-- Plugin for creating custom modal keymap layers (Hydras)
 return {
   'nvimtools/hydra.nvim',
-  dependencies = { 'MunifTanjim/nougat.nvim' },
-  -- dev = true,
+  event = 'VeryLazy',
+  dependencies = {
+      -- Nougat is used here specifically to refresh the statusline when entering/exiting a hydra
+      'MunifTanjim/nougat.nvim'
+  },
   config = function()
-    -- TODO: Choose ayu colors
-    -- vim.api.nvim_set_hl(0, 'HydraRed', { link = 'MoonflyRed' })
-    -- vim.api.nvim_set_hl(0, 'HydraBlue', { link = 'MoonflySky' })
-    -- vim.api.nvim_set_hl(0, 'HydraAmaranth', { link = 'MoonflyCranberry' })
-    -- vim.api.nvim_set_hl(0, 'HydraTeal', { link = 'MoonflyTurquoise' })
-    -- vim.api.nvim_set_hl(0, 'HydraPink', { link = 'MoonflyCrimson' })
-    --
-    -- local colors = require('moonfly').palette
-    -- vim.api.nvim_set_hl(0, 'HydraHint', { bg = colors.grey234 })
-    -- vim.api.nvim_set_hl(0, 'HydraBorder', { fg = colors.grey234 })
-    -- vim.api.nvim_set_hl(0, 'HydraTitle', { fg = colors.black, bg = colors.blue })
-    -- vim.api.nvim_set_hl(0, 'HydraFooter', { fg = colors.black, bg = colors.red })
-
+    -- Global Hydra configuration options
     require('hydra').setup {
+      -- Configuration for the hint window that shows available keys
       hint = {
+        -- Show hint in a floating window (alternatives: 'statusline', 'cmdline', 'virtual_text')
         type = 'window',
+        -- Do not show the hydra's name in the hint title
         show_name = false,
-        position = { 'middle' },
+        -- Position the hint window ('top', 'middle', 'bottom', or specific row/col)
+        position = 'middle',
+        -- Options passed directly to nvim_open_win for the float
         float_opts = {
-          border = Border,
+          -- Use rounded borders for the hint window
+          -- NOTE: 'Border' variable must be defined globally, e.g., in sap.globals
+          -- Example definition: Border = "rounded" or Border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
+          border = vim.g.Border or 'rounded', -- Use global Border or default to 'rounded'
         },
+        -- offset = { 0, 0 }, -- Fine-tune position offset {row, col}
       },
+      -- Function called when entering any hydra
       on_enter = function()
-        require('nougat').refresh_statusline(true)
+        -- Refresh the statusline (provided by nougat.nvim) to potentially show hydra state
+        local nougat_ok, nougat = pcall(require, 'nougat')
+        if nougat_ok then
+          nougat.refresh_statusline(true)
+        end
       end,
+      -- Function called when exiting any hydra
       on_exit = function()
+        -- Schedule the statusline refresh slightly later to ensure exit state is reflected
         vim.schedule(function()
-          require('nougat').refresh_statusline(true)
+          local nougat_ok, nougat = pcall(require, 'nougat')
+          if nougat_ok then
+            nougat.refresh_statusline(true)
+          end
         end)
       end,
+      -- Other global options:
+      -- debug = false, -- Enable debug logging
+      -- timeout = false, -- Global timeout for all hydras (ms or false)
     }
 
-    require 'sap.hydra.options'
-    require 'sap.hydra.windows'
+    -- Load user-defined hydra configurations from separate files
+    -- Ensures modularity: each file defines one or more hydra heads.
+    require 'sap.hydra.options' -- Assumes this file defines hydras related to options
+    require 'sap.hydra.windows' -- Assumes this file defines hydras related to window management
   end,
 }
