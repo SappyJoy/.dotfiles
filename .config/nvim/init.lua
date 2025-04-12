@@ -1,3 +1,20 @@
+local required_major = 0
+local required_minor = 10
+
+local v = vim.version()
+
+if not (v.major == required_major and v.minor == required_minor) then
+  vim.notify(
+    string.format(
+      "WARNING: This config is tested for Neovim v%d.%d.x (pariculary v0.10.4). You are running v%d.%d.%d. Compatibility issues may arise with v0.11+ until the config is updated.",
+      required_major, required_minor, v.major, v.minor, v.patch
+    ),
+    vim.log.levels.WARN,
+    { title = "Neovim Version Check" }
+  )
+end
+
+
 -- Load user-defined globals, keymaps, and lazy.nvim bootstrap first
 require 'sap.globals'
 require 'sap.lazy-bootstrap'
