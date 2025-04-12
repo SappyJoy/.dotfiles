@@ -77,6 +77,7 @@
   "outline.nvim": { "branch": "main", "commit": "ae473fb51b7b6086de0876328c81a63f9c3ecfef" },
   "oxocarbon.nvim": { "branch": "main", "commit": "004777819ba294423b638a35a75c9f0c7be758ed" },
   "papercolor-theme": { "branch": "master", "commit": "0cfe64ffb24c21a6101b5f994ca342a74c977aef" },
+  "persistence.nvim": { "branch": "main", "commit": "166a79a55bfa7a4db3e26fc031b4d92af71d0b51" },
   "plenary.nvim": { "branch": "master", "commit": "857c5ac632080dba10aae49dba902ce3abf91b35" },
   "quarto-nvim": { "branch": "main", "commit": "5325af3731ac9840b308791f08ad660958d76163" },
   "render-markdown.nvim": { "branch": "main", "commit": "05e6a6d119f90b99829ecb7eb85428a226c0c05f" },
