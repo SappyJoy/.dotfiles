@@ -96,95 +96,28 @@ return {
   },
   {
     'lukas-reineke/headlines.nvim',
-    -- enabled = false,
     dependencies = 'nvim-treesitter/nvim-treesitter',
+    ft = { 'markdown', 'quarto' },
     config = function()
-      -- Theses highlights turned out really bad.
-
-      -- local function ser(c)
-      --   local function h(n)
-      --     return string.format("%02x", n)
-      --   end
-      --   return "#" .. h(c.r) .. h(c.g) .. h(c.b)
-      -- end
-      --
-      -- local function de(color)
-      --   return {
-      --     r = tonumber(string.sub(color, 2, 3), 16),
-      --     g = tonumber(string.sub(color, 4, 5), 16),
-      --     b = tonumber(string.sub(color, 6, 6), 16),
-      --   }
-      -- end
-      --
-      -- local function darken(c, percent)
-      --   return {
-      --     r = c.r * (1 - percent),
-      --     g = c.g * (1 - percent),
-      --     b = c.b * (1 - percent),
-      --   }
-      -- end
-      --
-      -- local colors = require("moonfly").palette
-      -- local highlights = {
-      --   colors.crimson,
-      --   colors.blue,
-      --   colors.khaki,
-      --   colors.orchid,
-      --   colors.coral,
-      --   colors.emerald,
-      -- }
-      --
-      -- for i, color in ipairs(highlights) do
-      --   local hl = "Headlines" .. i
-      --   vim.api.nvim_set_hl(0, hl, { bg = ser(darken(de(color), 0.85)) })
-      -- end
-
-      local custom = {
-        codeblock_highlight = false,
+      local markdown_config = {
         dash_string = '━',
-        -- headline_highlights = {
-        --   "Headlines1",
-        --   "Headlines2",
-        --   "Headlines3",
-        --   "Headlines4",
-        --   "Headlines5",
-        --   "Headlines6",
-        -- },
+        fat_headlines = true,
       }
-      local qmd = vim.tbl_deep_extend('force', custom, { treesitter_language = 'markdown' })
-      -- local norg = vim.tbl_deep_extend('force', custom, {
-      --   query = vim.treesitter.query.parse(
-      --     'norg',
-      --     [[
-      --           [
-      --               (heading1_prefix)
-      --               (heading2_prefix)
-      --           ] @headline
-      --
-      --           (weak_paragraph_delimiter) @dash
-      --           (strong_paragraph_delimiter) @doubledash
-      --
-      --           ([(ranged_tag
-      --               name: (tag_name) @_name
-      --               (#eq? @_name "code")
-      --           )
-      --           (ranged_verbatim_tag
-      --               name: (tag_name) @_name
-      --               (#eq? @_name "code")
-      --           )] @codeblock (#offset! @codeblock 0 0 1 0))
-      --
-      --           (quote1_prefix) @quote
-      --       ]]
-      --   ),
-      -- })
 
       require('headlines').setup {
-        -- markdown = custim,
-        quarto = vim.tbl_deep_extend('force', require('headlines').config.markdown, qmd),
-        -- norg = norg,
+        -- Apply the base config to standard markdown files
+        markdown = markdown_config,
+
+        -- Quarto files use markdown syntax, so apply the same settings.
+        -- The `treesitter_language = "markdown"` ensures it uses the correct
+        -- underlying parser and queries if the filetype is 'quarto'.
+        quarto = vim.tbl_deep_extend('force', markdown_config, {
+          treesitter_language = 'markdown',
+        }),
       }
     end,
   },
+
   {
     'norcalli/nvim-colorizer.lua',
     event = { 'BufReadPost', 'BufNewFile' }, -- Can be lazy-loaded
