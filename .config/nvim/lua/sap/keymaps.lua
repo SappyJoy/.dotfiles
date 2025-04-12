@@ -85,3 +85,6 @@ vim.keymap.set('n', '[c', function()
   vim.schedule(function() require('gitsigns').prev_hunk() end)
   return '<Ignore>'
 end, { expr = true, desc = 'Jump to prev hunk' })
+
+vim.keymap.set('n', '<leader>zz', '<cmd>ZenMode<CR>', { desc = 'Toggle Zen Mode + Twilight' })
+
