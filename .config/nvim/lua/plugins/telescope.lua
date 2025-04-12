@@ -81,9 +81,10 @@ return {
               preview_cutoff = 120,
             },
             vertical = {
-              width = 0.8, -- Narrower width for vertical monitors
-              height = 0.95,
+              width = 0.7, -- Narrower width for vertical monitors
+              height = 0.99,
               preview_height = 0.7, -- Larger preview area
+              mirror = true,
             },
           },
         },
