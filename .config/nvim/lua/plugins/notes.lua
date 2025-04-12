@@ -155,7 +155,8 @@ return {
       },
       picker = {
         -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', or 'mini.pick'.
-        name = 'fzf-lua', -- Перейти на telescope.nvim, когда решат https://github.com/nvim-telescope/telescope.nvim/issues/3337
+        name = 'telescope.nvim', -- Перейти на telescope.nvim, когда решат https://github.com/nvim-telescope/telescope.nvim/issues/3337
+        -- В итоге просто переименовал всё в lowercase
         note_mappings = {
           -- Create a new note from your query.
           new = '<C-x>',
@@ -246,7 +247,7 @@ return {
 
       completion = {
         nvim_cmp = true,
-        min_chars = 2,
+        min_chars = 0,
       },
 
       templates = {
