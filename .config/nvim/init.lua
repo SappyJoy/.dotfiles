@@ -50,6 +50,7 @@ local plugins = {
   { import = 'plugins.telescope' },
   { import = 'plugins.todoist' },
   { import = 'plugins.treesitter' },
+  { import = 'plugins.trouble' },
   { import = 'plugins.visuals' },
   { import = 'plugins.writing' },
 }
