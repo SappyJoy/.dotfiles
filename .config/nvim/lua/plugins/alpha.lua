@@ -161,7 +161,8 @@ return {
    ╚═╝      ╚═╝   ╚═╝     ╚══════╝ ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
     ]]
     -- Footer Quote (as before)
-    local footer_quote = '"Quiet people have the loudest minds." - Stephen King'
+    -- local footer_quote = '"Quiet people have the loudest minds." - Stephen King'
+    local footer_quote = '"Уже привык и даже улыбаюсь." - А.П. Чехов'
 
     -- Configure dashboard sections (as before, with horizontal alignment)
     -- dashboard.section.header.val = vim.split(typewriter_art, '\n')
