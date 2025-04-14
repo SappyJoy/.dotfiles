@@ -100,6 +100,7 @@
   "vim-illuminate": { "branch": "master", "commit": "19cb21f513fc2b02f0c66be70107741e837516a1" },
   "vim-material": { "branch": "master", "commit": "95ab18e1e9799b91680f577a24e0fa96f1f4fb9b" },
   "vim-one": { "branch": "master", "commit": "187f5c85b682c1933f8780d4d419c55d26a82e24" },
+  "vim-pencil": { "branch": "master", "commit": "6d70438a8886eaf933c38a7a43a61adb0a7815ed" },
   "vim-tmux-navigator": { "branch": "master", "commit": "791dacfcfc8ccb7f6eb1c853050883b03e5a22fe" },
   "vim-tomorrow-theme": { "branch": "master", "commit": "fd25d3be7558b9f9533837f25d7b31d31438287b" },
   "vim-visual-multi": { "branch": "master", "commit": "a6975e7c1ee157615bbc80fc25e4392f71c344d4" },

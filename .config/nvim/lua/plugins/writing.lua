@@ -105,4 +105,46 @@ return {
       -- exclude = {}, -- exclude these filetypes
     },
   },
+  {
+    'reedes/vim-pencil',
+    -- Load specifically for writing filetypes. Add others like 'text', 'gitcommit' if needed.
+    -- Quarto is markdown-based, so it should inherit fine if ft is set correctly elsewhere.
+    ft = { 'markdown', 'text', 'gitcommit', 'quarto', 'norg' }, -- Added common writing types + quarto/norg
+    -- No explicit Lua setup function, configured via commands/globals/autocmds
+    config = function()
+      -- Set default mode to 'soft' wrapping (visual lines wrap, file remains one line)
+      -- This is usually the default, but explicit is good.
+      vim.g['pencil#wrapModeDefault'] = 'soft'
+
+      -- Optional: Customize concealment level for markdown characters (*, _, etc.)
+      -- 0=None, 1=Basic, 2=More, 3=All. Default is usually 1 or 2.
+      vim.g['pencil#conceallevel'] = 2
+
+      -- Create an autocmd to automatically activate Pencil mode for relevant filetypes
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = { 'markdown', 'text', 'gitcommit', 'quarto', 'norg' }, -- Match the 'ft' list above
+        command = 'Pencil', -- Activate default soft wrap mode
+        desc = 'Activate vim-pencil for writing filetypes',
+      })
+
+      -- Define a user command to easily toggle Pencil mode
+      vim.api.nvim_create_user_command('PencilToggle', function()
+        -- Check a proxy option like 'wrap' to see if Pencil's soft mode might be active
+        if vim.wo.wrap then
+          vim.cmd 'NoPencil'
+          vim.notify('Pencil Mode Deactivated', vim.log.levels.INFO, { title = 'Pencil' })
+        else
+          vim.cmd 'Pencil' -- Activate default (soft) mode
+          vim.notify('Pencil Mode Activated (Soft Wrap)', vim.log.levels.INFO, { title = 'Pencil' })
+        end
+      end, { desc = 'Toggle vim-pencil mode' })
+
+      -- You can add mappings for other modes if needed, e.g.,
+      -- vim.keymap.set("n", "<leader>zh", "<Cmd>HardPencil<CR>", { desc = "Pencil Hard Wrap"})
+    end,
+    -- Optional: Define keys to lazy-load or just for organization
+    keys = {
+      { '<leader>zp', '<Cmd>PencilToggle<CR>', desc = 'Toggle Pencil Mode' },
+    },
+  },
 }
