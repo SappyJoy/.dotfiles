@@ -40,6 +40,7 @@ local plugins = {
   { import = 'plugins.hydra' },
   { import = 'plugins.images' },
   { import = 'plugins.jupyter' },
+  { import = 'plugins.leap' },
   { import = 'plugins.line' },
   { import = 'plugins.lsp' },
   { import = 'plugins.misc' },
