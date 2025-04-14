@@ -3,6 +3,7 @@
   "Comment.nvim": { "branch": "master", "commit": "e30b7f2008e52442154b66f7c519bfd2f1e32acb" },
   "LuaSnip": { "branch": "master", "commit": "c9b9a22904c97d0eb69ccb9bab76037838326817" },
   "alabaster.nvim": { "branch": "main", "commit": "8de3afd6b203e5469594108041721b8618a10889" },
+  "alpha-nvim": { "branch": "main", "commit": "de72250e054e5e691b9736ee30db72c65d560771" },
   "android-nvim": { "branch": "main", "commit": "f1165f6ab179b314037a53a51e6adc91829a271d" },
   "avante.nvim": { "branch": "main", "commit": "e295fe82f0714188615a524604bdaccd266ced35" },
   "bamboo.nvim": { "branch": "master", "commit": "97124a0b81f886abc0d666ebec512b92425d67b6" },

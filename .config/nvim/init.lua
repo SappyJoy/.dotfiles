@@ -31,6 +31,7 @@ vim.filetype.add {
 local plugins = {
   { import = 'plugins.ai' },
   { import = 'plugins.ai-completion' },
+  { import = 'plugins.alpha' },
   { import = 'plugins.autocomplete' },
   { import = 'plugins.base' },
   { import = 'plugins.colorscheme' },
