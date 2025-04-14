@@ -46,6 +46,7 @@ local plugins = {
   { import = 'plugins.lsp' },
   { import = 'plugins.misc' },
   { import = 'plugins.notes' },
+  { import = 'plugins.noice' },
   { import = 'plugins.oil' },
   { import = 'plugins.persistence' },
   { import = 'plugins.session' },
