@@ -52,6 +52,7 @@ local plugins = {
   { import = 'plugins.session' },
   { import = 'plugins.telescope' },
   { import = 'plugins.todoist' },
+  { import = 'plugins.translate' },
   { import = 'plugins.treesitter' },
   { import = 'plugins.trouble' },
   { import = 'plugins.visuals' },
