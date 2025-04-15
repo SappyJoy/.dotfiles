@@ -188,14 +188,11 @@ return {
       {
         '<leader>dl',
         function()
-          -- Check if gitsigns provides the action
-          if package.loaded.gitsigns and require('gitsigns').diffthis then
-            require('gitsigns').diffthis('~' .. vim.fn.line '.')
-          else
-            -- Fallback or alternative: Use Diffview's file history focused on the line
-            require('diffview.actions').file_history_entry_focus(true)
-            vim.cmd('DiffviewFileHistory % --line=' .. vim.fn.line '.')
-          end
+          local current_line = vim.fn.line '.'
+          local file = vim.fn.expand '%'
+          -- DiffviewFileHistory --follow -L{current_line},{current_line}:{file}
+          local cmd = string.format('DiffviewFileHistory --follow -L%s,%s:%s', current_line, current_line, file)
+          vim.cmd(cmd)
         end,
         desc = '[D]iff [L]ine History',
       },
@@ -203,29 +200,6 @@ return {
     config = function()
       local wk = require 'which-key'
       wk.add {
-        {
-          {
-            mode = { 'n', 'v' },
-            { '<leader>do', '<cmd>DiffviewOpen<cr>', desc = 'Diffview Open' },
-          },
-          { '<leader>dc', '<cmd>DiffviewClose<cr>', desc = 'Diffview Close' },
-          { '<leader>dr', '<cmd>DiffviewFileHistory<cr>', desc = 'Diffview Repo History' },
-          { '<leader>df', '<cmd>DiffviewFileHistory --follow %<cr>', desc = 'Diffview File History' },
-          { '<leader>dh', '<cmd>DiffviewFileHistory %<cr>', desc = 'Diffview File History' },
-          { '<leader>dH', '<cmd>DiffviewFileHistory<cr>', desc = 'Diffview File History' },
-          { '<leader>dm', '<cmd>DiffviewOpen master<cr>', desc = 'Diffview with master' },
-          {
-            '<leader>dl',
-            function()
-              local current_line = vim.fn.line '.'
-              local file = vim.fn.expand '%'
-              -- DiffviewFileHistory --follow -L{current_line},{current_line}:{file}
-              local cmd = string.format('DiffviewFileHistory --follow -L%s,%s:%s', current_line, current_line, file)
-              vim.cmd(cmd)
-            end,
-            desc = 'Diffview line History',
-          },
-        },
         {
           mode = { 'v' },
           { '<leader>dl', "<Esc><Cmd>'<,'>DiffviewFileHistory --follow<CR>", desc = 'File History for visual selection' },
@@ -282,8 +256,20 @@ return {
         mode = 'v',
       },
       -- Add other neogit actions/keymaps if needed
-      { '<leader>gc', function() require('neogit').open { 'commit' } end, desc = 'Neogit [C]ommit' },
-      { '<leader>gs', function() require('neogit').open() end, desc = 'Neogit [S]tatus' }, -- Same as gg
+      {
+        '<leader>gc',
+        function()
+          require('neogit').open { 'commit' }
+        end,
+        desc = 'Neogit [C]ommit',
+      },
+      {
+        '<leader>gs',
+        function()
+          require('neogit').open()
+        end,
+        desc = 'Neogit [S]tatus',
+      }, -- Same as gg
     },
     config = function()
       require('neogit').setup {
