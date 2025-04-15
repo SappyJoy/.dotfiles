@@ -52,7 +52,7 @@ return {
     keys = {
       -- Hunk Navigation
       {
-        ']c',
+        ']h',
         function()
           require('gitsigns').next_hunk()
         end,
@@ -60,7 +60,7 @@ return {
         desc = 'Next Hunk',
       },
       {
-        '[c',
+        '[h',
         function()
           require('gitsigns').prev_hunk()
         end,
