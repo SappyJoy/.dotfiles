@@ -64,7 +64,7 @@ end
 
 Hydra {
   name = 'Notebook',
-  hint = '_j_/_k_: ↑/↓ | _o_/_O_: new cell ↓/↑ | _l_: run | _s_how/_h_ide | run _a_bove/_A_ll',
+  hint = '_j_/_k_: ↑/↓ | _o_/_O_: new cell ↓/↑ | _l_/_t_: run/stop | _s_how/_h_ide | run _a_bove/_A_ll | _R_estart kernel',
   config = {
     color = 'pink',
     invoke_on_body = true,
@@ -72,20 +72,45 @@ Hydra {
       type = 'window',
       position = 'bottom',
       float_opts = { border = 'rounded' },
-    }
+    },
   },
   mode = { 'n' },
   body = '<localleader>j',
   heads = {
+    -- Navigation and Cell Creation (Existing)
     { 'j', keys ']b', { desc = '↓' } },
     { 'k', keys '[b', { desc = '↑' } },
-    { 'o', function() create_cell('below') end, { desc = 'new cell ↓' } },
-    { 'O', function() create_cell('above') end, { desc = 'new cell ↑' } },
+    {
+      'o',
+      function()
+        create_cell 'below'
+      end,
+      { desc = 'new cell ↓' },
+    },
+    {
+      'O',
+      function()
+        create_cell 'above'
+      end,
+      { desc = 'new cell ↑' },
+    },
+
+    -- Execution and Output (Existing)
     { 'l', ':QuartoSend<CR>', { desc = 'run' } },
+    { 't', ':MoltenInterrupt<CR>', { desc = 'stop' } },
     { 's', ':noautocmd MoltenEnterOutput<CR>', { desc = 'show' } },
     { 'h', ':MoltenHideOutput<CR>', { desc = 'hide' } },
     { 'a', ':QuartoSendAbove<CR>', { desc = 'run above' } },
     { 'A', ':MoltenReevaluateAll<CR>', { desc = 'run all' } },
+    { 'R', ':MoltenRestart<CR>', { desc = 'restart kernel' } },
+
+    { 'i', keys 'i', {exit = true, desc = false} },
+    { 'I', keys 'I', {exit = true, desc = false} },
+    { 'S', keys 'S', {exit = true, desc = false} },
+    { 'C', keys 'C', { exit = true, desc = false } },
+    { 'cc', keys 'cc', { exit = true, desc = false } },
+
+    -- Existing Exit Keys
     { '<esc>', nil, { exit = true, desc = false } },
     { 'q', nil, { exit = true, desc = false } },
   },
