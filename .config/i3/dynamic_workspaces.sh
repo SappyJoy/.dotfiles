@@ -27,12 +27,12 @@ total_workspaces=$((5 * group_size))  # 5 groups × monitor count
     done
 
     echo -e "\n# Workspace switches"
-    for ((ws=1; ws<=total_workspaces; ws++)); do
+    for ((ws=1; ws<=total_workspaces && ws<=10; ws++)); do
         echo "bindsym \$mod+$(($ws % 10)) workspace number \$ws$ws"
     done
 
     echo -e "\n# Move focused container to workspace"
-    for ((ws=1; ws<=total_workspaces; ws++)); do
+    for ((ws=1; ws<=total_workspaces && ws <= 10; ws++)); do
         echo "bindsym \$mod+Shift+$(($ws % 10)) move container to workspace number \$ws$ws"
     done
 
