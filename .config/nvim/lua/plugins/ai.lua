@@ -129,6 +129,10 @@ return {
           focus_on_apply = 'ours', -- which diff to focus after applying
         },
       },
+      file_selector = {
+        provider = 'telescope',
+        provider_opts = {}, -- You can add Telescope-specific options here if needed
+      },
     },
     build = 'make',
   },
