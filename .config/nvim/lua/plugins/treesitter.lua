@@ -82,6 +82,8 @@ return {
           -- disable = { "python" },
         },
 
+        folding = true,
+
         -- Incremental selection configuration
         incremental_selection = {
           enable = true,
