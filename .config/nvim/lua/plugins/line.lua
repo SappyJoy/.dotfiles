@@ -46,33 +46,47 @@ return {
       -- --- Custom Component Functions ---
 
       -- Function to get the active Molten kernel name(s) for the buffer
+
       local function get_molten_kernel_name()
-        local ok, molten_status = pcall(require, 'molten.status')
-        -- Check if molten.status module loaded AND if Molten is initialized
-        if not ok or molten_status.initialized() ~= 'Molten' then
-          return '' -- Return empty if Molten not available or not initialized
+        -- Use pcall to safely require molten.status
+        local ok_ms, molten_status = pcall(require, 'molten.status')
+        if not ok_ms then
+          return ''
+        end -- Molten module not available
+
+        -- Use pcall to safely call initialized() - THIS IS LIKELY THE FIX
+        local ok_init, initialized_status = pcall(molten_status.initialized)
+        -- Check if the pcall succeeded AND if Molten is actually initialized
+        if not ok_init or initialized_status ~= 'Molten' then
+          return '' -- Return empty if check fails or Molten not initialized
         end
-        -- Use kernels() which returns a string list of kernels for the buffer
-        local kernel_names_str = molten_status.kernels()
-        if kernel_names_str and kernel_names_str ~= '' then
+
+        -- Use pcall to safely get kernel names
+        local ok_kernels, kernel_names_str = pcall(molten_status.kernels)
+        if ok_kernels and kernel_names_str and kernel_names_str ~= '' then
           -- kernel_names_str might contain multiple names, space-separated.
-          -- We'll display the whole string as returned.
           return '🔥 ' .. kernel_names_str -- Use a fire icon
         end
-        return '' -- Return empty if no kernels associated with the buffer
+        return '' -- Default empty if no kernels or error getting them
       end
 
       -- Function to get DAP status
       local function get_dap_status()
-        local ok, dap = pcall(require, 'dap')
-        if not ok then return '' end
-        local session = dap.session()
-        if session then
-          -- You could potentially add more details here, like dap.status()
-          -- or info about the current stack frame if desired.
-          return '🐞 DAP' -- Use a bug icon
+        -- Use pcall to safely require dap
+        local ok_dap, dap = pcall(require, 'dap')
+        if not ok_dap then
+          return ''
         end
-        return '' -- Return empty if no DAP session active
+
+        -- Use pcall to safely check for an active session
+        local ok_session, session = pcall(dap.session)
+        if ok_session and session then
+          -- Optionally and safely check dap.status() for more details
+          local ok_status, status_str = pcall(dap.status)
+          local status_info = (ok_status and status_str) and (' (' .. status_str .. ')') or ''
+          return '🐞 DAP' .. status_info -- Use a bug icon + status if available
+        end
+        return '' -- Return empty if no DAP session active or error checking
       end
 
       -- --- Statusline Configuration ---
@@ -91,7 +105,9 @@ return {
         suffix = ' ',
         sep_right = sep.right_chevron_solid(true),
         -- Only show if content is not empty
-        hidden = function(self) return self.content == '' end,
+        hidden = function(self)
+          return self.content == ''
+        end,
       }
 
       -- Define Molten kernel item
@@ -102,7 +118,9 @@ return {
         content = get_molten_kernel_name, -- Use the corrected function
         suffix = ' ',
         -- Only show if content is not empty
-        hidden = function(self) return self.content == '' end,
+        hidden = function(self)
+          return self.content == ''
+        end,
       }
 
       -- Active Statusline (stl)
