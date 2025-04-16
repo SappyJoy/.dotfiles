@@ -234,6 +234,7 @@ Hydra {
     { 'S', keys 'S', {exit = true, desc = false} },
     { 'C', keys 'C', { exit = true, desc = false } },
     { 'cc', keys 'cc', { exit = true, desc = false } },
+    { '-', keys '-', { exit = true, desc = false } },
 
     -- Existing Exit Keys
     { '<esc>', nil, { exit = true, desc = false } },
