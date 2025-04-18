@@ -54,3 +54,6 @@ xdg-user-dirs-update
 
 - [ ] Это немного устаревшая инструкция, её нужно обновить и перевести на ангельский
 
+---
+
+My notes: [styopa.xyz](http://styopa.xyz)
