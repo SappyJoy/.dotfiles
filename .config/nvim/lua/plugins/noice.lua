@@ -1,6 +1,7 @@
 return {
   {
     'folke/noice.nvim',
+    enabled = false,
     event = 'VeryLazy',
     keys = {
       { '<leader>cn', function() require("notify").dismiss({ silent = true, pending = true }) end, desc = 'Noice Dismiss Message' },
