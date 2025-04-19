@@ -89,15 +89,15 @@ return {
           enable = true,
           keymaps = {
             -- Recommended defaults:
-            init_selection = '<CR>', -- Start selection block
-            node_incremental = '<CR>', -- Expand to larger node
-            scope_incremental = '<TAB>', -- Expand to parent scope (less common)
-            node_decremental = '<BS>', -- Shrink selection
+            -- init_selection = '<CR>', -- Start selection block
+            -- node_incremental = '<CR>', -- Expand to larger node
+            -- scope_incremental = '<TAB>', -- Expand to parent scope (less common)
+            -- node_decremental = '<BS>', -- Shrink selection
             -- Your original config:
-            -- init_selection = '<leader>i',
-            -- node_incremental = '<leader>i',
-            -- scope_incremental = false,
-            -- node_decremental = '<bs>',
+            init_selection = '<leader>i',
+            node_incremental = '<leader>i',
+            scope_incremental = false,
+            node_decremental = '<bs>',
           },
         },
 
