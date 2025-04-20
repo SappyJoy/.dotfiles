@@ -8,6 +8,7 @@ set -gx GTEST_COLOR 1
 set -gx ANDROID_HOME $HOME/Android/Sdk
 # set -gx CRYPTOGRAPHY_OPENSSL_NO_LEGACY 1
 # set -gx CM_DEBUG 1
+set -l config_files $XDG_CONFIG_HOME/fish/colors.fish
 
 # Private environment variables
 if test -f ~/.config/fish/private.fish; source ~/.config/fish/private.fish; end
