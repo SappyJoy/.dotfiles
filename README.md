@@ -7,6 +7,10 @@
 Установить при помощи
 
 ```sh
+curl -fsSL https://gist.github.com/SappyJoy/eec1274b275af7336aafdaf217dfff16/raw/setup_dotfiles.sh | bash
+```
+
+```sh
 cd ~
 set -Ux DOTFILES $HOME/.dotfiles
 set -Ux SECRETS $HOME/.secrets
@@ -19,7 +23,11 @@ gitdf config --local status.showUntrackedFiles no
 fish # update fish config
 sg checkout
 sg config --local status.showUntrackedFiles no
+
+tide configure --auto --style=Lean --prompt_colors='True color' --show_time='24-hour format' --lean_prompt_height='Two lines' --prompt_connection=Dotted --prompt_connection_andor_frame_color=Light --prompt_spacing=Compact --icons='Few icons' --transient=No
 ```
+
+Все ключи у меня хранятся в `pass`. Ссылки на них хранятся в `secrets` .config/fish/private.fish
 
 Сразу получаю ошибку с fish prompt
 
