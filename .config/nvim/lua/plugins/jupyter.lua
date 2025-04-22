@@ -201,8 +201,6 @@ return {
 
       vim.keymap.set('n', '<localleader>qp', quarto.quartoPreview, { desc = 'Preview the Quarto document', silent = true, noremap = true })
       -- to create a cell in insert mode, I have the ` snippet
-      vim.keymap.set('n', '<localleader>cc', 'i`<c-j>', { desc = 'Create a new code cell', silent = true })
-      vim.keymap.set('n', '<localleader>cs', 'i```\r\r```{}<left>', { desc = 'Split code cell', silent = true, noremap = true })
 
       local runner = require 'quarto.runner'
       vim.keymap.set('n', '<localleader>rc', runner.run_cell, { desc = 'run cell', silent = true })
