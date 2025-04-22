@@ -132,6 +132,16 @@ return {
       },
       vendors = {
         openrouter_gemini_2 = {
+          __inherited_from = 'openai',
+          endpoint = 'https://openrouter.ai/api/v1',
+          timeout = 800000000,
+          api_key_name = 'OPENROUTER_API_KEY',
+          model = 'google/gemini-2.0-flash-exp:free',
+          disable_tools = true,
+          max_completion_tokens = 65536,
+        },
+        openrouter_gemini_2_thinking = {
+          __inherited_from = 'openai',
           endpoint = 'https://openrouter.ai/api/v1',
           timeout = 800000000,
           api_key_name = 'OPENROUTER_API_KEY',
@@ -187,7 +197,7 @@ return {
         },
         ask = {
           floating = false, -- Open the 'AvanteAsk' prompt in a floating window
-          start_insert = false, -- Start insert mode when opening the ask window
+          start_insert = true, -- Start insert mode when opening the ask window
           border = 'rounded',
           ---@type "ours" | "theirs"
           focus_on_apply = 'ours', -- which diff to focus after applying
