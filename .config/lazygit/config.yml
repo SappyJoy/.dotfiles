@@ -1,0 +1,8 @@
+gui:
+  mainPanelSplitMode: horizontal
+os:
+  edit: "nvim {{filename}}"
+keybinding:
+  commits:
+    moveDownCommit: J
+    moveUpCommit: K
