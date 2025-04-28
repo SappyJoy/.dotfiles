@@ -74,17 +74,17 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- Gitsigns
 -- Use expr = true for conditional mapping based on vim.wo.diff
-vim.keymap.set('n', ']c', function()
-  if vim.wo.diff then return ']c' end
-  vim.schedule(function() require('gitsigns').next_hunk() end)
-  return '<Ignore>'
-end, { expr = true, desc = 'Jump to next hunk' })
-
-vim.keymap.set('n', '[c', function()
-  if vim.wo.diff then return '[c' end
-  vim.schedule(function() require('gitsigns').prev_hunk() end)
-  return '<Ignore>'
-end, { expr = true, desc = 'Jump to prev hunk' })
+-- vim.keymap.set('n', ']c', function()
+--   if vim.wo.diff then return ']c' end
+--   vim.schedule(function() require('gitsigns').next_hunk() end)
+--   return '<Ignore>'
+-- end, { expr = true, desc = 'Jump to next hunk' })
+--
+-- vim.keymap.set('n', '[c', function()
+--   if vim.wo.diff then return '[c' end
+--   vim.schedule(function() require('gitsigns').prev_hunk() end)
+--   return '<Ignore>'
+-- end, { expr = true, desc = 'Jump to prev hunk' })
 
 vim.keymap.set('n', '<leader>zz', '<cmd>ZenMode<CR>', { desc = 'Toggle Zen Mode + Twilight' })
 
