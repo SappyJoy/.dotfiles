@@ -38,9 +38,9 @@ return {
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
   },
-  {
-    'm4xshen/hardtime.nvim',
-    dependencies = { 'MunifTanjim/nui.nvim' },
-    opts = {},
-  },
+  -- {
+  --   'm4xshen/hardtime.nvim',
+  --   dependencies = { 'MunifTanjim/nui.nvim' },
+  --   opts = {},
+  -- },
 }
