@@ -50,6 +50,7 @@ local plugins = {
   { import = 'plugins.oil' },
   { import = 'plugins.persistence' },
   { import = 'plugins.session' },
+  { import = 'plugins.spectre' },
   { import = 'plugins.telescope' },
   { import = 'plugins.todoist' },
   { import = 'plugins.translate' },
