@@ -98,8 +98,8 @@ return {
         pattern = { '*.qmd', '*.md', '*.ipynb' },
         callback = function()
           if require('molten.status').initialized() == 'Molten' then
-            vim.keymap.set('n', '<localleader>o', ':noautocmd MoltenEnterOutput<CR>', { desc = 'Open output window', silent = true })
-            vim.keymap.set('n', '<localleader>h', ':MoltenHideOutput<CR>', { desc = 'Hide output window', silent = true })
+            vim.keymap.set('n', '<localleader>mo', ':noautocmd MoltenEnterOutput<CR>', { desc = 'Open output window', silent = true })
+            vim.keymap.set('n', '<localleader>mh', ':MoltenHideOutput<CR>', { desc = 'Hide output window', silent = true })
             vim.fn.MoltenUpdateOption('virt_lines_off_by_1', true)
             vim.fn.MoltenUpdateOption('virt_text_output', true)
           else
