@@ -109,10 +109,10 @@ return {
     'reedes/vim-pencil',
     -- Check an issue with conceallevel here: https://github.com/preservim/vim-pencil/issues/47
     -- Because of it symbols in jupyter notebook doesn't not work properly
-    enabled = false, -- Disable by default, enable via command
+    enabled = true, -- Disable by default, enable via command
     -- Load specifically for writing filetypes. Add others like 'text', 'gitcommit' if needed.
     -- Quarto is markdown-based, so it should inherit fine if ft is set correctly elsewhere.
-    ft = { 'markdown', 'text', 'gitcommit', 'quarto', 'norg' }, -- Added common writing types + quarto/norg
+    ft = { 'tex', 'latex', 'bib', 'markdown', 'text', 'gitcommit', 'quarto', 'norg' }, -- Added common writing types + quarto/norg
     -- No explicit Lua setup function, configured via commands/globals/autocmds
     init = function()
       -- Optional: Customize concealment level for markdown characters (*, _, etc.)
@@ -128,7 +128,7 @@ return {
     config = function()
       -- Create an autocmd to automatically activate Pencil mode for relevant filetypes
       vim.api.nvim_create_autocmd('FileType', {
-        pattern = { 'markdown', 'text', 'gitcommit', 'quarto', 'norg' }, -- Match the 'ft' list above
+        pattern = { 'tex', 'latex', 'bib', 'markdown', 'text', 'gitcommit', 'quarto', 'norg' }, -- Match the 'ft' list above
         command = 'Pencil', -- Activate default soft wrap mode
         desc = 'Activate vim-pencil for writing filetypes',
       })

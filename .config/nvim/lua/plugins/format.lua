@@ -32,6 +32,8 @@ return {
         -- Remove ipynb and jupyter, rely on markdown ft set by jupytext
         -- quarto = { 'cbfmt', 'isort', 'black' }, -- Keep if you format quarto files differently
         quarto = { 'cbfmt', 'prettier_markdown_stdin' }, -- Or treat quarto like markdown
+        tex = { 'latexindent' },
+        bib = { 'bibtex-tidy' }, -- If bibtex-tidy has a CLI conform can use
       },
       formatters = {
         -- Configure prettier to accept stdin and treat it as markdown
@@ -46,6 +48,14 @@ return {
         ktfmt = {
           inherit = true,
           prepend_args = { '--kotlinlang-style' },
+        },
+        latexindent = {
+          -- See latexindent.pl -h for options
+          -- Example: use localSettings.yaml for project-specific indent rules
+          args = { '-l', '-m' }, -- -l: use localSettings.yaml if present, -m: modify in place
+        },
+        bibtex_tidy = {
+          args = { '--tidy-comments', '--remove-empty-fields', '%filepath' },
         },
 
         -- Configure cbfmt (assuming it's codeblockfmt)
