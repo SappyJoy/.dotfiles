@@ -51,22 +51,23 @@ return {
     -- Define keymaps using the standard `keys` table for lazy-loading
     keys = {
       -- Hunk Navigation
-      {
-        ']h',
-        function()
-          require('gitsigns').next_hunk()
-        end,
-        mode = 'n',
-        desc = 'Next Hunk',
-      },
-      {
-        '[h',
-        function()
-          require('gitsigns').prev_hunk()
-        end,
-        mode = 'n',
-        desc = 'Previous Hunk',
-      },
+      -- {
+      --   ']h',
+      --   function()
+      --     require('gitsigns').next_hunk()
+      --   end,
+      --   mode = 'n',
+      --   desc = 'Next Hunk',
+      -- },
+      -- {
+      --   '[h',
+      --   function()
+      --     require('gitsigns').prev_hunk()
+      --   end,
+      --   mode = 'n',
+      --   desc = 'Previous Hunk',
+      -- },
+
       -- Hunk Actions
       {
         '<leader>hs',
