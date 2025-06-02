@@ -50,6 +50,7 @@ local plugins = {
   { import = 'plugins.noice' },
   { import = 'plugins.oil' },
   { import = 'plugins.persistence' },
+  { import = 'plugins.vim-repeat' },
   { import = 'plugins.session' },
   { import = 'plugins.spectre' },
   { import = 'plugins.telescope' },

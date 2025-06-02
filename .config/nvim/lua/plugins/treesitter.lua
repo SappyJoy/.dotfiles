@@ -189,7 +189,7 @@ return {
             goto_next_start = {
               [']f'] = { query = '@call.outer', desc = 'Next function call start' },
               [']m'] = { query = '@function.outer', desc = 'Next function/method definition start' },
-              [']c'] = { query = '@class.outer', desc = 'Next class definition start' },
+              [']C'] = { query = '@class.outer', desc = 'Next class definition start' },
               [']i'] = { query = '@conditional.outer', desc = 'Next conditional start' },
               [']l'] = { query = '@loop.outer', desc = 'Next loop start' },
               [']a'] = { query = '@parameter.outer', desc = 'Next parameter start' }, -- Added parameter jump
@@ -205,7 +205,7 @@ return {
             goto_next_end = {
               [']F'] = { query = '@call.outer', desc = 'Next function call end' },
               [']M'] = { query = '@function.outer', desc = 'Next function/method definition end' },
-              [']C'] = { query = '@class.outer', desc = 'Next class definition end' },
+              -- [']C'] = { query = '@class.outer', desc = 'Next class definition end' },
               [']I'] = { query = '@conditional.outer', desc = 'Next conditional end' },
               [']L'] = { query = '@loop.outer', desc = 'Next loop end' },
               [']A'] = { query = '@parameter.outer', desc = 'Next parameter end' }, -- Added parameter jump
@@ -216,7 +216,7 @@ return {
             goto_previous_start = {
               ['[f'] = { query = '@call.outer', desc = 'Previous function call start' },
               ['[m'] = { query = '@function.outer', desc = 'Previous function/method definition start' },
-              ['[c'] = { query = '@class.outer', desc = 'Previous class definition start' },
+              ['[C'] = { query = '@class.outer', desc = 'Previous class definition start' },
               ['[i'] = { query = '@conditional.outer', desc = 'Previous conditional start' },
               ['[l'] = { query = '@loop.outer', desc = 'Previous loop start' },
               ['[a'] = { query = '@parameter.outer', desc = 'Previous parameter start' }, -- Added parameter jump
@@ -227,7 +227,7 @@ return {
             goto_previous_end = {
               ['[F'] = { query = '@call.outer', desc = 'Previous function call end' },
               ['[M'] = { query = '@function.outer', desc = 'Previous function/method definition end' },
-              ['[C'] = { query = '@class.outer', desc = 'Previous class definition end' },
+              -- ['[C'] = { query = '@class.outer', desc = 'Previous class definition end' },
               ['[I'] = { query = '@conditional.outer', desc = 'Previous conditional end' },
               ['[L'] = { query = '@loop.outer', desc = 'Previous loop end' },
               ['[A'] = { query = '@parameter.outer', desc = 'Previous parameter end' }, -- Added parameter jump

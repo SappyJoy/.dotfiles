@@ -7,6 +7,7 @@ return {
   {
     'lewis6991/gitsigns.nvim',
     event = { 'BufReadPre', 'BufNewFile' }, -- Load when opening a buffer
+    dependencies = { 'tpope/vim-repeat' },
     opts = {
       -- Signs configuration (using block characters)
       signs = {
@@ -50,23 +51,40 @@ return {
     },
     -- Define keymaps using the standard `keys` table for lazy-loading
     keys = {
-      -- Hunk Navigation
-      -- {
-      --   ']h',
-      --   function()
-      --     require('gitsigns').next_hunk()
-      --   end,
-      --   mode = 'n',
-      --   desc = 'Next Hunk',
-      -- },
-      -- {
-      --   '[h',
-      --   function()
-      --     require('gitsigns').prev_hunk()
-      --   end,
-      --   mode = 'n',
-      --   desc = 'Previous Hunk',
-      -- },
+      -- Hunk Navigation (Repeatable with vim-repeat)
+      {
+        ']c', -- Or use ']h' if you prefer
+        function()
+          if vim.wo.diff then
+            -- In diff mode, execute Vim's native ]c for diff navigation
+            return ']c'
+          end
+          -- Otherwise, use gitsigns. Schedule it to mimic gitsigns' own behavior.
+          vim.schedule(function()
+            require('gitsigns').next_hunk()
+          end)
+          -- Tell Neovim the mapping was handled and it shouldn't process ']c' further.
+          return '<Ignore>'
+        end,
+        mode = 'n',
+        expr = true, -- Crucial for the conditional return logic
+        desc = 'Next Hunk (GitSigns)',
+      },
+      {
+        '[c', -- Or use '[h' if you prefer
+        function()
+          if vim.wo.diff then
+            return '[c'
+          end
+          vim.schedule(function()
+            require('gitsigns').prev_hunk()
+          end)
+          return '<Ignore>'
+        end,
+        mode = 'n',
+        expr = true, -- Crucial!
+        desc = 'Previous Hunk (GitSigns)',
+      },
 
       -- Hunk Actions
       {
