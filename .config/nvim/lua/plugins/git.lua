@@ -144,7 +144,15 @@ return {
         desc = '[T]oggle [D]eleted Signs',
       },
       {
-        '<leader>tb',
+        '<leader>gb',
+        function()
+          require('gitsigns').blame()
+        end,
+        mode = 'n',
+        desc = '[G]it [B]lame',
+      },
+      {
+        '<leader>tB',
         function()
           require('gitsigns').toggle_current_line_blame()
         end,
