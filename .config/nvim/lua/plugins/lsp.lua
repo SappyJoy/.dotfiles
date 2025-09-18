@@ -204,7 +204,7 @@ return {
       -- Define ALL tools (LSPs, formatters, linters, DAPs) to be *ENSURED INSTALLED* by mason-tool-installer
       -- Use the EXACT package name as shown in :Mason
       local tools_to_ensure_installed = {
-        'tree-sitter-cli',
+        -- 'tree-sitter-cli',
 
         -- LSPs (these will also be configured by mason-lspconfig)
         'lua-language-server', -- Mason name for lua_ls
