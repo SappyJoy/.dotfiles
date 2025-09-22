@@ -75,3 +75,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 vim.keymap.set('n', '<leader>zz', '<cmd>ZenMode<CR>', { desc = 'Toggle Zen Mode + Twilight' })
 
+-- Copy file path
+vim.keymap.set('n', '<leader>cf', function()
+  local file_path = vim.fn.expand('%')
+  vim.fn.setreg('+', file_path)
+  vim.notify("Copied file path to clipboard: " .. file_path)
+end, { desc = 'Copy file path to clipboard' })
