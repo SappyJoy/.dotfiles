@@ -152,6 +152,10 @@ return {
           name = 'notes',
           path = '~/notes/vault-13/',
         },
+        {
+          name = 'prompts',
+          path = '~/notes/prompts/',
+        },
       },
       picker = {
         -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', or 'mini.pick'.
