@@ -43,8 +43,8 @@ function note
     nvim -c 'ObsidianQuickSwitch'
 end
 
-alias vpn-on="sudo wg-quick up /etc/wireguard/vpnconfig.conf"
-alias vpn-off="sudo wg-quick down /etc/wireguard/vpnconfig.conf"
+alias vpn-on="nmcli connection up vpnconfig"
+alias vpn-off="nmcli connection down vpnconfig"
 
 function vid_comp720
     # Check if at least one argument is provided
