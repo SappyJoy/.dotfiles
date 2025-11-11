@@ -69,6 +69,16 @@ function vid_comp720
     ffmpeg -i "$input" -s hd720 -vcodec libx264 -crf 28 -preset medium -threads 16 "$output"
 end
 
+function fish_title
+  if [ $_ = 'fish' ]
+    # If it's just a shell prompt, show the current directory
+    echo (prompt_pwd)
+  else
+    # If a command is running, show the command and its arguments
+    echo (status current-command) (prompt_pwd)
+  end
+end
+
 
 ## LS
 alias ls='lsd'

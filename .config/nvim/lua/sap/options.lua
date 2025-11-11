@@ -56,6 +56,8 @@ vim.opt.breakindent = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
+vim.opt.title = true
+
 -- Keep signcolumn on by default
 -- vim.opt.signcolumn = 'yes'
 
