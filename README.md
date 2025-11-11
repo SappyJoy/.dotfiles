@@ -72,6 +72,8 @@ tide configure --auto --style=Lean --prompt_colors='True color' --show_time='24-
 - wg-quick - VPN
 - ly - login manager
 - aider - AI помощник
+- direnv - управление переменными окружения
+- sdkman - менеджер версий для java/gradle
 
 
 Установим плагины для tmux
