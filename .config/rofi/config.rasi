@@ -13,9 +13,10 @@ configuration {
 @theme "/dev/null"
 
 * {
-    bg: #282a36;
-    bg-alt: #44475a;
-    fg: #f8f8f2;
+    /* ayu-light theme variables */
+    bg: #FAFAFA;
+    bg-alt: #F3F4F5;
+    fg: #5C6A72;
     accent: #FA8D3E;
     
     background-color: @bg;
@@ -25,7 +26,6 @@ configuration {
 window {
     width: 600px;
     border: 2px;
-    border-radius: 10px;
     border-color: @accent;
     padding: 16;
 }
