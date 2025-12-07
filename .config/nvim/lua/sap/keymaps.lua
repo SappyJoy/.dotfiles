@@ -8,6 +8,8 @@ vim.keymap.set('n', '<C-s>', '<cmd>w<CR>', { desc = 'Save' })
 vim.keymap.set('i', '<C-s>', '<Esc><cmd>w<CR>', { desc = 'Save' })
 vim.keymap.set('n', '<C-q>', '<cmd>q<CR>', { desc = 'Quit' })
 
+vim.keymap.set('n', '<C-t>', '<cmd>tabnew<CR>', { desc = 'New Tab' })
+
 -- Diagnostic keymaps
 vim.keymap.set('n', ']d', function()
   vim.diagnostic.goto_next { float = { border = 'single' } }

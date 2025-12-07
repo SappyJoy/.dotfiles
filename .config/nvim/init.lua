@@ -53,6 +53,7 @@ local plugins = {
   { import = 'plugins.vim-repeat' },
   { import = 'plugins.session' },
   { import = 'plugins.spectre' },
+  { import = 'plugins.sql' },
   { import = 'plugins.telescope' },
   { import = 'plugins.todoist' },
   { import = 'plugins.translate' },
