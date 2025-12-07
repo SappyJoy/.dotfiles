@@ -29,6 +29,7 @@ alias gs='git --git-dir=$SECRETS --work-tree=$HOME'
 alias lgd='lazygit --git-dir=$DOTFILES --work-tree=$HOME'
 alias lgs='lazygit --git-dir=$SECRETS --work-tree=$HOME'
 alias vd='GIT_DIR=$DOTFILES GIT_WORK_TREE=$HOME nvim'
+alias d='dir2md'
 function gfwd
     g checkout (g rev-list --topo-order HEAD.."$argv" | tail -1)
 end
@@ -86,6 +87,7 @@ alias ll='lsd -l'
 alias lr='ll -t --color=always | head'
 
 alias clip="xclip -selection clipboard"
+alias c='xclip -selection clipboard'
 
 set fish_greeting ""
 # print_jumoreski
