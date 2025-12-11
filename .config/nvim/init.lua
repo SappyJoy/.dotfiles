@@ -21,6 +21,19 @@ vim.filetype.add {
   },
 }
 
+-- Optional: Check for minimum version to avoid cryptic lua errors in plugins
+local required_major = 0
+local required_minor = 11
+
+local v = vim.version()
+if v.major < required_major or (v.major == required_major and v.minor < required_minor) then
+  vim.notify(
+    string.format("Neovim v%d.%d+ is required for some plugins (grug-far, render-markdown). You are running v%d.%d.%d", required_major, required_minor, v.major, v.minor, v.patch),
+    vim.log.levels.WARN,
+    { title = "Neovim Version Check" }
+  )
+end
+
 -- Setup Lazy and load plugins from lua/plugins directory
 require('lazy').setup({
   { import = 'plugins.ai' },

@@ -16,6 +16,7 @@ return {
     build = ':UpdateRemotePlugins',
     init = function()
       vim.g.molten_image_provider = 'image.nvim'
+      vim.g.molten_virt_text_output = true -- Restore virtual text output by default
       -- vim.g.molten_output_win_max_height = 20
       vim.g.molten_use_border_highlights = true
       vim.g.molten_auto_open_output = true
@@ -160,7 +161,7 @@ return {
     'quarto-dev/quarto-nvim',
     ft = { 'quarto', 'ipynb', 'jupyter' },
     dependencies = {
-      'jmbuuhr/otter.nvim',
+      'jmbuhr/otter.nvim',
       { 'nvim-treesitter/nvim-treesitter', lazy = true },
       'nvim-cmp',
       { 'nvimtools/hydra.nvim', lazy = true },

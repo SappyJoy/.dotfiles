@@ -4,11 +4,9 @@ return {
     ft = 'python',
     dependencies = { 'mfussenegger/nvim-dap', 'jay-babu/mason-nvim-dap.nvim' },
     config = function()
-      local mason_registry = require 'mason-registry'
-      if mason_registry.has_package('debugpy') then
-          local python_debugger_path = mason_registry.get_package('debugpy'):get_install_path() .. '/venv/bin/python'
-          require('dap-python').setup(python_debugger_path)
-      end
+      -- The adapter is automatically configured by mason-nvim-dap.
+      -- We just need to call setup on dap-python to create the python-specific configurations.
+      require('dap-python').setup()
     end,
   },
 }

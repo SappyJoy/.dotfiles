@@ -23,6 +23,12 @@ vim.keymap.set('n', '<leader>e', function()
   vim.diagnostic.open_float { border = 'single' }
 end, { desc = 'Show diagnostic [E]rror messages' })
 
+-- Toggle Virtual Text Diagnostics
+vim.keymap.set('n', '<leader>E', function()
+  local current_vt = vim.diagnostic.config().virtual_text
+  vim.diagnostic.config { virtual_text = not current_vt }
+end, { desc = 'Toggle Virtual Text Diagnostics' })
+
 vim.keymap.set('n', '<leader>dq', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Exit terminal mode (keep commented if default <C-\><C-n> works)

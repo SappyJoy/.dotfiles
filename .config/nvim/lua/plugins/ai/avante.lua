@@ -36,50 +36,9 @@ return {
     priority = 1000,
     version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
     opts = {
-      -- provider = 'openai',
-      -- -- add any opts here
       provider = 'openrouter_gemini_2',
-      -- disable all default providers
-      vertex_claude = {
-        hide_in_model_selector = true,
-      },
-      copilot = {
-        hide_in_model_selector = true,
-      },
-      openai = {
-        hide_in_model_selector = true,
-      },
-      claude = {
-        hide_in_model_selector = true,
-      },
-      gemini = {
-        hide_in_model_selector = true,
-      },
-      cohere = {
-        hide_in_model_selector = true,
-      },
-      vertex = {
-        hide_in_model_selector = true,
-      },
-      bedrock = {
-        hide_in_model_selector = true,
-      },
-      ['openai-gpt-4o-mini'] = {
-        hide_in_model_selector = true,
-      },
-      aihubmix = {
-        hide_in_model_selector = true,
-      },
-      ['aihubmix-claude'] = {
-        hide_in_model_selector = true,
-      },
-      ['claude-opus'] = {
-        hide_in_model_selector = true,
-      },
-      ['claude-haiku'] = {
-        hide_in_model_selector = true,
-      },
-      vendors = {
+      providers = {
+        -- Custom Providers (formerly 'vendors')
         openrouter_gemini_2 = {
           __inherited_from = 'openai',
           endpoint = 'https://openrouter.ai/api/v1',
@@ -87,7 +46,9 @@ return {
           api_key_name = 'OPENROUTER_API_KEY',
           model = 'google/gemini-2.0-flash-exp:free',
           disable_tools = true,
-          max_completion_tokens = 65536,
+          extra_request_body = {
+            max_completion_tokens = 65536,
+          },
         },
         openrouter_gemini_2_thinking = {
           __inherited_from = 'openai',
@@ -96,7 +57,9 @@ return {
           api_key_name = 'OPENROUTER_API_KEY',
           model = 'google/gemini-2.0-flash-thinking-exp:free',
           disable_tools = true,
-          max_completion_tokens = 65536,
+          extra_request_body = {
+            max_completion_tokens = 65536,
+          },
         },
         openrouter_deepseek_r1_ditill = {
           __inherited_from = 'openai',
@@ -105,7 +68,9 @@ return {
           api_key_name = 'OPENROUTER_API_KEY',
           model = 'deepseek/deepseek-r1-distill-llama-70b:free',
           disable_tools = true,
-          max_completion_tokens = 65536,
+          extra_request_body = {
+            max_completion_tokens = 65536,
+          },
         },
         openrouter_deepseek_r1 = {
           __inherited_from = 'openai',
@@ -113,9 +78,10 @@ return {
           timeout = 800000000,
           api_key_name = 'OPENROUTER_API_KEY',
           model = 'deepseek/deepseek-r1:free',
-          -- model = 'google/gemini-2.5-pro-exp-03-25:free',
           disable_tools = true,
-          max_completion_tokens = 65536,
+          extra_request_body = {
+            max_completion_tokens = 65536,
+          },
         },
         openrouter_gemini_2_5 = {
           __inherited_from = 'openai',
@@ -124,8 +90,24 @@ return {
           api_key_name = 'OPENROUTER_API_KEY',
           model = 'google/gemini-2.5-pro-exp-03-25:free',
           disable_tools = true,
-          max_completion_tokens = 65536,
+          extra_request_body = {
+            max_completion_tokens = 65536,
+          },
         },
+        -- Disabling default providers
+        vertex_claude = { hide_in_model_selector = true },
+        copilot = { hide_in_model_selector = true },
+        openai = { hide_in_model_selector = true },
+        claude = { hide_in_model_selector = true },
+        gemini = { hide_in_model_selector = true },
+        cohere = { hide_in_model_selector = true },
+        vertex = { hide_in_model_selector = true },
+        bedrock = { hide_in_model_selector = true },
+        ['openai-gpt-4o-mini'] = { hide_in_model_selector = true },
+        aihubmix = { hide_in_model_selector = true },
+        ['aihubmix-claude'] = { hide_in_model_selector = true },
+        ['claude-opus'] = { hide_in_model_selector = true },
+        ['claude-haiku'] = { hide_in_model_selector = true },
       },
       windows = {
         position = 'right', -- the position of the sidebar

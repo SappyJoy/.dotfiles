@@ -65,15 +65,24 @@ vim.opt.title = true
 vim.opt.updatetime = 250
 vim.opt.timeoutlen = 300
 
--- Configure how new splits should be opened
-vim.opt.splitright = true
-vim.opt.splitbelow = true
-
 -- Sets how neovim will display certain whitespace in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
 vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+
+-- Configure how diagnostics are displayed
+vim.diagnostic.config {
+  virtual_text = {
+    spacing = 4,
+    source = 'if_many',
+    prefix = '●',
+  },
+  severity_sort = true,
+  float = {
+    source = 'if_many',
+  },
+}
 
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = 'split'

@@ -18,19 +18,9 @@ return {
       },
     },
   },
-  { -- this is really useful when there are a ton of diagnostics for different parts of a single line
+  {
+    -- This plugin is no longer needed in Neovim 0.11+
     'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
-    config = function()
-      local lspl = require 'lsp_lines'
-      lspl.setup()
-      lspl.toggle()
-
-      local on = false
-      vim.keymap.set('n', '<Leader>E', function()
-        vim.diagnostic.config { virtual_text = on }
-        on = not on
-        lspl.toggle()
-      end, { desc = 'Toggle lsp_lines' })
-    end,
+    enabled = false,
   },
 }

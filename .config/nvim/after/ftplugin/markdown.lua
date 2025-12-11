@@ -13,6 +13,29 @@ vim.wo.linebreak = true
 vim.wo.breakindent = true
 vim.wo.conceallevel = 2
 
+-- Jupytext/Molten Compatibility:
+-- Check if the markdown file is a Jupytext notebook by looking for "jupyter:" in the frontmatter.
+local first_line = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1]
+if first_line and first_line == "---" then
+  local is_notebook = false
+  for i = 1, 10 do
+    local line = vim.api.nvim_buf_get_lines(0, i, i + 1, false)[1] or ""
+    if line:match("^jupyter:") then
+      is_notebook = true
+      break
+    end
+    if line == "---" then
+      break
+    end
+  end
+
+  if is_notebook then
+    -- If it's a notebook, disable render-markdown's code block rendering
+    -- to allow molten-nvim to display its virtual text output correctly.
+    vim.b.render_markdown_code_enabled = false
+  end
+end
+
 -- Auto-close YAML frontmatter fold in Markdown files (Deferred)
 local buf = vim.api.nvim_get_current_buf()
 

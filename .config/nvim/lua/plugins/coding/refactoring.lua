@@ -6,7 +6,6 @@ return {
       'nvim-treesitter/nvim-treesitter',
     },
     keys = {
-      { '<leader>r', '', desc = '+refactor', mode = { 'n', 'x' } },
       {
         '<leader>rr',
         function() require('refactoring').select_refactor() end,
