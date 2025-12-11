@@ -25,10 +25,6 @@ end, { desc = 'Show diagnostic [E]rror messages' })
 
 vim.keymap.set('n', '<leader>dq', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
-vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>", { desc = "Toggle Trouble" })
-vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", { desc = "Workspace Diagnostics (Trouble)"})
-vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", { desc = "Document Diagnostics (Trouble)"})
-
 -- Exit terminal mode (keep commented if default <C-\><C-n> works)
 -- vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
@@ -37,12 +33,6 @@ vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
-
--- Window navigation
--- vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
--- vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
--- vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
--- vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- Scroll centering
 vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Scroll down half page', noremap = true })
@@ -58,24 +48,6 @@ vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move line down' }) -- Fix
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move line up' }) -- Fixed desc
 vim.keymap.set('v', '>', '>gv', { desc = 'Indent line' }) -- Fixed desc
 vim.keymap.set('v', '<', '<gv', { desc = 'Unindent line' }) -- Fixed desc
-
--- Yank highlight (autocommand moved to sap.autocmds or keep here)
-vim.api.nvim_create_autocmd('TextYankPost', {
-  desc = 'Highlight when yanking (copying) text',
-  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-})
-
--- Iron (keep commented if not used)
--- vim.keymap.set('n', '<leader>is', '<cmd>IronRepl<cr>')
--- vim.keymap.set('n', '<leader>ir', '<cmd>IronRestart<cr>')
--- vim.keymap.set('n', '<leader>if', '<cmd>IronFocus<cr>')
--- vim.keymap.set('n', '<leader>ih', '<cmd>IronHide<cr>')
-
-
-vim.keymap.set('n', '<leader>zz', '<cmd>ZenMode<CR>', { desc = 'Toggle Zen Mode + Twilight' })
 
 -- Copy file path
 vim.keymap.set('n', '<leader>cf', function()

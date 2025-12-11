@@ -55,6 +55,7 @@ end
 
 return {
   'nvim-neorg/neorg',
+  enabled = false,
   -- dev = true,
   build = ':Neorg sync-parsers',
   ft = 'norg',

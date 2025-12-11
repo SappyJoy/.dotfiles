@@ -1,23 +1,18 @@
-local required_major = 0
-local required_minor = 10
-
-local v = vim.version()
-
-if not (v.major == required_major and v.minor == required_minor) then
-  vim.notify(
-    string.format(
-      "WARNING: This config is tested for Neovim v%d.%d.x (pariculary v0.10.4). You are running v%d.%d.%d. Compatibility issues may arise with v0.11+ until the config is updated.",
-      required_major, required_minor, v.major, v.minor, v.patch
-    ),
-    vim.log.levels.WARN,
-    { title = "Neovim Version Check" }
-  )
-end
-
-
--- Load user-defined globals, keymaps, and lazy.nvim bootstrap first
+-- Load user-defined globals first
 require 'sap.globals'
-require 'sap.lazy-bootstrap'
+
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+  local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
+  vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
+end ---@diagnostic disable-next-line: undefined-field
+vim.opt.rtp:prepend(lazypath)
+
+-- Core Configuration
+require 'sap.options'
+require 'sap.keymaps'
+require 'sap.autocmds'
 
 -- Associate .ets files with the 'typescript' filetype for syntax highlighting, LSP, etc.
 vim.filetype.add {
@@ -26,44 +21,16 @@ vim.filetype.add {
   },
 }
 
--- Define plugin specifications by importing modular files.
--- Consider alphabetical order for easier navigation as the list grows.
-local plugins = {
+-- Setup Lazy and load plugins from lua/plugins directory
+require('lazy').setup({
   { import = 'plugins.ai' },
-  { import = 'plugins.ai-completion' },
-  { import = 'plugins.alpha' },
-  { import = 'plugins.autocomplete' },
-  { import = 'plugins.base' },
-  { import = 'plugins.colorscheme' },
-  { import = 'plugins.dap' },
-  { import = 'plugins.format' },
+  { import = 'plugins.coding' },
+  { import = 'plugins.editor' },
   { import = 'plugins.git' },
-  { import = 'plugins.hydra' },
-  { import = 'plugins.images' },
-  { import = 'plugins.jupyter' },
-  { import = 'plugins.latex' },
-  { import = 'plugins.leap' },
-  { import = 'plugins.line' },
+  { import = 'plugins.lang' },
   { import = 'plugins.lsp' },
-  { import = 'plugins.misc' },
-  { import = 'plugins.notes' },
-  { import = 'plugins.noice' },
-  { import = 'plugins.oil' },
-  { import = 'plugins.persistence' },
-  { import = 'plugins.vim-repeat' },
-  { import = 'plugins.session' },
-  { import = 'plugins.spectre' },
-  { import = 'plugins.sql' },
-  { import = 'plugins.telescope' },
-  { import = 'plugins.todoist' },
-  { import = 'plugins.translate' },
-  { import = 'plugins.treesitter' },
-  { import = 'plugins.trouble' },
-  { import = 'plugins.visuals' },
-  { import = 'plugins.writing' },
-}
-
-require('lazy').setup(plugins, {
+  { import = 'plugins.ui' },
+}, {
   -- Configure lazy.nvim installation options
   install = {
     -- Automatically install missing plugins on startup
@@ -113,6 +80,3 @@ require('lazy').setup(plugins, {
     },
   },
 })
-
--- Load main user configuration
-require 'sap'
