@@ -16,7 +16,7 @@ return {
         sign = false,
         width = 'full', -- Stretch to window width
         right_pad = 1,
-        conceal_delimiters = false,
+        -- conceal_delimiters = false,
         border = 'none',
       },
 

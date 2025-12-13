@@ -9,13 +9,10 @@ return {
       'LazyGitFilter',
       'LazyGitFilterCurrentFile',
     },
-    -- optional for floating window border decoration
     dependencies = {
       'nvim-telescope/telescope.nvim',
       'nvim-lua/plenary.nvim',
     },
-    -- setting the keybinding for LazyGit with 'keys' is recommended in
-    -- order to load the plugin when the command is run for the first time
     keys = {
       { '<leader>gl', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
     },
@@ -24,25 +21,45 @@ return {
   -- Diffview: Enhanced Git Diff Viewer
   {
     'sindrets/diffview.nvim',
-    cmd = { 'DiffviewOpen', 'DiffviewFileHistory', 'DiffviewClose' }, -- Lazy load on commands
-    dependencies = { 'nvim-lua/plenary.nvim', 'lewis6991/gitsigns.nvim' }, -- Gitsigns is optional but recommended
+    cmd = { 'DiffviewOpen', 'DiffviewFileHistory', 'DiffviewClose' },
+    dependencies = { 'nvim-lua/plenary.nvim', 'lewis6991/gitsigns.nvim' },
     keys = {
       { '<leader>do', '<cmd>DiffviewOpen<cr>', desc = '[D]iff [O]pen (Changes)' },
       { '<leader>dc', '<cmd>DiffviewClose<cr>', desc = '[D]iff [C]lose' },
-      { '<leader>dh', '<cmd>DiffviewFileHistory %<cr>', desc = '[D]iff File [H]istory' }, -- Changed from dr
-      { '<leader>dH', '<cmd>DiffviewFileHistory<cr>', desc = '[D]iff Repo [H]istory' }, -- Added Repo History
-      { '<leader>dm', '<cmd>DiffviewOpen master...<cr>', desc = '[D]iff Against [M]aster' }, -- Use '...' for range diff vs master
-      -- Diff line history (uses Gitsigns backend if available)
+      { '<leader>dh', '<cmd>DiffviewFileHistory %<cr>', desc = '[D]iff File [H]istory' },
+      { '<leader>dH', '<cmd>DiffviewFileHistory<cr>', desc = '[D]iff Repo [H]istory' },
+      { '<leader>dm', '<cmd>DiffviewOpen master...<cr>', desc = '[D]iff Against [M]aster' },
+      -- Diff line history
       {
         '<leader>dl',
         function()
           local current_line = vim.fn.line '.'
           local file = vim.fn.expand '%'
-          -- DiffviewFileHistory --follow -L{current_line},{current_line}:{file}
           local cmd = string.format('DiffviewFileHistory --follow -L%s,%s:%s', current_line, current_line, file)
           vim.cmd(cmd)
         end,
         desc = '[D]iff [L]ine History',
+      },
+      -- Open the commit that touched the current line in Diffview
+      {
+        '<leader>dC',
+        function()
+          local line = vim.fn.line '.'
+          local file = vim.fn.expand '%'
+          -- Get the commit hash for the current line
+          local cmd = 'git blame -L ' .. line .. ',' .. line .. ' -l -s ' .. file
+          local output = vim.fn.system(cmd)
+          local commit_hash = vim.split(output, ' ')[1]
+
+          if commit_hash and #commit_hash > 0 and commit_hash ~= '0000000000000000000000000000000000000000' then
+            -- Open Diffview for this commit (hash^! syntax means "this commit vs parent")
+            vim.cmd('DiffviewOpen ' .. commit_hash .. '^!')
+            vim.notify('Viewing Commit: ' .. commit_hash)
+          else
+            vim.notify('No commit found for this line (uncommitted?)', vim.log.levels.WARN)
+          end
+        end,
+        desc = '[D]iff [C]ommit at Line',
       },
     },
     config = function()
@@ -54,13 +71,8 @@ return {
         },
       }
       require('diffview').setup {
-        -- Configure Diffview options here, e.g., layout, keymaps within diffview
-        -- keymaps = { ... }
-        -- file_panel = { width = 35 },
-        -- enhanced_diff_hl = true,
-        -- Use gitsigns for hunk navigation if available
-        use_icons = vim.g.have_nerd_font, -- Use icons if nerd fonts are available
-        signs = { -- Use gitsigns setting by default
+        use_icons = vim.g.have_nerd_font,
+        signs = {
           fold_closed = '',
           fold_open = '',
           line_prefix = '│',
@@ -72,6 +84,7 @@ return {
   -- Neogit: Magit-like Git interface for Neovim
   {
     'NeogitOrg/neogit',
+    enabled = false,
     dependencies = {
       'nvim-lua/plenary.nvim',
       'sindrets/diffview.nvim', -- Recommended for diff viewing integration

@@ -149,7 +149,7 @@ return {
       },
       -- Toggles
       {
-        '<leader>td',
+        '<leader>gtd',
         function()
           require('gitsigns').toggle_deleted()
         end,

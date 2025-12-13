@@ -1,18 +1,18 @@
-                --                      ▄▀░░▌
-                --                    ▄▀▐░░░▌
-                --                 ▄▀▀▒▐▒░░░▌
-                --      ▄▀▀▄   ▄▄▀▀▒▒▒▒▌▒▒░░▌
-                --     ▐▒░░░▀▄▀▒▒▒▒▒▒▒▒▒▒▒▒▒█
-                --     ▌▒░░░░▒▀▄▒▒▒▒▒▒▒▒▒▒▒▒▒▀▄
-                --     ▐▒░░░░░▒▒▒▒▒▒▒▒▒▌▒▐▒▒▒▒▒▀▄
-                --     ▌▀▄░░▒▒▒▒▒▒▒▒▐▒▒▒▌▒▌▒▄▄▒▒▐
-                --    ▌▌▒▒▀▒▒▒▒▒▒▒▒▒▒▐▒▒▒▒▒█▄█▌▒▒▌
-                --  ▄▀▒▐▒▒▒▒▒▒▒▒▒▒▒▄▀█▌▒▒▒▒▒▀▀▒▒▐░░░▄
-                -- ▀▒▒▒▒▌▒▒▒▒▒▒▒▄▒▐███▌▄▒▒▒▒▒▒▒▄▀▀▀▀
-                -- ▒▒▒▒▒▐▒▒▒▒▒▄▀▒▒▒▀▀▀▒▒▒▒▄█▀░░▒▌▀▀▄▄
-                -- ▒▒▒▒▒▒█▒▄▄▀▒▒▒▒▒▒▒▒▒▒▒░░▐▒▀▄▀▄░░░░▀
-                -- ▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▄▒▒▒▒▄▀▒▒▒▌░░▀▄
-                -- ▒▒▒▒▒▒▒▒▀▄▒▒▒▒▒▒▒▒▀▀▀▀▒▒▒▄▀
+--                      ▄▀░░▌
+--                    ▄▀▐░░░▌
+--                 ▄▀▀▒▐▒░░░▌
+--      ▄▀▀▄   ▄▄▀▀▒▒▒▒▌▒▒░░▌
+--     ▐▒░░░▀▄▀▒▒▒▒▒▒▒▒▒▒▒▒▒█
+--     ▌▒░░░░▒▀▄▒▒▒▒▒▒▒▒▒▒▒▒▒▀▄
+--     ▐▒░░░░░▒▒▒▒▒▒▒▒▒▌▒▐▒▒▒▒▒▀▄
+--     ▌▀▄░░▒▒▒▒▒▒▒▒▐▒▒▒▌▒▌▒▄▄▒▒▐
+--    ▌▌▒▒▀▒▒▒▒▒▒▒▒▒▒▐▒▒▒▒▒█▄█▌▒▒▌
+--  ▄▀▒▐▒▒▒▒▒▒▒▒▒▒▒▄▀█▌▒▒▒▒▒▀▀▒▒▐░░░▄
+-- ▀▒▒▒▒▌▒▒▒▒▒▒▒▄▒▐███▌▄▒▒▒▒▒▒▒▄▀▀▀▀
+-- ▒▒▒▒▒▐▒▒▒▒▒▄▀▒▒▒▀▀▀▒▒▒▒▄█▀░░▒▌▀▀▄▄
+-- ▒▒▒▒▒▒█▒▄▄▀▒▒▒▒▒▒▒▒▒▒▒░░▐▒▀▄▀▄░░░░▀
+-- ▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▄▒▒▒▒▄▀▒▒▒▌░░▀▄
+-- ▒▒▒▒▒▒▒▒▀▄▒▒▒▒▒▒▒▒▀▀▀▀▒▒▒▄▀
 
 return {
   {
@@ -62,28 +62,27 @@ return {
     ]],
           -- Overwrite the default keys to use Telescope
           keys = {
-            { icon = " ", key = "f", desc = "Find File", action = ":Telescope find_files" },
-            { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-            { icon = " ", key = "g", desc = "Grep Text", action = ":Telescope live_grep" },
-            { icon = " ", key = "r", desc = "Recent Files", action = ":Telescope oldfiles" },
-            { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
-            { icon = " ", key = "s", desc = "Restore Session", section = "session" },
-            { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
-            { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+            { icon = ' ', key = 'f', desc = 'Find File', action = ':Telescope find_files' },
+            { icon = ' ', key = 'n', desc = 'New File', action = ':ene | startinsert' },
+            { icon = ' ', key = 'g', desc = 'Grep Text', action = ':Telescope live_grep' },
+            { icon = ' ', key = 'r', desc = 'Recent Files', action = ':Telescope oldfiles' },
+            { icon = ' ', key = 'c', desc = 'Config', action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
+            { icon = ' ', key = 's', desc = 'Restore Session', section = 'session' },
+            { icon = '󰒲 ', key = 'l', desc = 'Lazy', action = ':Lazy' },
+            { icon = ' ', key = 'q', desc = 'Quit', action = ':qa' },
           },
         },
         sections = {
-        { section = "header", align = "left" },
-          { section = "keys", gap = 1, padding = 1 },
-          { section = "startup" },
+          { section = 'header', align = 'left' },
+          { section = 'keys', gap = 1, padding = 1 },
+          { section = 'startup' },
           {
-            section = "terminal",
+            section = 'terminal',
             -- Quote using `echo` since we are in terminal section
-            cmd = "echo '         \"Уже привык и даже улыбаюсь.\" - А.П. Чехов'",
-            hl = "Comment",
+            cmd = 'echo \'         "Уже привык и даже улыбаюсь." - А.П. Чехов\'',
+            hl = 'Comment',
             padding = 1,
-            indent = 0,
-            align = "center",
+            align = 'center',
           },
         },
       },
@@ -93,15 +92,18 @@ return {
       terminal = { enabled = true },
       -- Enable fast buffer deletion
       bufdelete = { enabled = true },
-      
+
       -- Enable git status in statusline (optional)
       git = { enabled = true },
-      
+
       -- Better Indent Guides (Replaces indent-blankline)
       indent = { enabled = true },
-      
+
       -- Current Scope Highlight (Replaces mini.indentscope)
       scope = { enabled = true },
+
+      -- Word Usage Highlight (Replaces vim-illuminate)
+      words = { enabled = true },
 
       -- Zen Mode Configuration
       zen = {
@@ -148,33 +150,111 @@ return {
       },
     },
     keys = {
-      { '<leader>hh', function() Snacks.dashboard() end, desc = 'Home (Dashboard)' },
-      
+      {
+        '<leader>hh',
+        function()
+          Snacks.dashboard()
+        end,
+        desc = 'Home (Dashboard)',
+      },
+
       -- Top Pickers & Explorer
-      { '<leader><space>', function() Snacks.picker.buffers() end, desc = 'Buffers' },
-      { '<leader>e', function() Snacks.explorer() end, desc = 'File Explorer' },
+      {
+        '<leader><space>',
+        function()
+          Snacks.picker.buffers()
+        end,
+        desc = 'Buffers',
+      },
+      {
+        '<leader>e',
+        function()
+          Snacks.explorer()
+        end,
+        desc = 'File Explorer',
+      },
 
       -- Terminal
-      { '<c-/>', function() Snacks.terminal() end, desc = 'Toggle Terminal' },
-      { '<c-_>', function() Snacks.terminal() end, desc = 'which_key_ignore' },
+      {
+        '<c-/>',
+        function()
+          Snacks.terminal()
+        end,
+        desc = 'Toggle Terminal',
+      },
+      {
+        '<c-_>',
+        function()
+          Snacks.terminal()
+        end,
+        desc = 'which_key_ignore',
+      },
 
       -- Buffer management
-      { '<leader>bd', function() Snacks.bufdelete() end, desc = 'Delete Buffer' },
-      
+      {
+        '<leader>bd',
+        function()
+          Snacks.bufdelete()
+        end,
+        desc = 'Delete Buffer',
+      },
+
       -- Git
-      { '<leader>gg', function() Snacks.lazygit() end, desc = 'Lazygit' },
-      { '<leader>gl', function() Snacks.lazygit.log() end, desc = 'Lazygit Log (File)' },
-      { '<leader>gL', function() Snacks.lazygit.log_file() end, desc = 'Lazygit Log' },
-      { '<leader>go', function() Snacks.gitbrowse() end, desc = 'Git Browse' },
+      {
+        '<leader>gg',
+        function()
+          Snacks.lazygit()
+        end,
+        desc = 'Lazygit',
+      },
+      {
+        '<leader>gl',
+        function()
+          Snacks.lazygit.log()
+        end,
+        desc = 'Lazygit Log (File)',
+      },
+      {
+        '<leader>gL',
+        function()
+          Snacks.lazygit.log_file()
+        end,
+        desc = 'Lazygit Log',
+      },
+      {
+        '<leader>go',
+        function()
+          Snacks.gitbrowse()
+        end,
+        desc = 'Git Browse',
+      },
 
       -- Other useful utils
-      { '<leader>zm', function() Snacks.zen() end, desc = 'Toggle Zen Mode' },
-      { '<leader>.', function() Snacks.scratch() end, desc = 'Toggle Scratch Pad' },
-      { '<leader>cR', function() Snacks.rename.rename_file() end, desc = 'Rename File' },
+      {
+        '<leader>zm',
+        function()
+          Snacks.zen()
+        end,
+        desc = 'Toggle Zen Mode',
+      },
+      {
+        '<leader>.',
+        function()
+          Snacks.scratch()
+        end,
+        desc = 'Toggle Scratch Pad',
+      },
+      {
+        '<leader>cR',
+        function()
+          Snacks.rename.rename_file()
+        end,
+        desc = 'Rename File',
+      },
     },
     init = function()
       -- Override Neovim's default notification handler
-      vim.notify = require('snacks.notifier')
+      vim.notify = require 'snacks.notifier'
     end,
   },
 }

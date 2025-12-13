@@ -242,6 +242,7 @@ return {
         'xmlformatter', -- XML
         'sql-formatter', -- SQL
         'prettier', -- JS/TS/JSON/YAML/HTML/CSS
+        'prettierd', -- Prettier Daemon (Faster)
         'eslint_d', -- JS/TS Linter
         'buf', -- Protobuf
         'ktfmt', -- Kotlin

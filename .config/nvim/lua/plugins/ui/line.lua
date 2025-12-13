@@ -24,6 +24,11 @@ return {
         local is_mirage = vim.o.background == 'dark' 
         color.generate(is_mirage)
 
+        -- Determine contrasting text color for bright backgrounds
+        -- In Light mode: Text is Dark (color.fg) -> OK on Bright BG
+        -- In Dark mode: Text is Light (color.fg) -> BAD on Bright BG. Use Dark (color.bg) instead.
+        local contrast_fg = is_mirage and color.bg or color.fg
+
         -- Define Items (Re-evaluated with new colors)
         local nut = {
           buf = {
@@ -60,7 +65,7 @@ return {
         local stl = Bar 'statusline'
         stl:add_item(mode)
         stl:add_item(nut.git.branch {
-          hl = { bg = color.accent, fg = color.fg },
+          hl = { bg = color.accent, fg = contrast_fg },
           prefix = '  ', -- Git icon
           suffix = ' ',
           sep_right = sep.right_chevron_solid(true),
@@ -114,7 +119,7 @@ return {
         })
         stl:add_item(nut.buf.diagnostic_count {
           hidden = false,
-          hl = { bg = color.warning, fg = color.bg },
+          hl = { bg = color.warning, fg = contrast_fg },
           sep_left = sep.left_chevron_solid(true),
           prefix = '  ', -- Warning icon
           suffix = ' ',
@@ -142,13 +147,13 @@ return {
           },
         })
         stl:add_item(nut.buf.filetype {
-          hl = { bg = color.operator },
+          hl = { bg = color.operator, fg = contrast_fg },
           sep_left = sep.left_chevron_solid(true),
           prefix = ' ',
           suffix = ' ',
         })
         stl:add_item(Item {
-          hl = { bg = color.constant, fg = color.fg },
+          hl = { bg = color.constant, fg = contrast_fg },
           sep_left = sep.left_chevron_solid(true),
           prefix = '  ', -- Line icon
           content = core.group {
@@ -159,7 +164,7 @@ return {
           suffix = ' ',
         })
         stl:add_item(Item {
-          hl = { bg = color.string, fg = color.bg },
+          hl = { bg = color.string, fg = contrast_fg },
           sep_left = sep.left_chevron_solid(true),
           prefix = ' ',
           content = core.code 'P', -- Percentage through file

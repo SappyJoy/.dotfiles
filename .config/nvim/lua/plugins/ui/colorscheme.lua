@@ -3,59 +3,25 @@ return {
     'Shatur/neovim-ayu',
     priority = 1000,
     config = function()
-      -- 1. Define the Autocommand to Sync System
-      vim.api.nvim_create_autocmd('ColorScheme', {
-        callback = function(args)
-          local theme = args.match
-          local new_mode = 'dark'
-          if theme:match 'light' or theme:match 'day' or theme:match 'latte' or theme:match 'dawn' then
-            new_mode = 'light'
-          end
-
-          local state_file = vim.fn.expand '~/.config/nvim/.theme_state'
-          local current_mode = nil
-          if vim.fn.filereadable(state_file) == 1 then
-            current_mode = vim.fn.readfile(state_file)[1]
-          end
-
-          -- Only execute if the mode actually changed or state doesn't exist
-          if new_mode ~= current_mode then
-            local script = vim.fn.expand '~/.local/bin/theme-switcher'
-            if vim.fn.filereadable(script) == 1 then
-              vim.system({ script, new_mode }, { detach = true })
-            end
-          end
-        end,
-      })
-
-      -- 2. Determine Initial Theme from State File
-      local state_file = vim.fn.expand '~/.config/nvim/.theme_state'
-      local theme_to_load = 'ayu-light' -- Default fallback
-
-      if vim.fn.filereadable(state_file) == 1 then
-        local state = vim.fn.readfile(state_file)[1]
-        if state == 'dark' then
-          theme_to_load = 'ayu-mirage'
-        end
-      end
-
-      -- 3. Set the colorscheme
-      vim.cmd.colorscheme(theme_to_load)
-
-      -- 4. Apply Custom Highlights
-      local ok, colors = pcall(require, 'ayu.colors')
-      if ok then
-        colors.generate(false)
-        local set_hl = vim.api.nvim_set_hl
+      local function apply_overrides()
+        local ok, colors = pcall(require, 'ayu.colors')
+        if not ok then return end
         
-        -- UI Highlights
+        -- Determine if we need mirage palette
+        local is_mirage = vim.g.colors_name == 'ayu-mirage'
+        colors.generate(is_mirage)
+
+        local set_hl = vim.api.nvim_set_hl
+
+        -- UI Highlights (Dynamic based on palette)
         set_hl(0, 'GitSignsCurrentLineBlame', { fg = colors.comment })
         set_hl(0, 'GitSignsAdd', { fg = colors.vcs_added })
         set_hl(0, 'GitSignsChange', { fg = colors.vcs_modified })
         set_hl(0, 'GitSignsDelete', { fg = colors.vcs_removed })
         set_hl(0, 'LineNr', { fg = colors.guide_active })
-        set_hl(0, 'CmpNormal', { bg = colors.guide_normal })
-        set_hl(0, 'Visual', { bg = '#E0E0E0', bold = true })
+        
+        -- REMOVED hardcoded Visual and CmpNormal. 
+        -- The theme handles these correctly for Dark/Light modes.
         
         -- Dashboard Highlights
         set_hl(0, 'AlphaHeader', { fg = colors.accent })
@@ -68,6 +34,45 @@ return {
 
         vim.cmd.hi 'Comment gui=none'
       end
+
+      vim.api.nvim_create_autocmd('ColorScheme', {
+        callback = function(args)
+          local theme = args.match
+          local new_mode = 'dark'
+          if theme:match 'light' or theme:match 'day' or theme:match 'latte' or theme:match 'dawn' then
+            new_mode = 'light'
+          end
+
+          -- Sync System Theme
+          local state_file = vim.fn.expand '~/.config/nvim/.theme_state'
+          local current_mode = nil
+          if vim.fn.filereadable(state_file) == 1 then
+            current_mode = vim.fn.readfile(state_file)[1]
+          end
+
+          if new_mode ~= current_mode then
+            local script = vim.fn.expand '~/.local/bin/theme-switcher'
+            if vim.fn.filereadable(script) == 1 then
+              vim.system({ script, new_mode }, { detach = true })
+            end
+          end
+
+          -- Re-apply highlights for the new theme
+          apply_overrides()
+        end,
+      })
+
+      -- Load Initial Theme
+      local state_file = vim.fn.expand '~/.config/nvim/.theme_state'
+      local theme_to_load = 'ayu-light'
+      if vim.fn.filereadable(state_file) == 1 then
+        local state = vim.fn.readfile(state_file)[1]
+        if state == 'dark' then
+          theme_to_load = 'ayu-mirage'
+        end
+      end
+
+      vim.cmd.colorscheme(theme_to_load)
     end,
   },
 
