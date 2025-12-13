@@ -1,0 +1,112 @@
+#!/bin/bash
+
+MODE=$1
+STATE_FILE="$HOME/.config/nvim/.theme_state"
+
+# Verify arguments
+if [ -z "$MODE" ]; then
+    echo "Usage: $0 [light|dark]"
+    exit 1
+fi
+
+# Paths
+I3_COLORS="$HOME/.config/i3/colors"
+POLYBAR_COLORS="$HOME/.config/polybar/colors.ini"
+KITTY_THEME="$HOME/.config/kitty/theme.conf"
+TMUX_CONF="$HOME/.config/tmux/tmux.conf"
+
+# Save state
+echo "$MODE" > "$STATE_FILE"
+
+if [ "$MODE" == "light" ]; then
+    # === LIGHT MODE (Ayu Light) ===
+
+    # i3 Colors
+    cat <<EOF > "$I3_COLORS"
+client.focused           #FF9940 #FAFAFA #5C6A72 #FF9940   #FF9940
+client.focused_inactive  #F3F4F5 #FAFAFA #5C6A72 #F3F4F5   #F3F4F5
+client.unfocused         #FAFAFA #FAFAFA #ABB0B6 #FAFAFA   #FAFAFA
+client.urgent            #F07178 #FAFAFA #FFFFFF #F07178   #F07178
+client.placeholder       #000000 #0c0c0c #ffffff #000000   #0c0c0c
+client.background        #FAFAFA
+EOF
+
+    # Polybar Colors
+    cat <<EOF > "$POLYBAR_COLORS"
+[colors]
+background = #FAFAFA
+background-alt = #F3F4F5
+foreground = #5C6A72
+primary = #FF9940
+secondary = #8295A6
+alert = #F07178
+disabled = #ABB0B6
+EOF
+
+    # GTK
+    gsettings set org.gnome.desktop.interface color-scheme 'prefer-light'
+    gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'
+
+    # Kitty: Point to the light config file
+    echo "include themes/ayu_light.conf" > "$KITTY_THEME"
+
+    # Tmux
+    sed -i 's/set -g @minimal-tmux-bg .*/set -g @minimal-tmux-bg "#FF9940"/' "$TMUX_CONF"
+
+else
+    # === DARK MODE (Ayu Mirage) ===
+
+    # i3 Colors
+    cat <<EOF > "$I3_COLORS"
+client.focused           #FFCC66 #1F2430 #D9D7CE #FFCC66   #FFCC66
+client.focused_inactive  #171B24 #1F2430 #707A8C #171B24   #171B24
+client.unfocused         #1F2430 #1F2430 #707A8C #1F2430   #1F2430
+client.urgent            #F28779 #1F2430 #FFFFFF #F28779   #F28779
+client.placeholder       #000000 #0c0c0c #ffffff #000000   #0c0c0c
+client.background        #1F2430
+EOF
+
+    # Polybar Colors
+    cat <<EOF > "$POLYBAR_COLORS"
+[colors]
+background = #1F2430
+background-alt = #232834
+foreground = #D9D7CE
+primary = #FFCC66
+secondary = #707A8C
+alert = #F28779
+disabled = #404652
+EOF
+
+    # GTK
+    gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+    gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
+
+    # Kitty: Point to the dark config file
+    echo "include themes/ayu_mirage.conf" > "$KITTY_THEME"
+
+    # Tmux
+    sed -i 's/set -g @minimal-tmux-bg .*/set -g @minimal-tmux-bg "#FFCC66"/' "$TMUX_CONF"
+fi
+
+# === RELOAD APPS ===
+
+# i3
+i3-msg reload >/dev/null
+i3-msg restart >/dev/null
+
+# Polybar: Kill all instances and restart (Assuming you have a launch script)
+killall polybar
+# If you use the standard launch script location:
+if [ -x "$HOME/.config/polybar/launch.sh" ]; then
+    "$HOME/.config/polybar/launch.sh" &
+else
+    # Fallback if no launch script
+    polybar-msg cmd restart >/dev/null
+fi
+
+# Kitty (Live Reload)
+kill -SIGUSR1 $(pidof kitty)
+
+# Tmux
+tmux source-file "$TMUX_CONF"

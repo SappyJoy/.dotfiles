@@ -1,6 +1,7 @@
 return {
   {
     'kdheepak/lazygit.nvim',
+    enabled = false,
     cmd = {
       'LazyGit',
       'LazyGitConfig',
@@ -78,7 +79,7 @@ return {
     },
     cmd = 'Neogit', -- Lazy load on command
     keys = {
-      { '<leader>gg', '<cmd>Neogit<cr>', desc = '[G]it [G]it (Neogit)' },
+      { '<leader>gn', '<cmd>Neogit<cr>', desc = 'Neogit' },
       -- Git log for current file
       {
         '<leader>gfl',

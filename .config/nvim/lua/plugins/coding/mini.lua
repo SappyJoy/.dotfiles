@@ -1,5 +1,5 @@
 return {
-  { -- Collection of various small independent plugins/modules
+  { -- Collection of various small independent plugins
     'echasnovski/mini.nvim',
     config = function()
       -- Better Around/Inside textobjects
@@ -12,12 +12,20 @@ return {
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
-      -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-      -- - sd'   - [S]urround [D]elete [']quotes
-      -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
-
-      require('mini.indentscope').setup()
+      -- - gzaiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
+      -- - gzd'   - [S]urround [D]elete [']quotes
+      -- - gzr)'  - [S]urround [R]eplace [)] [']
+      require('mini.surround').setup {
+        mappings = {
+          add = 'gza', -- Add surrounding in Normal and Visual modes
+          delete = 'gzd', -- Delete surrounding
+          find = 'gzf', -- Find surrounding (to the right)
+          find_left = 'gzF', -- Find surrounding (to the left)
+          highlight = 'gzh', -- Highlight surrounding
+          replace = 'gzr', -- Replace surrounding
+          update_n_lines = 'gzn', -- Update `n_lines`
+        },
+      }
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,

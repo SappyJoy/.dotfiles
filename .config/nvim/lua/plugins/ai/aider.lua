@@ -47,22 +47,6 @@ return {
     },
     config = function(_, opts)
       require('nvim_aider').setup(opts)
-
-      -- Neo-tree integration setup
-      -- Note: If you already configure neo-tree in another file, 
-      -- you may want to move this mapping logic there.
-      local has_neotree, _ = pcall(require, 'neo-tree')
-      if has_neotree then
-        require('nvim_aider.neo_tree').setup {
-          window = {
-            mappings = {
-              ['+'] = { 'nvim_aider_add', desc = 'add to aider' },
-              ['-'] = { 'nvim_aider_drop', desc = 'drop from aider' },
-              ['='] = { 'nvim_aider_add_read_only', desc = 'add read-only to aider' },
-            },
-          },
-        }
-      end
     end,
   },
 }

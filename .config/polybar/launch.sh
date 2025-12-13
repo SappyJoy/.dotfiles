@@ -6,10 +6,11 @@ killall -q polybar
 # Wait until the processes have been shut down
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
-# Check if the combined "FILM" monitor exists
+# Check if the virtual "FILM" monitor exists
 if xrandr --listmonitors | grep -q " FILM"; then
-  # If "FILM" monitor is found, launch a single bar on it
-  MONITOR=FILM polybar --reload main &
+  # --- FILM MODE ---
+  # Launch the bar defined as [bar/film]
+  polybar --reload film &
 else
   # Otherwise, launch a bar on each detected monitor
   if type "xrandr"; then

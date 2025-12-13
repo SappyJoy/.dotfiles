@@ -42,7 +42,7 @@ return {
       -- type in the prompt window. You'll see a list of help_tags options and
       -- a corresponding preview of the help.
       --
-      -- Two important keymaps to use while in telescope are:
+      -- Two important keymaps to use while in telescope, are:
       --  - Insert mode: <c-/>
       --  - Normal mode: ?
       --
@@ -72,21 +72,20 @@ return {
               ['<C-y>'] = actions.select_default,
             },
           },
-          layout_strategy = 'vertical', -- Changed to vertical layout
+          -- Default layout (Horizontal)
+          layout_strategy = 'horizontal',
           layout_config = {
             horizontal = {
-              width = 0.95,
-              preview_width = 0.6,
-              height = 0.9,
-              preview_cutoff = 120,
+              prompt_position = 'bottom',
+              preview_width = 0.55,
+              results_width = 0.8,
             },
-            vertical = {
-              width = 0.7, -- Narrower width for vertical monitors
-              height = 0.99,
-              preview_height = 0.7, -- Larger preview area
-              mirror = true,
-            },
+            width = 0.87,
+            height = 0.80,
+            preview_cutoff = 120,
           },
+          -- Fix the border appearance
+          borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
         },
         pickers = {
           colorscheme = {

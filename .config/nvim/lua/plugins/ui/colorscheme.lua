@@ -1,17 +1,54 @@
 return {
   {
     'Shatur/neovim-ayu',
-    priority = 1000, -- make sure to load this before all the other start plugins
+    priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'ayu-light'
+      -- 1. Define the Autocommand to Sync System
+      vim.api.nvim_create_autocmd('ColorScheme', {
+        callback = function(args)
+          local theme = args.match
+          local new_mode = 'dark'
+          if theme:match 'light' or theme:match 'day' or theme:match 'latte' or theme:match 'dawn' then
+            new_mode = 'light'
+          end
 
-      -- Custom Highlights (Moved from sap/colors.lua)
+          local state_file = vim.fn.expand '~/.config/nvim/.theme_state'
+          local current_mode = nil
+          if vim.fn.filereadable(state_file) == 1 then
+            current_mode = vim.fn.readfile(state_file)[1]
+          end
+
+          -- Only execute if the mode actually changed or state doesn't exist
+          if new_mode ~= current_mode then
+            local script = vim.fn.expand '~/.local/bin/theme-switcher'
+            if vim.fn.filereadable(script) == 1 then
+              vim.system({ script, new_mode }, { detach = true })
+            end
+          end
+        end,
+      })
+
+      -- 2. Determine Initial Theme from State File
+      local state_file = vim.fn.expand '~/.config/nvim/.theme_state'
+      local theme_to_load = 'ayu-light' -- Default fallback
+
+      if vim.fn.filereadable(state_file) == 1 then
+        local state = vim.fn.readfile(state_file)[1]
+        if state == 'dark' then
+          theme_to_load = 'ayu-mirage'
+        end
+      end
+
+      -- 3. Set the colorscheme
+      vim.cmd.colorscheme(theme_to_load)
+
+      -- 4. Apply Custom Highlights
       local ok, colors = pcall(require, 'ayu.colors')
       if ok then
-        colors.generate(false) -- Pass `true` to enable mirage
-
-        -- Override highlights
+        colors.generate(false)
         local set_hl = vim.api.nvim_set_hl
+        
+        -- UI Highlights
         set_hl(0, 'GitSignsCurrentLineBlame', { fg = colors.comment })
         set_hl(0, 'GitSignsAdd', { fg = colors.vcs_added })
         set_hl(0, 'GitSignsChange', { fg = colors.vcs_modified })
@@ -19,15 +56,14 @@ return {
         set_hl(0, 'LineNr', { fg = colors.guide_active })
         set_hl(0, 'CmpNormal', { bg = colors.guide_normal })
         set_hl(0, 'Visual', { bg = '#E0E0E0', bold = true })
-
-        -- Alpha Highlights
+        
+        -- Dashboard Highlights
         set_hl(0, 'AlphaHeader', { fg = colors.accent })
         set_hl(0, 'AlphaButtons', { link = 'String' })
         set_hl(0, 'AlphaShortcut', { link = 'Type' })
         set_hl(0, 'AlphaFooter', { link = 'Comment' })
 
-        -- C++: Disable the "grey out" of inactive regions (#ifndef) by clearing the semantic comment highlight.
-        -- This allows Treesitter syntax highlighting to show through instead.
+        -- C++ Fixes
         set_hl(0, '@lsp.type.comment.cpp', {})
 
         vim.cmd.hi 'Comment gui=none'

@@ -14,15 +14,8 @@ set $mod Mod4
 # -------------------------------------------------------------------
 # THEME & COLORS
 # -------------------------------------------------------------------
-# Window borders and title bars.
-# CLASS                  BORDER  BACKGR. TEXT    INDICATOR CHILD_BORDER
-client.focused           #FA8D3E #282a36 #f8f8f2 #bd93f9   #FA8D3E
-client.focused_inactive  #44475a #282a36 #cccccc #44475a   #44475a
-client.unfocused         #282a36 #282a36 #888888 #282a36   #282a36
-client.urgent            #ff5555 #282a36 #ffffff #ff5555   #ff5555
-client.placeholder       #000000 #0c0c0c #ffffff #000000   #0c0c0c
-
-client.background #282a36
+# Import dynamic colors (Managed by ~/.local/bin/theme-switcher)
+include ~/.config/i3/colors
 
 # Gaps
 gaps inner 5
@@ -215,6 +208,9 @@ mode "resize" {
         bindsym Down resize grow height 10 px or 10 ppt
         bindsym Up resize shrink height 10 px or 10 ppt
         bindsym Right resize grow width 10 px or 10 ppt
+
+        bindsym Control+Left resize shrink width 1 px
+        bindsym Control+Right resize grow width 1 px
 
         # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"

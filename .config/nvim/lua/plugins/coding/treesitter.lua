@@ -114,8 +114,8 @@ return {
               -- Assignment (e.g., variable = value)
               ['a='] = { query = '@assignment.outer', desc = 'Around assignment' },
               ['i='] = { query = '@assignment.inner', desc = 'Inside assignment value' },
-              ['l='] = { query = '@assignment.lhs', desc = 'Assignment left-hand side' },
-              ['r='] = { query = '@assignment.rhs', desc = 'Assignment right-hand side' },
+              -- ['l='] = { query = '@assignment.lhs', desc = 'Assignment left-hand side' }, -- CAUSES LAG on 'l'
+              -- ['r='] = { query = '@assignment.rhs', desc = 'Assignment right-hand side' }, -- CAUSES LAG on 'r'
 
               -- Parameters/Arguments (e.g., function(arg1, arg2))
               ['aa'] = { query = '@parameter.outer', desc = 'Around parameter/argument' },
@@ -153,8 +153,8 @@ return {
               -- Example for lua field from your query:
               ['a:'] = { query = '@assignment.outer', desc = 'Around lua field assignment' }, -- Same as a= generally
               ['i:'] = { query = '@assignment.inner', desc = 'Inside lua field assignment' }, -- Same as i= generally
-              ['l:'] = { query = '@assignment.lhs', desc = 'Lua field key' },
-              ['r:'] = { query = '@assignment.rhs', desc = 'Lua field value' },
+              -- ['l:'] = { query = '@assignment.lhs', desc = 'Lua field key' }, -- CAUSES LAG on 'l'
+              -- ['r:'] = { query = '@assignment.rhs', desc = 'Lua field value' }, -- CAUSES LAG on 'r'
             },
             -- You can also optionally define selection_modes map as {'@textobject': 'mode'}
             -- Eg {'@function.inner': 'v'} for selecting inside functions in visual mode instead of normal mode

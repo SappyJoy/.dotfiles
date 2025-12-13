@@ -28,6 +28,12 @@ return {
       vim.defer_fn(function()
         cmp.setup {
           enabled = function()
+            -- Disable in Telescope
+            if vim.bo.filetype == 'TelescopePrompt' then
+              return false
+            end
+
+            -- Disable in Oil
             local bufnr = vim.api.nvim_get_current_buf()
             local bufname = vim.api.nvim_buf_get_name(bufnr)
             if bufname:match 'oil://' then
@@ -46,6 +52,7 @@ return {
           },
           mapping = cmp.mapping.preset.insert {
             ['<C-y>'] = cmp.mapping.confirm { select = true },
+            -- Accept currently selected item. If none selected, `select = false` allows <CR> to insert newline.
             ['<CR>'] = cmp.mapping.confirm { select = false },
             ['<C-Space>'] = cmp.mapping.complete(),
             ['<C-n>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
