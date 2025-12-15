@@ -3,45 +3,25 @@
 vim.api.nvim_create_autocmd('BufRead', {
   pattern = '*.ipynb',
   callback = function()
-    vim.bo.filetype = 'jupyter' -- Or 'python' if preferred
-    require('jupytext').setup() -- Ensure jupytext activates
+    vim.bo.filetype = 'markdown' -- Jupytext handles conversion
+    -- require('jupytext').setup() -- Jupytext lazy loads automatically usually
   end,
 })
 
 return {
   {
     'benlubas/molten-nvim',
-    ft = { 'python', 'markdown', 'quarto', 'ipynb', 'jupyter' },
-    dependencies = { '3rd/image.nvim', ft = { 'python', 'markdown', 'quarto', 'ipynb', 'jupyter' } },
+    ft = { 'python', 'markdown', 'quarto', 'ipynb' },
+    dependencies = { '3rd/image.nvim' },
     build = ':UpdateRemotePlugins',
     init = function()
       vim.g.molten_image_provider = 'image.nvim'
-      vim.g.molten_virt_text_output = true -- Restore virtual text output by default
-      -- vim.g.molten_output_win_max_height = 20
-      vim.g.molten_use_border_highlights = true
-      vim.g.molten_auto_open_output = true
       vim.g.molten_virt_text_output = true
-      -- vim.g.molten_enter_output_behavior = "open_and_enter"
-      -- this will make it so the output shows up below the \`\`\` cell delimiter
+      vim.g.molten_use_border_highlights = true
+      vim.g.molten_auto_open_output = false -- Disable auto-open to prevent focus stealing
+      vim.g.molten_wrap_output = true
       vim.g.molten_virt_lines_off_by_1 = true
 
-      -- don't change the mappings (unless it's related to your bug)
-      vim.keymap.set('n', '<localleader>mi', ':MoltenInit<CR>', { desc = 'Initialize Molten', silent = true })
-      vim.keymap.set('n', '<localleader>mm', ':MoltenImportOutput<CR>', { desc = 'Import Notebook', silent = true })
-      vim.keymap.set('n', '<localleader>me', ':MoltenEvaluateOperator<CR>', { desc = 'Evaluate operator', silent = true })
-      vim.keymap.set('n', '<localleader>mr', ':MoltenReevaluateCell<CR>', { desc = 'Re-evaluate cell', silent = true })
-      vim.keymap.set('n', '<localleader>mu', ':MoltenReevaluateAll<CR>', { desc = 'Re-evaluate all', silent = true })
-      vim.keymap.set('v', '<localleader>me', ':<C-u>MoltenEvaluateVisual<CR>', { desc = 'Evaluate visual selection', silent = true })
-      vim.keymap.set('n', '<localleader>mx', ':MoltenOpenInBrowser<CR>', { desc = 'Open in browser', silent = true })
-      vim.keymap.set('n', '<localleader>mr', ':MoltenDelete<CR>', { desc = 'Delete Molten cell', silent = true })
-      vim.keymap.set('n', '<localleader>ms', ':MoltenInterrupt<CR>', { desc = 'Molten Interrupt', silent = true })
-      vim.keymap.set('n', '<localleader>ma', ':MoltenReevaluateAll<CR>', { desc = 'Molten Run All', silent = true })
-      -- vim.keymap.set('n', '<localleader>k', ':MoltenPrev<CR>', { desc = 'Previous cell', silent = true })
-      -- vim.keymap.set('n', '<localleader>j', ':MoltenNext<CR>', { desc = 'Next cell', silent = true })
-
-      -- Provide a command to create a blank new Python notebook
-      -- note: the metadata is needed for Jupytext to understand how to parse the notebook.
-      -- if you use another language than Python, you should change it in the template.
       local default_notebook = [[
   {
     "cells": [
@@ -95,63 +75,63 @@ return {
       })
     end,
     config = function()
-      vim.api.nvim_create_autocmd('BufEnter', {
-        pattern = { '*.qmd', '*.md', '*.ipynb' },
-        callback = function()
-          if require('molten.status').initialized() == 'Molten' then
-            vim.keymap.set('n', '<localleader>mo', ':noautocmd MoltenEnterOutput<CR>', { desc = 'Open output window', silent = true })
-            vim.keymap.set('n', '<localleader>mh', ':MoltenHideOutput<CR>', { desc = 'Hide output window', silent = true })
+      -- Define Keymaps ONLY for relevant filetypes
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = { 'markdown', 'quarto' },
+        callback = function(event)
+          local buf = event.buf
+          local map = function(mode, lhs, rhs, desc)
+            vim.keymap.set(mode, lhs, rhs, { buffer = buf, desc = desc, silent = true })
           end
+
+          -- Molten Keymaps
+          map('n', '<leader>mi', '<cmd>MoltenInit<CR>', 'Molten Init')
+          map('n', '<leader>mm', '<cmd>MoltenImportOutput<CR>', 'Molten Import')
+          map('n', '<leader>me', '<cmd>MoltenEvaluateOperator<CR>', 'Molten Eval Operator')
+          map('n', '<leader>mr', '<cmd>MoltenReevaluateCell<CR>', 'Molten Re-eval Cell')
+          -- map('n', '<leader>mR', '<cmd>MoltenReevaluateAll<CR>', 'Molten Re-eval All')
+          map('n', '<leader>md', '<cmd>MoltenDelete<CR>', 'Molten Delete Cell')
+          map('n', '<leader>mh', '<cmd>MoltenHideOutput<CR>', 'Molten Hide Output')
+          map('n', '<leader>mo', '<cmd>noautocmd MoltenEnterOutput<CR>', 'Molten Show Output')
+          map('n', '<leader>ms', '<cmd>MoltenInterrupt<CR>', 'Molten Stop/Interrupt')
+          map('n', '<leader>mx', '<cmd>MoltenOpenInBrowser<CR>', 'Molten Open in Browser')
+          
+          -- Quarto Runner Keymaps
+          local runner = require('quarto.runner')
+          map('n', '<leader>rc', runner.run_cell, 'Run Cell')
+          map('n', '<leader>ra', runner.run_above, 'Run Above')
+          map('n', '<leader>rA', runner.run_all, 'Run All')
+          map('n', '<leader>rl', runner.run_line, 'Run Line')
+          map('v', '<leader>r',  runner.run_range, 'Run Visual Range')
         end,
       })
 
-      -- automatically import output chunks from a jupyter notebook
-      local imb = function(e) -- init molten buffer
-        vim.schedule(function()
-          local kernels = vim.fn.MoltenAvailableKernels()
-          local kernel_name = nil
-
-          -- 1. Try to match the active VirtualEnv to a kernel name
-          local venv = os.getenv 'VIRTUAL_ENV'
-          if venv ~= nil then
-            local venv_name = string.match(venv, '/.+/(.+)')
-            if vim.tbl_contains(kernels, venv_name) then
-              kernel_name = venv_name
-            end
-          end
-
-          if kernel_name then
-            vim.cmd(('MoltenInit %s'):format(kernel_name))
-            vim.cmd 'MoltenImportOutput'
-          else
-            -- Optional: Notify that no automatic kernel was found
-            -- vim.notify("Molten: No venv-matching kernel found. Please run :MoltenInit", vim.log.levels.INFO)
-          end
-        end)
-      end
-
-      -- automatically import output chunks from a jupyter notebook
-      vim.api.nvim_create_autocmd('BufAdd', {
-        pattern = { '*.ipynb' },
-        callback = imb,
-      })
-
-      -- we have to do this as well so that we catch files opened like nvim ./hi.ipynb
-      vim.api.nvim_create_autocmd('BufEnter', {
+      -- Auto-import output on buffer enter (Logic optimized from before)
+      vim.api.nvim_create_autocmd({ 'BufAdd', 'BufEnter' }, {
         pattern = { '*.ipynb' },
         callback = function(e)
-          if vim.api.nvim_get_vvar 'vim_did_enter' ~= 1 then
-            imb(e)
+          if vim.api.nvim_get_vvar('vim_did_enter') ~= 1 then
+            vim.schedule(function()
+              local kernels = vim.fn.MoltenAvailableKernels()
+              local venv = os.getenv('VIRTUAL_ENV')
+              if venv then
+                local venv_name = string.match(venv, '/.+/(.+)')
+                if vim.tbl_contains(kernels, venv_name) then
+                  vim.cmd(('MoltenInit %s'):format(venv_name))
+                  vim.cmd('MoltenImportOutput')
+                end
+              end
+            end)
           end
         end,
       })
 
-      -- automatically export output chunks to a jupyter notebook on write
+      -- Auto-export on save
       vim.api.nvim_create_autocmd('BufWritePost', {
         pattern = { '*.ipynb' },
         callback = function()
           if require('molten.status').initialized() == 'Molten' then
-            vim.cmd 'MoltenExportOutput!'
+            vim.cmd('MoltenExportOutput!')
           end
         end,
       })
@@ -159,35 +139,25 @@ return {
   },
   {
     'quarto-dev/quarto-nvim',
-    ft = { 'quarto', 'ipynb', 'jupyter' },
+    ft = { 'quarto', 'markdown' }, -- Load on markdown too for Hydra
     dependencies = {
       'jmbuhr/otter.nvim',
-      { 'nvim-treesitter/nvim-treesitter', lazy = true },
-      'nvim-cmp',
-      { 'nvimtools/hydra.nvim', lazy = true },
+      'nvim-treesitter/nvim-treesitter',
+      'nvimtools/hydra.nvim',
     },
     config = function()
       local quarto = require 'quarto'
       quarto.setup {
         lspFeatures = {
-          -- NOTE: put whatever languages you want here:
-          languages = { 'r', 'python', 'rust' },
+          languages = { 'python', 'rust', 'lua' },
           chunks = 'all',
-          diagnostics = {
-            enabled = true,
-            triggers = { 'BufWritePost' },
-          },
-          completion = {
-            enabled = true,
-          },
+          diagnostics = { enabled = true, triggers = { 'BufWritePost' } },
+          completion = { enabled = true },
         },
         keymap = {
-          -- NOTE: setup your own keymaps:
-          hover = 'H',
+          hover = 'K',
           definition = 'gd',
           rename = '<leader>rn',
-          references = 'gr',
-          format = '<leader>fj',
         },
         codeRunner = {
           enabled = true,
@@ -195,18 +165,15 @@ return {
         },
       }
 
-      vim.keymap.set('n', '<localleader>qp', quarto.quartoPreview, { desc = 'Preview the Quarto document', silent = true, noremap = true })
-      -- to create a cell in insert mode, I have the ` snippet
-
-      local runner = require 'quarto.runner'
-      vim.keymap.set('n', '<localleader>rc', runner.run_cell, { desc = 'run cell', silent = true })
-      vim.keymap.set('n', '<localleader>ra', runner.run_above, { desc = 'run cell and above', silent = true })
-      vim.keymap.set('n', '<localleader>rA', runner.run_all, { desc = 'run all cells', silent = true })
-      vim.keymap.set('n', '<localleader>rl', runner.run_line, { desc = 'run line', silent = true })
-      vim.keymap.set('v', '<localleader>r', runner.run_range, { desc = 'run visual range', silent = true })
-      -- vim.keymap.set('n', '<localleader>RA', function()
-      --   runner.run_all(true)
-      -- end, { desc = 'run all cells of all languages', silent = true })
+      -- vim.keymap.set('n', '<localleader>qp', quarto.quartoPreview, { desc = 'Preview the Quarto document', silent = true, noremap = true })
+      -- -- to create a cell in insert mode, I have the ` snippet
+      --
+      -- local runner = require 'quarto.runner'
+      -- vim.keymap.set('n', '<localleader>rc', runner.run_cell, { desc = 'run cell', silent = true })
+      -- vim.keymap.set('n', '<localleader>ra', runner.run_above, { desc = 'run cell and above', silent = true })
+      -- vim.keymap.set('n', '<localleader>rA', runner.run_all, { desc = 'run all cells', silent = true })
+      -- vim.keymap.set('n', '<localleader>rl', runner.run_line, { desc = 'run line', silent = true })
+      -- vim.keymap.set('v', '<localleader>r', runner.run_range, { desc = 'run visual range', silent = true })
 
       -- --- Hydra / Notebook Navigation ---
       local Hydra = require 'hydra'
@@ -216,12 +183,10 @@ return {
         end
       end
 
+      -- Custom Cell Helper Functions
       local function create_cell(direction)
-        local initial_line = vim.api.nvim_win_get_cursor(0)[1]
         local start_pattern, end_pattern = '^```', '^```'
-        -- Find the block start *above* the cursor
         local search_start_above = vim.fn.search(start_pattern, 'bW')
-        -- Find the block end *below* the cursor
         local search_end_below = vim.fn.search(end_pattern, 'W')
 
         local target_line
@@ -232,7 +197,7 @@ return {
         end
         target_line = math.max(0, math.min(target_line, vim.fn.line '$'))
 
-        -- Determine language from nearest block if possible
+        -- Auto-detect language
         local lang_line = search_start_above > 0 and search_start_above or vim.fn.search(start_pattern, 'W')
         local lang = lang_line > 0 and vim.fn.getline(lang_line):match '^```(%S+)' or 'python'
 
@@ -251,24 +216,21 @@ return {
         local block_end = vim.fn.search('^```', 'nW')
 
         if block_start == 0 or block_end == 0 or current_line < block_start or current_line > block_end then
+          vim.notify("Cursor not inside a cell", vim.log.levels.WARN)
           return
         end
 
         vim.cmd 'MoltenDelete'
         vim.api.nvim_buf_set_lines(0, block_start - 1, block_end, false, {})
-
-        local target_line = math.max(1, block_start - 1)
-        local last_line = vim.api.nvim_buf_line_count(0)
-        target_line = math.min(target_line, last_line)
-        if last_line == 0 then
-          target_line = 1
-        end
-        pcall(vim.api.nvim_win_set_cursor, 0, { target_line, 0 })
+        pcall(vim.api.nvim_win_set_cursor, 0, { math.max(1, block_start - 1), 0 })
       end
+
+      -- Notebook Hydra
+      local notebook_hint = [[ _J_/_K_: cell  _o_/_O_: new  _d_: del  _l_/_a_/_A_: run  _s_/_h_: output _t_: interrupt  _R_: restart kernel  _q_: exit ]]
 
       Hydra {
         name = 'Notebook',
-        hint = '_j_/_k_: ↑/↓ | _o_/_O_: new cell ↓/↑ | _l_/_t_: run/stop | _s_how/_h_ide | run _a_bove/_A_ll | _d_elete cell | _R_estart kernel',
+        hint = notebook_hint,
         config = {
           color = 'pink',
           invoke_on_body = true,
@@ -281,38 +243,35 @@ return {
         mode = { 'n' },
         body = '<leader>j',
         heads = {
-          { 'j', keys ']b', { desc = '↓' } },
-          { 'k', keys '[b', { desc = '↑' } },
-          {
-            'o',
-            function()
-              create_cell 'below'
-            end,
-            { desc = 'new cell ↓' },
-          },
-          {
-            'O',
-            function()
-              create_cell 'above'
-            end,
-            { desc = 'new cell ↑' },
-          },
+          -- Navigation
+          { 'J', keys ']b', { desc = 'next cell' } },
+          { 'K', keys '[b', { desc = 'prev cell' } },
+
+          -- Actions
+          { 'o', function() create_cell 'below' end, { desc = 'new below' } },
+          { 'O', function() create_cell 'above' end, { desc = 'new above' } },
           { 'd', delete_current_cell_and_block, { desc = 'delete cell' } },
+          
+          -- Execution
           { 'l', ':QuartoSend<CR>', { desc = 'run' } },
-          { 't', ':MoltenInterrupt<CR>', { desc = 'stop' } },
-          { 's', ':noautocmd MoltenEnterOutput<CR>', { desc = 'show' } },
-          { 'h', ':MoltenHideOutput<CR>', { desc = 'hide' } },
           { 'a', ':QuartoSendAbove<CR>', { desc = 'run above' } },
           { 'A', ':MoltenReevaluateAll<CR>', { desc = 'run all' } },
           { 'R', ':MoltenRestart<CR>', { desc = 'restart kernel' } },
+          
+          -- Output Control
+          { 's', ':noautocmd MoltenEnterOutput<CR>', { desc = 'show float' } },
+          { 'h', ':MoltenHideOutput<CR>', { desc = 'hide' } },
+          { 't', ':MoltenInterrupt<CR>', { desc = 'stop' } },
+
+          -- Exit
+          { '<Esc>', nil, { exit = true, desc = false } },
+          { 'q', nil, { exit = true, desc = false } },
           { 'i', keys 'i', { exit = true, desc = false } },
           { 'I', keys 'I', { exit = true, desc = false } },
           { 'S', keys 'S', { exit = true, desc = false } },
           { 'C', keys 'C', { exit = true, desc = false } },
           { 'cc', keys 'cc', { exit = true, desc = false } },
           { '-', keys '-', { exit = true, desc = false } },
-          { '<esc>', nil, { exit = true, desc = false } },
-          { 'q', nil, { exit = true, desc = false } },
         },
       }
     end,
@@ -333,7 +292,5 @@ return {
         },
       }
     end,
-    -- Depending on your nvim distro or config you may need to make the loading not lazy
-    -- lazy=false,
   },
 }
