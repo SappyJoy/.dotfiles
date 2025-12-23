@@ -251,6 +251,14 @@ return {
         end,
         desc = 'Rename File',
       },
+      {
+        '<leader>nh',
+        function()
+          Snacks.notifier.show_history()
+
+        end,
+        desc = 'Notification History',
+      },
     },
     init = function()
       -- Override Neovim's default notification handler

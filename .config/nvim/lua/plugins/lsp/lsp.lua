@@ -83,12 +83,15 @@ return {
             '--completion-style=detailed',
             '--function-arg-placeholders',
             '--fallback-style=llvm',
-            '--offset-encoding=utf-16', -- Prevents encoding conflicts with other clients (like Copilot)
+            '--offset-encoding=utf-16',
           },
           init_options = {
             usePlaceholders = true,
             completeUnimported = true,
             clangdFileStatus = true,
+          },
+          capabilities = {
+            offsetEncoding = { "utf-16" }, -- Keep this to avoid Copilot conflicts
           },
         },
         rust_analyzer = {
@@ -213,9 +216,6 @@ return {
         -- 'ltex_ls_plus' was an option, stick to 'ltex' (ltex-ls) for now unless you have a specific reason
       }
 
-      -- Setup Mason
-      require('mason').setup()
-
       -- Define ALL tools to be *ENSURED INSTALLED* by mason-tool-installer
       local tools_to_ensure_installed = {
         -- === LSPs ===
@@ -264,25 +264,38 @@ return {
         'codelldb',
         'bash-debug-adapter',
       }
+            --
+      -- Setup Mason
+      require('mason').setup()
 
+      -- (Keep your mason-tool-installer setup as is)
       require('mason-tool-installer').setup {
         ensure_installed = tools_to_ensure_installed,
         auto_update = true,
-        run_on_start = true, -- Check and install on startup
+        run_on_start = true,
       }
 
-      -- Setup mason-lspconfig to configure the LSPs from the 'lsp_servers' table
-      require('mason-lspconfig').setup {
-        handlers = {
-          -- Default handler: sets up LSP with capabilities and server-specific settings
-          function(server_name)
-            local server_config = lsp_servers[server_name] or {}
-            server_config.capabilities = vim.tbl_deep_extend('force', capabilities, server_config.capabilities or {})
-            require('lspconfig')[server_name].setup(server_config)
-          end,
-          ['jdtls'] = function() end,
-        },
-      }
+      -- Setup mason-lspconfig
+      -- NOTE: In Nvim 0.11+, we strictly use this for ensuring installation mapping.
+      -- We DO NOT use 'handlers' here anymore because that triggers the deprecated API.
+      require('mason-lspconfig').setup({})
+
+      -- Manually configure and enable servers using the new Nvim 0.11 API
+      for server_name, server_config in pairs(lsp_servers) do
+        -- Skip jdtls (if you handle it separately with nvim-jdtls)
+        if server_name ~= 'jdtls' then
+          -- 1. Merge your custom capabilities with the defaults
+          server_config.capabilities = vim.tbl_deep_extend('force', capabilities, server_config.capabilities or {})
+
+          -- 2. Define the configuration using vim.lsp.config (The New Way)
+          -- This registers your custom 'cmd', 'settings', 'init_options', etc.
+          vim.lsp.config(server_name, server_config)
+
+          -- 3. Enable the server
+          -- This tells Neovim to start this server for the matching filetypes
+          vim.lsp.enable(server_name)
+        end
+      end
     end,
   },
 }
