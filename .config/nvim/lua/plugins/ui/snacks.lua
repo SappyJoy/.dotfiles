@@ -263,7 +263,7 @@ return {
         desc = 'Toggle Zen Mode',
       },
       {
-        '<leader>.',
+        '<leader>S',
         function()
           Snacks.scratch()
         end,
