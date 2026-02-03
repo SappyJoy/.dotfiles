@@ -1,6 +1,7 @@
 return {
   {
     'yetone/avante.nvim',
+    enabled = true,
     event = 'VeryLazy',
     dependencies = {
       'stevearc/dressing.nvim',
@@ -34,80 +35,21 @@ return {
       'MeanderingProgrammer/render-markdown.nvim',
     },
     priority = 1000,
-    version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
+    version = "*", -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
     opts = {
-      provider = 'openrouter_gemini_2',
+      provider = 'gemini',
+      behaviour = {
+        auto_suggestions = false,
+        enable_token_counting = false,
+      },
       providers = {
-        -- Custom Providers (formerly 'vendors')
-        openrouter_gemini_2 = {
-          __inherited_from = 'openai',
-          endpoint = 'https://openrouter.ai/api/v1',
-          timeout = 800000000,
-          api_key_name = 'OPENROUTER_API_KEY',
-          model = 'google/gemini-2.0-flash-exp:free',
-          disable_tools = true,
-          extra_request_body = {
-            max_completion_tokens = 65536,
-          },
+        gemini = {
+          model = 'gemini-2.5-flash-lite',
+          endpoint = 'https://generativelanguage.googleapis.com/v1beta/models',
+          timeout = 30000,
+          temperature = 0,
+          max_tokens = 8192,
         },
-        openrouter_gemini_2_thinking = {
-          __inherited_from = 'openai',
-          endpoint = 'https://openrouter.ai/api/v1',
-          timeout = 800000000,
-          api_key_name = 'OPENROUTER_API_KEY',
-          model = 'google/gemini-2.0-flash-thinking-exp:free',
-          disable_tools = true,
-          extra_request_body = {
-            max_completion_tokens = 65536,
-          },
-        },
-        openrouter_deepseek_r1_ditill = {
-          __inherited_from = 'openai',
-          endpoint = 'https://openrouter.ai/api/v1',
-          timeout = 800000000,
-          api_key_name = 'OPENROUTER_API_KEY',
-          model = 'deepseek/deepseek-r1-distill-llama-70b:free',
-          disable_tools = true,
-          extra_request_body = {
-            max_completion_tokens = 65536,
-          },
-        },
-        openrouter_deepseek_r1 = {
-          __inherited_from = 'openai',
-          endpoint = 'https://openrouter.ai/api/v1',
-          timeout = 800000000,
-          api_key_name = 'OPENROUTER_API_KEY',
-          model = 'deepseek/deepseek-r1:free',
-          disable_tools = true,
-          extra_request_body = {
-            max_completion_tokens = 65536,
-          },
-        },
-        openrouter_gemini_2_5 = {
-          __inherited_from = 'openai',
-          endpoint = 'https://openrouter.ai/api/v1',
-          timeout = 800000000,
-          api_key_name = 'OPENROUTER_API_KEY',
-          model = 'google/gemini-2.5-pro-exp-03-25:free',
-          disable_tools = true,
-          extra_request_body = {
-            max_completion_tokens = 65536,
-          },
-        },
-        -- Disabling default providers
-        vertex_claude = { hide_in_model_selector = true },
-        copilot = { hide_in_model_selector = true },
-        openai = { hide_in_model_selector = true },
-        claude = { hide_in_model_selector = true },
-        gemini = { hide_in_model_selector = true },
-        cohere = { hide_in_model_selector = true },
-        vertex = { hide_in_model_selector = true },
-        bedrock = { hide_in_model_selector = true },
-        ['openai-gpt-4o-mini'] = { hide_in_model_selector = true },
-        aihubmix = { hide_in_model_selector = true },
-        ['aihubmix-claude'] = { hide_in_model_selector = true },
-        ['claude-opus'] = { hide_in_model_selector = true },
-        ['claude-haiku'] = { hide_in_model_selector = true },
       },
       windows = {
         position = 'right', -- the position of the sidebar
@@ -139,6 +81,6 @@ return {
         provider_opts = {}, -- You can add Telescope-specific options here if needed
       },
     },
-    build = 'make',
+    build = 'make BUILD_FROM_SOURCE=true',
   },
 }
