@@ -228,7 +228,7 @@ bindsym $mod+r mode "resize"
 # }
 
 # keymap
-exec --no-startup-id setxkbmap us,ru -option 'grp:alt_shift_toggle,caps:super'
+exec --no-startup-id setxkbmap -layout "us,ru,us" -variant ",,colemak" -option "grp:alt_shift_toggle,caps:backspace"
 # exec --no-startup-id setxkbmap \
 #     -symbols "pc+us(basic)+inet(evdev)" \
 #     -symbols "pc+my_ru(common)+inet(evdev):2" \
