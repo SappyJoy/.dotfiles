@@ -62,7 +62,7 @@ exec --no-startup-id film_mode.sh
 bindsym $mod+Shift+f exec --no-startup-id film_mode.sh
 bindsym $mod+Shift+w exec --no-startup-id work_mode.sh
 
-bindsym $mod+Shift+n exec --no-startup-id toggle-redshift
+bindsym $mod+Shift+y exec --no-startup-id toggle-redshift
 
 # Brightness control
 bindsym $mod+Prior exec --no-startup-id brightness-up    # PgUp
@@ -118,10 +118,10 @@ bindsym Print exec flameshot gui
 bindsym $mod+Print exec flameshot full
 
 # change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+bindsym $mod+m focus left
+bindsym $mod+n focus down
+bindsym $mod+e focus up
+bindsym $mod+i focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -130,10 +130,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+bindsym $mod+Shift+m move left
+bindsym $mod+Shift+n move down
+bindsym $mod+Shift+e move up
+bindsym $mod+Shift+i move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -153,7 +153,7 @@ bindsym $mod+f fullscreen toggle
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+g layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -175,8 +175,8 @@ include ~/.config/i3/dynamic_workspaces.conf
 # for_window [class="firefox"] move to workspace $ws2
 # for_window [class="obsidian"] move to workspace $ws1
 
-bindsym Control+$mod+k workspace next_on_output
-bindsym Control+$mod+j workspace prev_on_output
+bindsym Control+$mod+e workspace next_on_output
+bindsym Control+$mod+n workspace prev_on_output
 
 bindsym Mod1+Mod4+j exec --no-startup-id /home/$USER/.config/i3/cycle_group.sh prev
 bindsym Mod1+Mod4+k exec --no-startup-id /home/$USER/.config/i3/cycle_group.sh next
@@ -186,7 +186,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+u exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # workspace_auto_back_and_forth yes
 
@@ -228,7 +228,11 @@ bindsym $mod+r mode "resize"
 # }
 
 # keymap
-exec --no-startup-id setxkbmap -layout "us,ru,us" -variant ",,colemak" -option "grp:alt_shift_toggle,caps:backspace"
+# exec --no-startup-id setxkbmap -layout "us,ru,us" -variant ",,colemak" -option "grp:alt_shift_toggle,caps:backspace"
+exec --no-startup-id setxkbmap us,ru -option 'grp:alt_shift_toggle,caps:super'
+# exec --no-startup-id setxkbmap -layout us,ru -variant colemak_dh, -option 'grp:alt_shift_toggle,caps:backspace'
+exec --no-startup-id xset r 66
+
 # exec --no-startup-id setxkbmap \
 #     -symbols "pc+us(basic)+inet(evdev)" \
 #     -symbols "pc+my_ru(common)+inet(evdev):2" \

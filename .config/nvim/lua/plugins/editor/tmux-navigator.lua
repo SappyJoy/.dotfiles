@@ -12,10 +12,10 @@ return {
     },
     -- Define keybindings for navigation
     keys = {
-      { '<c-h>', '<Cmd><C-U>TmuxNavigateLeft<CR>', desc = 'Tmux Nav Left' },
-      { '<c-j>', '<Cmd><C-U>TmuxNavigateDown<CR>', desc = 'Tmux Nav Down' },
-      { '<c-k>', '<Cmd><C-U>TmuxNavigateUp<CR>', desc = 'Tmux Nav Up' },
-      { '<c-l>', '<Cmd><C-U>TmuxNavigateRight<CR>', desc = 'Tmux Nav Right' },
+      { '<c-m>', '<Cmd><C-U>TmuxNavigateLeft<CR>', desc = 'Tmux Nav Left' },
+      { '<c-n>', '<Cmd><C-U>TmuxNavigateDown<CR>', desc = 'Tmux Nav Down' },
+      { '<c-e>', '<Cmd><C-U>TmuxNavigateUp<CR>', desc = 'Tmux Nav Up' },
+      { '<c-i>', '<Cmd><C-U>TmuxNavigateRight<CR>', desc = 'Tmux Nav Right' },
       { '<c-\\>', '<Cmd><C-U>TmuxNavigatePrevious<CR>', desc = 'Tmux Nav Previous' },
     },
     config = function()
