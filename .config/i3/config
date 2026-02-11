@@ -95,7 +95,7 @@ floating_modifier $mod
 tiling_drag modifier titlebar
 
 # start a terminal
-bindsym $mod+Return exec kitty
+bindsym $mod+t exec kitty
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -229,7 +229,8 @@ bindsym $mod+r mode "resize"
 
 # keymap
 # exec --no-startup-id setxkbmap -layout "us,ru,us" -variant ",,colemak" -option "grp:alt_shift_toggle,caps:backspace"
-exec --no-startup-id setxkbmap us,ru -option 'grp:alt_shift_toggle,caps:super'
+# exec --no-startup-id setxkbmap us,ru -option 'grp:alt_shift_toggle,caps:super'
+exec --no-startup-id setxkbmap -layout "us,ru" -variant "colemak_dh_ortho," -option "grp:alt_shift_toggle,caps:backspace"
 # exec --no-startup-id setxkbmap -layout us,ru -variant colemak_dh, -option 'grp:alt_shift_toggle,caps:backspace'
 exec --no-startup-id xset r 66
 

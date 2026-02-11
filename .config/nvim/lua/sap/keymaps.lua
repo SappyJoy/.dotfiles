@@ -35,10 +35,10 @@ vim.keymap.set('n', '<leader>dq', vim.diagnostic.setloclist, { desc = 'Open diag
 -- vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- Disable arrow keys in normal mode
-vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
-vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
-vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
-vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+-- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
+-- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
+-- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
+-- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
 -- Scroll centering
 vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Scroll down half page', noremap = true })
@@ -62,44 +62,44 @@ vim.keymap.set('n', '<leader>cf', function()
   vim.notify("Copied file path to clipboard: " .. file_path)
 end, { desc = 'Copy file path to clipboard' })
 
--- =============================================================================
--- COLEMAK-DH MOVEMENT REMAPS (MNEI -> HJKL)
--- =============================================================================
-
--- 1. Map physical keys (MNEI) to movement (HJKL)
--- We map these in Normal, Visual, and Operator-pending modes
-local modes = {'n', 'v', 'o'}
-
-vim.keymap.set(modes, 'm', 'h', { desc = 'Move Left' })
-vim.keymap.set(modes, 'n', 'j', { desc = 'Move Down' })
-vim.keymap.set(modes, 'e', 'k', { desc = 'Move Up' })
-vim.keymap.set(modes, 'i', 'l', { desc = 'Move Right' })
-
--- 2. Restore lost functionality
--- Since 'm', 'n', 'e', 'i' are now movement, we map their original functions
--- to the keys that used to be movement (h, j, k, l).
-
--- 'h' key (now empty) becomes 'm' (Mark)
-vim.keymap.set(modes, 'h', 'm', { desc = 'Set Mark' })
-
--- 'j' key (now empty) becomes 'n' (Next search result)
-vim.keymap.set(modes, 'j', 'n', { desc = 'Next search result' })
--- Make 'J' (Shift+j) act as 'N' (Prev search result) for consistency
-vim.keymap.set(modes, 'J', 'N', { desc = 'Prev search result' })
-
--- 'k' key (now empty) becomes 'e' (End of word)
-vim.keymap.set(modes, 'k', 'e', { desc = 'End of word' })
--- Make 'K' act as 'E' (End of WORD)
-vim.keymap.set(modes, 'K', 'E', { desc = 'End of WORD' })
--- NOTE: You previously mapped 'K' to move line up in visual mode.
--- You might want to update that visual map to use 'E' or keep this overwrite.
-
--- 'l' key (now empty) becomes 'i' (Insert)
-vim.keymap.set(modes, 'l', 'i', { desc = 'Insert mode' })
-vim.keymap.set(modes, 'L', 'I', { desc = 'Insert at start of line' })
-
--- Update Window Navigation (Ctrl+w) to use MNEI
-vim.keymap.set('n', '<C-w>m', '<C-w>h', { desc = 'Window Left' })
-vim.keymap.set('n', '<C-w>n', '<C-w>j', { desc = 'Window Down' })
-vim.keymap.set('n', '<C-w>e', '<C-w>k', { desc = 'Window Up' })
-vim.keymap.set('n', '<C-w>i', '<C-w>l', { desc = 'Window Right' })
+-- -- =============================================================================
+-- -- COLEMAK-DH MOVEMENT REMAPS (MNEI -> HJKL)
+-- -- =============================================================================
+--
+-- -- 1. Map physical keys (MNEI) to movement (HJKL)
+-- -- We map these in Normal, Visual, and Operator-pending modes
+-- local modes = {'n', 'v', 'o'}
+--
+-- vim.keymap.set(modes, 'm', 'h', { desc = 'Move Left' })
+-- vim.keymap.set(modes, 'n', 'j', { desc = 'Move Down' })
+-- vim.keymap.set(modes, 'e', 'k', { desc = 'Move Up' })
+-- vim.keymap.set(modes, 'i', 'l', { desc = 'Move Right' })
+--
+-- -- 2. Restore lost functionality
+-- -- Since 'm', 'n', 'e', 'i' are now movement, we map their original functions
+-- -- to the keys that used to be movement (h, j, k, l).
+--
+-- -- 'h' key (now empty) becomes 'm' (Mark)
+-- vim.keymap.set(modes, 'h', 'm', { desc = 'Set Mark' })
+--
+-- -- 'j' key (now empty) becomes 'n' (Next search result)
+-- vim.keymap.set(modes, 'j', 'n', { desc = 'Next search result' })
+-- -- Make 'J' (Shift+j) act as 'N' (Prev search result) for consistency
+-- vim.keymap.set(modes, 'J', 'N', { desc = 'Prev search result' })
+--
+-- -- 'k' key (now empty) becomes 'e' (End of word)
+-- vim.keymap.set(modes, 'k', 'e', { desc = 'End of word' })
+-- -- Make 'K' act as 'E' (End of WORD)
+-- vim.keymap.set(modes, 'K', 'E', { desc = 'End of WORD' })
+-- -- NOTE: You previously mapped 'K' to move line up in visual mode.
+-- -- You might want to update that visual map to use 'E' or keep this overwrite.
+--
+-- -- 'l' key (now empty) becomes 'i' (Insert)
+-- vim.keymap.set(modes, 'l', 'i', { desc = 'Insert mode' })
+-- vim.keymap.set(modes, 'L', 'I', { desc = 'Insert at start of line' })
+--
+-- -- Update Window Navigation (Ctrl+w) to use MNEI
+-- vim.keymap.set('n', '<C-w>m', '<C-w>h', { desc = 'Window Left' })
+-- vim.keymap.set('n', '<C-w>n', '<C-w>j', { desc = 'Window Down' })
+-- vim.keymap.set('n', '<C-w>e', '<C-w>k', { desc = 'Window Up' })
+-- vim.keymap.set('n', '<C-w>i', '<C-w>l', { desc = 'Window Right' })
