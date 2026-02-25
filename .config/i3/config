@@ -180,6 +180,9 @@ bindsym Control+$mod+e workspace prev_on_output
 
 bindsym Mod1+Mod4+j exec --no-startup-id /home/$USER/.config/i3/cycle_group.sh prev
 bindsym Mod1+Mod4+k exec --no-startup-id /home/$USER/.config/i3/cycle_group.sh next
+bindsym Mod1+Mod4+Down exec --no-startup-id /home/$USER/.config/i3/cycle_group.sh prev
+bindsym Mod1+Mod4+Up exec --no-startup-id /home/$USER/.config/i3/cycle_group.sh next
+
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
