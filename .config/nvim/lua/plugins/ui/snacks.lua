@@ -140,6 +140,9 @@ return {
         notification = {
           wo = { wrap = true }, -- Wrap notifications
         },
+        scratch = {
+          wo = { wrap = true, linebreak = true, colorcolumn = "" }, -- Wrap text without breaking words
+        },
       },
       picker = {
         actions = {
@@ -268,6 +271,13 @@ return {
           Snacks.scratch()
         end,
         desc = 'Toggle Scratch Pad',
+      },
+      {
+        '<leader>sS',
+        function()
+          Snacks.picker.scratch()
+        end,
+        desc = 'Search Scratch Pads',
       },
       {
         '<leader>cR',

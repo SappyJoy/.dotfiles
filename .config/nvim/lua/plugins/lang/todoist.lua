@@ -2,7 +2,7 @@ return {
   {
     'romgrk/todoist.nvim',
     build = ':TodoistInstall',
-    enabled = true,
+    enabled = false,
     init = function()
       vim.g.todoist_default_provider = 'clap'
     end,

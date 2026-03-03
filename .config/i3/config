@@ -118,10 +118,10 @@ bindsym Print exec flameshot gui
 bindsym $mod+Print exec flameshot full
 
 # change focus
-bindsym $mod+n focus left
-bindsym $mod+e focus down
-bindsym $mod+i focus up
-bindsym $mod+o focus right
+# bindsym $mod+n focus left
+# bindsym $mod+e focus down
+# bindsym $mod+i focus up
+# bindsym $mod+o focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -130,10 +130,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+n move left
-bindsym $mod+Shift+e move down
-bindsym $mod+Shift+i move up
-bindsym $mod+Shift+o move right
+# bindsym $mod+Shift+n move left
+# bindsym $mod+Shift+e move down
+# bindsym $mod+Shift+i move up
+# bindsym $mod+Shift+o move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -175,11 +175,11 @@ include ~/.config/i3/dynamic_workspaces.conf
 # for_window [class="firefox"] move to workspace $ws2
 # for_window [class="obsidian"] move to workspace $ws1
 
-bindsym Control+$mod+i workspace next_on_output
-bindsym Control+$mod+e workspace prev_on_output
+bindsym Control+$mod+Up workspace next_on_output
+bindsym Control+$mod+Down workspace prev_on_output
 
-bindsym Mod1+Mod4+j exec --no-startup-id /home/$USER/.config/i3/cycle_group.sh prev
-bindsym Mod1+Mod4+k exec --no-startup-id /home/$USER/.config/i3/cycle_group.sh next
+# bindsym Mod1+Mod4+j exec --no-startup-id /home/$USER/.config/i3/cycle_group.sh prev
+# bindsym Mod1+Mod4+k exec --no-startup-id /home/$USER/.config/i3/cycle_group.sh next
 bindsym Mod1+Mod4+Down exec --no-startup-id /home/$USER/.config/i3/cycle_group.sh prev
 bindsym Mod1+Mod4+Up exec --no-startup-id /home/$USER/.config/i3/cycle_group.sh next
 

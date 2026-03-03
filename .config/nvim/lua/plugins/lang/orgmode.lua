@@ -9,7 +9,7 @@ return {
     config = function()
       require('orgmode').setup {
         org_agenda_files = { '~/orgfiles/**/*' },
-        org_default_orgfiles_file = '~/orgfiles/inbox.org',
+        org_default_notes_file = '~/orgfiles/inbox.org',
         org_capture_templates = {
           t = {
             description = 'Task',
@@ -21,6 +21,11 @@ return {
             template = '* %?\n  %u',
             target = '~/orgfiles/inbox.org',
           },
+          p = {
+            description = 'LLM Prompt',
+            template = '* PROMPT %?\n  %U\n\n  ',
+            target = '~/orgfiles/prompts.org',
+          },
         },
       }
 
@@ -31,8 +36,34 @@ return {
           { '<leader>o', group = 'Orgmode' },
           { '<leader>oa', desc = 'Agenda' },
           { '<leader>oc', desc = 'Capture' },
+          {
+            '<leader>of',
+            function()
+              require('telescope.builtin').find_files { cwd = '~/orgfiles', prompt_title = 'Org Files' }
+            end,
+            desc = 'Find files',
+          },
+          {
+            '<leader>os',
+            function()
+              require('telescope.builtin').live_grep { cwd = '~/orgfiles', prompt_title = 'Org Grep' }
+            end,
+            desc = 'Search content',
+          },
+          { '<leader>oh', '<cmd>Telescope orgmode search_headings<CR>', desc = 'Search headings' },
         }
       end
+    end,
+  },
+  {
+    'nvim-orgmode/telescope-orgmode.nvim',
+    event = 'VeryLazy',
+    dependencies = {
+      'nvim-orgmode/orgmode',
+      'nvim-telescope/telescope.nvim',
+    },
+    config = function()
+      require('telescope').load_extension 'orgmode'
     end,
   },
 }
