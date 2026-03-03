@@ -115,7 +115,7 @@ return {
     enabled = true, -- Disable by default, enable via command
     -- Load specifically for writing filetypes. Add others like 'text', 'gitcommit' if needed.
     -- Quarto is markdown-based, so it should inherit fine if ft is set correctly elsewhere.
-    ft = { 'tex', 'latex', 'bib', 'markdown', 'text', 'gitcommit', 'quarto', 'norg' }, -- Added common writing types + quarto/norg
+    ft = { 'tex', 'latex', 'bib', 'markdown', 'text', 'gitcommit', 'quarto', 'norg', 'org' }, -- Added common writing types + quarto/norg/org
     -- No explicit Lua setup function, configured via commands/globals/autocmds
     init = function()
       -- Optional: Customize concealment level for markdown characters (*, _, etc.)
@@ -131,7 +131,7 @@ return {
     config = function()
       -- Create an autocmd to automatically activate Pencil mode for relevant filetypes
       vim.api.nvim_create_autocmd('FileType', {
-        pattern = { 'tex', 'latex', 'bib', 'markdown', 'text', 'gitcommit', 'quarto', 'norg' }, -- Match the 'ft' list above
+        pattern = { 'tex', 'latex', 'bib', 'markdown', 'text', 'gitcommit', 'quarto', 'norg', 'org' }, -- Match the 'ft' list above
         command = 'Pencil', -- Activate default soft wrap mode
         desc = 'Activate vim-pencil for writing filetypes',
       })
