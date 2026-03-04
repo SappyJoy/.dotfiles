@@ -86,6 +86,7 @@ return {
 
           -- Molten Keymaps
           map('n', '<leader>mi', '<cmd>MoltenInit<CR>', 'Molten Init')
+          map('n', '<leader>ma', '<cmd>MoltenAttachVSCode<CR>', 'Molten Attach VSCode') -- ADD THIS LINE
           map('n', '<leader>mm', '<cmd>MoltenImportOutput<CR>', 'Molten Import')
           map('n', '<leader>me', '<cmd>MoltenEvaluateOperator<CR>', 'Molten Eval Operator')
           map('n', '<leader>mr', '<cmd>MoltenReevaluateCell<CR>', 'Molten Re-eval Cell')
@@ -106,32 +107,49 @@ return {
         end,
       })
 
-      -- Auto-import output on buffer enter (Logic optimized from before)
-      vim.api.nvim_create_autocmd({ 'BufAdd', 'BufEnter' }, {
-        pattern = { '*.ipynb' },
-        callback = function(e)
-          if vim.api.nvim_get_vvar('vim_did_enter') ~= 1 then
-            vim.schedule(function()
-              local kernels = vim.fn.MoltenAvailableKernels()
-              local venv = os.getenv('VIRTUAL_ENV')
-              if venv then
-                local venv_name = string.match(venv, '/.+/(.+)')
-                if vim.tbl_contains(kernels, venv_name) then
-                  vim.cmd(('MoltenInit %s'):format(venv_name))
-                  vim.cmd('MoltenImportOutput')
-                end
+    -- Custom command to attach to the most recent VS Code kernel instantly (Pure Lua)
+      vim.api.nvim_create_user_command('MoltenAttachVSCode', function()
+        local uv = vim.uv or vim.loop
+        
+        -- Default Jupyter runtime paths
+        local paths = {
+          os.getenv('XDG_RUNTIME_DIR') and (os.getenv('XDG_RUNTIME_DIR') .. '/jupyter/runtime'),
+          vim.fn.expand('~/.local/share/jupyter/runtime'),
+          vim.fn.expand('~/Library/Jupyter/runtime'),
+        }
+
+        local newest_file = nil
+        local newest_mtime = 0
+
+        for _, dir in ipairs(paths) do
+          if dir and vim.fn.isdirectory(dir) == 1 then
+            local files = vim.fn.glob(dir .. '/kernel-*.json', false, true)
+            for _, file in ipairs(files) do
+              local stat = uv.fs_stat(file)
+              if stat and stat.mtime.sec > newest_mtime then
+                newest_mtime = stat.mtime.sec
+                newest_file = file
               end
-            end)
+            end
           end
-        end,
-      })
+        end
+
+        if newest_file then
+          vim.cmd('MoltenInit ' .. newest_file)
+          vim.cmd('MoltenImportOutput')
+          vim.notify('Attached to: ' .. newest_file, vim.log.levels.INFO)
+        else
+          vim.notify('No active Jupyter kernel files found', vim.log.levels.WARN)
+        end
+      end, { desc = 'Attach Molten to the most recent external Jupyter kernel' })
 
       -- Auto-export on save
       vim.api.nvim_create_autocmd('BufWritePost', {
         pattern = { '*.ipynb' },
         callback = function()
           if require('molten.status').initialized() == 'Molten' then
-            vim.cmd('MoltenExportOutput!')
+            -- Safely execute export so errors don't interrupt the save process
+            pcall(function() vim.cmd('MoltenExportOutput!') end)
           end
         end,
       })
@@ -226,7 +244,7 @@ return {
       end
 
       -- Notebook Hydra
-      local notebook_hint = [[ _J_/_K_: cell  _o_/_O_: new  _d_: del  _l_/_a_/_A_: run  _s_/_h_: output _t_: interrupt  _R_: restart kernel  _q_: exit ]]
+      local notebook_hint = [[ _<S-Down>_/_<S-Up>_: cell  _o_/_O_: new  _d_: del  _r_/_a_/_A_: run  _s_/_h_: output _t_: interrupt  _R_: restart kernel  _q_: exit ]]
 
       Hydra {
         name = 'Notebook',
@@ -244,8 +262,8 @@ return {
         body = '<leader>j',
         heads = {
           -- Navigation
-          { 'J', keys ']b', { desc = 'next cell' } },
-          { 'K', keys '[b', { desc = 'prev cell' } },
+          { '<S-Down>', keys ']b', { desc = 'next cell' } },
+          { '<S-Up>', keys '[b', { desc = 'prev cell' } },
 
           -- Actions
           { 'o', function() create_cell 'below' end, { desc = 'new below' } },
@@ -253,7 +271,7 @@ return {
           { 'd', delete_current_cell_and_block, { desc = 'delete cell' } },
           
           -- Execution
-          { 'l', ':QuartoSend<CR>', { desc = 'run' } },
+          { 'r', ':QuartoSend<CR>', { desc = 'run' } },
           { 'a', ':QuartoSendAbove<CR>', { desc = 'run above' } },
           { 'A', ':MoltenReevaluateAll<CR>', { desc = 'run all' } },
           { 'R', ':MoltenRestart<CR>', { desc = 'restart kernel' } },
