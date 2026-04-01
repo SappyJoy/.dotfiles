@@ -8,7 +8,7 @@ return {
     config = function(_, opts)
       require('outline').setup(opts)
       -- Keymap is defined in keys or handled by which-key group settings
-      vim.keymap.set('n', '<leader>os', '<cmd>topleft Outline<cr>', { desc = 'Toggle [s]ymbols outline' })
+      vim.keymap.set('n', '<leader>so', '<cmd>topleft Outline<cr>', { desc = 'Toggle [s]ymbols outline' })
     end,
     opts = {
       outline_window = {
