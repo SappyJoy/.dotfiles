@@ -19,7 +19,7 @@ vim.keymap.set('n', '[d', function()
   vim.diagnostic.goto_prev { float = { border = 'single' } }
 end, { desc = 'Jump to prev [D]iagnostic' })
 
-vim.keymap.set('n', '<leader>e', function()
+vim.keymap.set('n', '<leader>dd', function()
   vim.diagnostic.open_float { border = 'single' }
 end, { desc = 'Show diagnostic [E]rror messages' })
 
