@@ -12,18 +12,18 @@ return {
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
-      -- - gzaiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-      -- - gzd'   - [S]urround [D]elete [']quotes
-      -- - gzr)'  - [S]urround [R]eplace [)] [']
+      -- - aaaiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
+      -- - aad'   - [S]urround [D]elete [']quotes
+      -- - aar)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup {
         mappings = {
-          add = 'gza', -- Add surrounding in Normal and Visual modes
-          delete = 'gzd', -- Delete surrounding
-          find = 'gzf', -- Find surrounding (to the right)
-          find_left = 'gzF', -- Find surrounding (to the left)
-          highlight = 'gzh', -- Highlight surrounding
-          replace = 'gzr', -- Replace surrounding
-          update_n_lines = 'gzn', -- Update `n_lines`
+          add = 'aaa', -- Add surrounding in Normal and Visual modes
+          delete = 'aad', -- Delete surrounding
+          find = 'aaf', -- Find surrounding (to the right)
+          find_left = 'aaF', -- Find surrounding (to the left)
+          highlight = 'aah', -- Highlight surrounding
+          replace = 'aar', -- Replace surrounding
+          update_n_lines = 'aan', -- Update `n_lines`
         },
       }
 
