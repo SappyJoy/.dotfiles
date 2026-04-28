@@ -10,6 +10,10 @@ vim.keymap.set('n', '<C-q>', '<cmd>q<CR>', { desc = 'Quit' })
 
 vim.keymap.set('n', '<C-t>', '<cmd>tabnew<CR>', { desc = 'New Tab' })
 
+-- Terminal doesn't send this sequence to nvim
+-- vim.keymap.set('n', '<C-Tab>', '<cmd>tabnext<CR>', { desc = 'Next Tab' })
+-- vim.keymap.set('n', '<C-S-Tab>', '<cmd>tabprevious<CR>', { desc = 'Previous Tab' })
+
 -- Diagnostic keymaps
 vim.keymap.set('n', ']d', function()
   vim.diagnostic.goto_next { float = { border = 'single' } }
@@ -52,6 +56,8 @@ vim.keymap.set('v', '<leader>co', [["hy:%s/<C-r>h/<C-r>h/gI<Left><Left><left>]],
 -- Visual mode improvements
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move line down' }) -- Fixed desc
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move line up' }) -- Fixed desc
+vim.keymap.set('v', '<S-Down>', ":m '>+1<CR>gv=gv", { desc = 'Move line down' })
+vim.keymap.set('v', '<S-Up>', ":m '<-2<CR>gv=gv", { desc = 'Move line up' })
 vim.keymap.set('v', '>', '>gv', { desc = 'Indent line' }) -- Fixed desc
 vim.keymap.set('v', '<', '<gv', { desc = 'Unindent line' }) -- Fixed desc
 

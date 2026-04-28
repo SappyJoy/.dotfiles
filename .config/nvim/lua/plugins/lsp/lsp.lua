@@ -19,6 +19,7 @@ return {
             vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
           map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          -- map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
           map('gr', function()
             require('telescope.builtin').lsp_references { show_line = false }
           end, '[G]oto [R]eferences')
@@ -79,6 +80,8 @@ return {
             'clangd',
             '--background-index',
             '--clang-tidy',
+            -- '--query-driver=/usr/bin/clang++,/home/huawei/src/work/HarmonyOS/ohos-src/prebuilts/**/bin/clang++,/home/huawei/src/work/HarmonyOS/ohos-src/prebuilts/**/bin/clang',
+            '--query-driver=/usr/bin/clang*,/usr/bin/c++,/usr/bin/g++,/**/llvm/bin/clang*,/home/huawei/src/work/HarmonyOS/ohos-src/prebuilts/**/bin/clang*',
             '--header-insertion=iwyu',
             '--completion-style=detailed',
             '--function-arg-placeholders',
@@ -233,7 +236,7 @@ return {
         'typescript-language-server', -- JS/TS LSP
 
         -- === Formatters (Must match coding/format.lua) ===
-        'stylua', -- Lua
+        -- 'stylua', -- Lua
         'clang-format', -- C/C++
         'cmakelang', -- CMake
         'black', -- Python
@@ -246,9 +249,9 @@ return {
         'eslint_d', -- JS/TS Linter
         'buf', -- Protobuf
         'ktfmt', -- Kotlin
-        'rustfmt', -- Rust
-        'gofumpt', -- Go (stricter gofmt)
-        'goimports', -- Go
+        -- 'rustfmt', -- Rust
+        -- 'gofumpt', -- Go (stricter gofmt)
+        -- 'goimports', -- Go
         'cbfmt', -- Markdown code block formatter
         'latexindent', -- LaTeX
         'bibtex-tidy', -- BibTeX

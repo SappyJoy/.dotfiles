@@ -28,7 +28,7 @@ return {
         css = { 'prettierd', 'prettier' }, -- Added CSS
         scss = { 'prettierd', 'prettier' }, -- Added SCSS
         kotlin = { 'ktfmt' },
-        rust = { 'rustfmt' }, -- Added Rust
+        -- rust = { 'rustfmt' }, -- Added Rust
         go = { 'gofmt', 'goimports' }, -- Added Go
         -- Remove ipynb and jupyter, rely on markdown ft set by jupytext
         -- quarto = { 'cbfmt', 'isort', 'black' }, -- Keep if you format quarto files differently
